@@ -173,7 +173,7 @@
  .sleeve-stage{--size:min(54vw,57svh);top:52%}
  .sleeve-stage.is-composed{--size:min(46vw,57svh);left:58%;top:52%}
  #portfolioIntro.is-browsing-sleeve .intro-corner-bl,#portfolioIntro.is-browsing-sleeve .intro-corner-br{display:none}
- .sleeve-side-note,.sleeve-cover-return:not([hidden]){bottom:24px}
+ .sleeve-side-note,.sleeve-cover-return:not([hidden]){top:auto;bottom:24px}
  .vinyl-browser .vinyl-feature{height:58svh!important;min-height:440px!important;max-height:680px}
  .vinyl-browser .vinyl-directory{max-width:760px!important;align-self:center}
 }
