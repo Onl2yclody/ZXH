@@ -7,6 +7,9 @@
  .sleeve-stage.is-composed{--size:min(48vw,66svh);left:58%;top:51%}
 }
 #portfolioIntro .intro-top{z-index:30;background:#fff}
+.sleeve-stage.is-spine{--size:min(54vw,68svh,640px);--depth:32px;left:50%;top:50%;perspective:2400px}
+#portfolioIntro.is-viewing-spine .intro-corner-bl,#portfolioIntro.is-viewing-spine .intro-corner-br{display:none}
+#portfolioIntro.is-viewing-spine .spine-meta{top:155px}
 .sleeve-hint{font:600 clamp(13px,1vw,17px)/1.6 Arial,sans-serif;color:#222}
 #portfolioIntro .intro-corner-br p{font-weight:700;line-height:1.9}
 .sleeve-cover-return:not([hidden]){display:block!important;top:100px;left:2%;z-index:35;background:#111;color:white;border:0}
@@ -46,7 +49,7 @@
  .sleeve-cover-return:not([hidden]){left:20px;top:auto;bottom:155px;padding:10px;font-size:12px}
  .operation-hint{font-size:11px;padding:5px 10px;bottom:8px}
  .spine-secondary{display:none!important}
- .sleeve-stage.is-spine{--size:min(30vw,24svh);left:50%;top:53%;--depth:16px}
+ .sleeve-stage.is-spine{--size:min(75vw,48svh);left:50%;top:53%;--depth:32px}
  .disc-studio .studio-header{top:0;left:20px;right:20px;display:flex;flex-wrap:wrap;padding:20px 0 12px;gap:16px;z-index:35}
  .disc-studio .studio-home{font-size:26px}
  .disc-studio .studio-navigation{width:100%;display:flex;justify-content:space-between;font-size:12px;gap:8px;flex-wrap:wrap}

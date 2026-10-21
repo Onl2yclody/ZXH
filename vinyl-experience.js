@@ -106,7 +106,7 @@
   stage.classList.add('is-retracting');stage.classList.remove('is-back');
   hint.textContent='收起黑胶 · 转向专辑侧面';
   setTimeout(()=>{
-   fitSpine();stage.classList.add('is-spine');targetScale=2.67;
+   fitSpine();stage.classList.add('is-spine');targetScale=1;
    // Studio uses XYZ; the live sleeve uses ZXY. These Euler angles give
    // exactly the same rotation matrix as studio (99°,18°,5°).
    orientSpine(7.714655846791057,98.63486149610034,-72.95818795766489);
