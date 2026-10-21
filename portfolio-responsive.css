@@ -1,4 +1,8 @@
 /* Shared interaction, three independently sized layouts. */
+@media(min-width:1101px) and (pointer:fine){
+ #portfolioIntro .sleeve-stage.is-composed:not(.is-spine){--size:min(54vw,78svh);left:58%;top:51%}
+ #portfolioIntro .sleeve-stage.is-spine{--size:min(74vw,140svh);--depth:clamp(32px,2.5vw,48px);left:50%;top:55%}
+}
 
 
 @media(min-width:1101px){
@@ -166,12 +170,16 @@
  .archive-instruction{margin-top:16px}
 }
 @media(min-width:761px) and (max-width:1400px),(min-width:761px) and (pointer:coarse){
+ .vinyl-browser .vinyl-feature{position:relative!important;left:auto!important;bottom:auto!important;width:100%!important;overflow:hidden}
+ .vinyl-browser .turntable-model.has-webgl{width:100%;height:100%;max-height:none;left:50%;top:50%;aspect-ratio:auto}
+ .vinyl-browser .vinyl-directory[data-archive-ready]{position:static!important;width:100%!important;margin:0!important;background:#fff}
+ .vinyl-browser .catalog-edge-note,.vinyl-browser .vinyl-catalog::after{display:none!important}
  .disc-studio .studio-categories{left:0;transform:none}
  #portfolioIntro .intro-top{display:flex;flex-wrap:nowrap;align-items:center}
  #portfolioIntro .intro-navigation{width:auto;gap:20px}
  #portfolioIntro .intro-corner-tl,#portfolioIntro.is-browsing-sleeve .intro-corner-tl,#portfolioIntro .intro-corner-tr{top:110px}
  .sleeve-stage{--size:min(54vw,57svh);top:52%}
- .sleeve-stage.is-composed{--size:min(46vw,57svh);left:58%;top:52%}
+ .sleeve-stage.is-composed{--size:min(50vw,64svh);left:58%;top:52%}
  #portfolioIntro.is-browsing-sleeve .intro-corner-bl,#portfolioIntro.is-browsing-sleeve .intro-corner-br{display:none}
  .sleeve-side-note,.sleeve-cover-return:not([hidden]){top:auto;bottom:24px}
  .vinyl-browser .vinyl-feature{height:58svh!important;min-height:440px!important;max-height:680px}
