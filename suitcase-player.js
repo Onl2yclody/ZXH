@@ -24,7 +24,7 @@ window.mountTurntable3D=(host,art)=>{
  const source=host.querySelector('.vinyl-large'),observer=new MutationObserver(()=>{image.src=art.src;});observer.observe(art,{attributes:true,attributeFilter:['src']});image.src=art.src;
  let w=1,h=1,frame=0,last=0,angle=0,playing=true,disposed=false;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let lidStart=null,lidControlled=false,lidAngle=reduce?104:0,discVisible=true,recordLift=0,composition=0,fitZoom=1,centerX=0,centerY=0,transferActive=false;
- function compose(){const desktop=w/h>1,closeup=desktop?1.85:1;camera.zoom=fitZoom*(1+(closeup-1)*composition);camera.updateProjectionMatrix();const ox=centerX*camera.zoom*w/2,oy=-centerY*camera.zoom*h/2;camera.setViewOffset(w,h,ox,oy,w,h);
+ function compose(){const desktop=w/h>1&&!matchMedia('(max-width:1100px), (pointer:coarse)').matches,closeup=desktop?1.85:1;camera.zoom=fitZoom*(1+(closeup-1)*composition);camera.updateProjectionMatrix();const ox=centerX*camera.zoom*w/2,oy=-centerY*camera.zoom*h/2;camera.setViewOffset(w,h,ox,oy,w,h);
   // Final framing follows the seated vinyl, not the tall lid. Keep the opening
   // sequence fully framed, then move the deck up into the visual focal area.
   if(desktop&&composition){const p=new T.Vector3(-5.1,6.01,.4).applyMatrix4(model.matrixWorld).project(camera);camera.setViewOffset(w,h,ox+((p.x*.5+.5)-.51)*w*composition,oy+((.5-p.y*.5)-.64)*h*composition,w,h);}

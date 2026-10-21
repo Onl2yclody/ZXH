@@ -71,10 +71,10 @@
  else if(phase==='closing'){const t=reduced?1:clamp((now-phaseStart)/460,0,1);spread=1-ease(t);flip=ease(t)*88;loadScale=1-.35*ease(t);if(t===1){category=pendingCategory;pendingCategory=null;index=0;position=target=0;build();phase='opening';phaseStart=now;}}
  else if(phase==='opening'){const t=reduced?1:clamp((now-phaseStart)/700,0,1);spread=ease(t);flip=(1-ease(t))*88;loadScale=.65+.35*ease(t);if(t===1)phase='ready';}
  if(!drag){position+=(target-position)*(reduced?1:1-Math.exp(-dt/105));if(Math.abs(target-position)<.001)position=target;}
- const w=scene.clientWidth,h=scene.clientHeight,mobile=w<700,unit=Math.min(h*.60,w*(mobile?.60:.30)),spacing=mobile?w*.57:w*.315;
+ const w=scene.clientWidth,h=scene.clientHeight,mobile=w<=1100||matchMedia("(pointer:coarse)").matches,unit=Math.min(h*(mobile?.34:.60),w*(mobile?.64:.30)),spacing=mobile?w*.76:w*.315;
  nodes.forEach(({node,button,lines},i)=>{if(node.dataset.returnFlight==='true')return;const d=i-position,visible=d>-2.1&&d<2.1;node.style.visibility=visible?'visible':'hidden';node.style.pointerEvents=visible&&phase==='ready'?'auto':'none';if(!visible)return;
  const diameter=unit*clamp(1+.18*d,.45,1.40)*loadScale;
- const x=w*.515+spacing*d*spread,y=h*(mobile?.53:.51)-h*.225*d*spread;
+ const x=w*.515+spacing*d*spread,y=h*(mobile?.60:.51)-(mobile?0:h*.225*d*spread);
  node.style.width=diameter+'px';node.style.left=x+'px';node.style.top=y+'px';node.style.opacity=String(i===index?1:spread);node.style.zIndex=String(10+Math.round(d*2));
  const active=hover===i&&phase==='ready'&&!reduced,osc=active?Math.sin(now*.012)*.65:0;
  const rz=32-7*d,ry=clamp(38-8*d,15,60)+flip+(active?px*5+osc:0),rx=active?py*-4+Math.cos(now*.01)*.5:0;

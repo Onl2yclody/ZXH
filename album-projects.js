@@ -38,4 +38,6 @@ projects.illustration.series[0].theme='角色插画、系列海报、明信片�
 // Cover-only choices; the complete project galleries remain unchanged.
 projects.keyvisual.series[0].cover='imprint-static-01.png.webp';
 projects.packaging.series[0].cover='shan-ye-lai-xin/yellow-box/single-yellow-cutout.png.webp';
+const whisperIndex=projects.packaging.series.findIndex(p=>p.title.includes("半句花语"));
+if(whisperIndex>0)projects.packaging.series.unshift(...projects.packaging.series.splice(whisperIndex,1));
 window.albumProjects=projects;
