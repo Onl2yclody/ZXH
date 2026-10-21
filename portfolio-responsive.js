@@ -6,7 +6,7 @@
   const back=stage.classList.contains('is-back');
   const hint=stage.querySelector('.sleeve-hint');
   if(hint&&!stage.classList.contains('is-spine')){
-   hint.textContent=back?(touch()?'点击小猫 · 进入对应项目目录':'移向小猫切换黑胶 · 点击小猫进入项目目录'):'点击专辑正面 · 翻面选择设计分类';
+   hint.textContent=back?(touch()?'点击小猫 · 进入对应项目目录':'移向小猫切换黑胶 · 点击小猫进入项目目录'):(matchMedia('(max-width:760px)').matches?'点击封面 · 向上抽出黑胶，浏览设计专辑':'点击专辑正面 · 翻面选择设计分类');
    const line=document.createElement('span');line.style.display='block';line.style.fontWeight='400';line.textContent=touch()?'点击「返回」回到上一级':'鼠标右键 / Esc 返回上一级';hint.append(line);
   }
   if(back){const p=intro.querySelector('.intro-corner-br p');if(p)p.innerHTML=touch()?'<strong>点击小猫：查看项目</strong><br>点击「返回封面」：回到首页':'<strong>点击小猫：进入项目目录</strong><br><strong>点击专辑右侧：查看个人资料</strong><br>鼠标右键 / Esc：返回上一级';}

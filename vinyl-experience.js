@@ -37,7 +37,14 @@
  function wakeMotion(){if(!motionFrame){lastMotion=0;motionFrame=requestAnimationFrame(motion);}}
  intro.addEventListener('pointermove',e=>{if(entering||flipping||sideView||reduced)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;targetX=(flipped?26:-3)-limit(y*4,-2,2);targetY=(flipped?180:-8)+limit(x*(flipped?4:16),flipped?-2:-8,flipped?2:8);wakeMotion();});
  intro.addEventListener('pointerleave',()=>{if(!entering&&!flipping&&!sideView){targetX=flipped?26:-3;targetY=flipped?180:-8;wakeMotion();}});
- function flip(){if(flipped||flipping||entering)return;flipping=true;flipped=true;front.tabIndex=-1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');
+ function flip(){if(flipped||flipping||entering)return;
+ if(matchMedia('(max-width:760px)').matches){
+  entering=true;front.tabIndex=-1;stage.classList.add('is-phone-extracting');
+  cancelAnimationFrame(motionFrame);motionFrame=0;
+  setTimeout(()=>{finish?.();setTimeout(()=>{stage.classList.remove('is-phone-extracting');entering=false;front.tabIndex=0;},400);},reduced?0:650);
+  return;
+ }
+ flipping=true;flipped=true;front.tabIndex=-1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');
  if(reduced){angleX=targetX;angleY=targetY;angleZ=targetZ;model.style.transform='rotateZ(17deg) rotateX(26deg) rotateY(180deg)';}else wakeMotion();
  setTimeout(()=>{flipping=false;stage.classList.add('is-back');coverReturn.hidden=false;record.disabled=false;record.tabIndex=0;hotspots.forEach(b=>b.tabIndex=0);hotspots[0].focus({preventScroll:true});hint.firstChild && (hint.firstChild.textContent='移向小猫切换黑胶 · 点击小猫进入项目目录');},reduced?0:850);}
  front.onclick=flip;front.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});

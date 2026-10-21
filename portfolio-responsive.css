@@ -1,4 +1,6 @@
 /* Shared interaction, three independently sized layouts. */
+
+
 @media(min-width:1101px){
  #portfolioIntro .intro-top{display:grid;grid-template-columns:1fr auto 1fr}
  #portfolioIntro .intro-wordmark{justify-self:start}
@@ -130,4 +132,57 @@
  .sleeve-stage,.sleeve-stage.is-composed{--size:45svh;top:48%}
  #portfolioIntro .intro-corner-br{display:none}
  .sleeve-side-note,.sleeve-cover-return:not([hidden]){bottom:45px}
+}
+/* Phone-only presentation; tablets retain the sleeve interaction. */
+@media(max-width:760px){
+ .sleeve-stage.is-phone-extracting .sleeve-record{transform:translateY(-88%) rotateY(0deg);transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+ .sleeve-stage:not(.is-composed) .sleeve-record{backface-visibility:visible}
+ .sleeve-stage.is-phone-extracting .sleeve-model{transform:rotateX(0deg) rotateY(0deg)!important}
+ .disc-studio .studio-header{position:relative;left:auto;right:auto;margin:0 20px;padding-top:18px}
+ .disc-studio .studio-navigation{gap:8px;font-size:11px}
+ .disc-studio .studio-navigation details{position:static}
+ .disc-studio .studio-categories{left:0;right:0;top:100%;transform:none;width:auto;box-sizing:border-box;background:#fff;max-height:55svh;overflow:auto;z-index:60;padding:8px;border:1px solid #222}
+ .disc-studio .studio-categories button{font-size:14px;min-height:44px}
+ .disc-studio:has(details[open]) .studio-meta{visibility:hidden}
+ .disc-studio .studio-meta{top:125px}
+ .disc-studio .studio-meta h1{font-size:25px}
+ .disc-studio .studio-meta dl>div:nth-child(2){display:none}
+ .disc-studio .studio-caption{display:none}
+ .disc-studio .studio-controls{bottom:18px}
+ .disc-studio .studio-controls>span{font-size:0}
+ .disc-studio .studio-controls>span:after{content:'左右滑动切换 · 点击黑胶进入';font:11px/1.5 Arial}
+ .vinyl-browser .vinyl-feature{height:48svh!important;min-height:300px!important;max-height:480px;margin:0}
+ .vinyl-browser .vinyl-catalog{padding:0 16px}
+ .vinyl-browser .vinyl-directory[data-archive-ready]{padding-top:8px!important}
+ .archive-masthead{display:block;padding:18px 0 12px;border-top-width:2px}
+ .archive-issue,.archive-titles:before,.archive-current,.archive-facts>div:nth-child(2),.archive-category{display:none!important}
+ .vinyl-catalog .vinyl-directory[data-archive-ready] .archive-titles h1{font-size:25px;margin:0}
+ .vinyl-directory[data-archive-ready] .archive-facts{padding:0 0 12px;margin:0;border-top:0;grid-template-columns:1fr}
+ .archive-facts>div{flex-direction:row;gap:8px;align-items:center}
+ .archive-facts strong{font-size:12px;font-weight:400}
+ .archive-facts span,.archive-titles>small{display:none}
+ .archive-track-heading{margin-top:18px;font-size:10px}
+ .vinyl-directory[data-archive-ready] .vinyl-tracks button{font-size:15px;min-height:58px;grid-template-columns:24px minmax(0,1fr) 20px;gap:10px}
+ .archive-instruction{margin-top:16px}
+}
+@media(min-width:761px) and (max-width:1400px),(min-width:761px) and (pointer:coarse){
+ .disc-studio .studio-categories{left:0;transform:none}
+ #portfolioIntro .intro-top{display:flex;flex-wrap:nowrap;align-items:center}
+ #portfolioIntro .intro-navigation{width:auto;gap:20px}
+ #portfolioIntro .intro-corner-tl,#portfolioIntro.is-browsing-sleeve .intro-corner-tl,#portfolioIntro .intro-corner-tr{top:110px}
+ .sleeve-stage{--size:min(54vw,57svh);top:52%}
+ .sleeve-stage.is-composed{--size:min(46vw,57svh);left:58%;top:52%}
+ #portfolioIntro.is-browsing-sleeve .intro-corner-bl,#portfolioIntro.is-browsing-sleeve .intro-corner-br{display:none}
+ .sleeve-side-note,.sleeve-cover-return:not([hidden]){bottom:24px}
+ .vinyl-browser .vinyl-feature{height:58svh!important;min-height:440px!important;max-height:680px}
+ .vinyl-browser .vinyl-directory{max-width:760px!important;align-self:center}
+}
+@media(min-width:761px) and (max-width:1400px) and (orientation:landscape),(min-width:761px) and (pointer:coarse) and (orientation:landscape){
+ .vinyl-browser .vinyl-catalog,.vinyl-browser .vinyl-catalog:has(.has-webgl){display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:24px;padding:16px 24px;align-items:start;min-height:calc(100svh - 72px)}
+ .vinyl-browser .vinyl-feature{height:calc(100svh - 104px)!important;min-height:460px!important;max-height:none}
+ .vinyl-browser .vinyl-directory,.vinyl-catalog:has(.has-webgl) .vinyl-directory[data-archive-ready]{align-self:start;padding-top:12px!important;max-height:none!important}
+ .archive-masthead{grid-template-columns:52px minmax(0,1fr);gap:12px}
+ .archive-issue{font-size:54px}
+ .vinyl-catalog .vinyl-directory[data-archive-ready] .archive-titles h1{font-size:26px}
+ .archive-facts>div{flex-direction:column;gap:5px;align-items:start}
 }
