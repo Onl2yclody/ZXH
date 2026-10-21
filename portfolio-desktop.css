@@ -1,0 +1,5 @@
+/* Desktop album composition is independent of touch/fallback and player loading. */
+@media (min-width:1401px), (min-width:1101px) and (pointer:fine){
+ #portfolioIntro .sleeve-stage.is-composed:not(.is-spine){--size:min(66vw,94svh);left:58%;top:55%;perspective:1800px}
+ #portfolioIntro .sleeve-stage.is-spine{--size:min(66.2vw,125.2svh);--depth:clamp(40px,3vw,60px);left:50%;top:62%;perspective:3400px}
+}
