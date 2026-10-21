@@ -22,6 +22,7 @@ window.mountTurntable3D=(host,art)=>{
  // Transparent artwork reveals the record itself, not a grey label backing.
  const label=document.createElement('div');label.className='turntable-3d-label';label.setAttribute('aria-hidden','true');const image=document.createElement('img');image.alt='';label.append(image);host.append(label);
  const source=host.querySelector('.vinyl-large'),observer=new MutationObserver(()=>{image.src=art.src;});observer.observe(art,{attributes:true,attributeFilter:['src']});image.src=art.src;
+ let renderDirty=true,maskDirty=true;
  let w=1,h=1,frame=0,last=0,angle=0,playing=true,disposed=false;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let lidStart=null,lidControlled=false,lidAngle=reduce?104:0,discVisible=true,recordLift=0,composition=0,fitZoom=1,centerX=0,centerY=0,transferActive=false;
  function compose(){const desktop=w/h>1&&!matchMedia('(max-width:1400px), (pointer:coarse)').matches,closeup=desktop?1.85:1;camera.zoom=fitZoom*(1+(closeup-1)*composition);camera.updateProjectionMatrix();const ox=centerX*camera.zoom*w/2,oy=-centerY*camera.zoom*h/2;camera.setViewOffset(w,h,ox,oy,w,h);
@@ -29,7 +30,7 @@ window.mountTurntable3D=(host,art)=>{
   // sequence fully framed, then move the deck up into the visual focal area.
   if(desktop&&composition){const p=new T.Vector3(-5.1,6.01,.4).applyMatrix4(model.matrixWorld).project(camera);camera.setViewOffset(w,h,ox+((p.x*.5+.5)-.51)*w*composition,oy+((.5-p.y*.5)-.64)*h*composition,w,h);}
  }
- function lidProgress(progress){const next=104*Math.max(0,Math.min(1,progress));if(next!==lidAngle&&!transferActive)renderer.shadowMap.needsUpdate=true;lidAngle=next;built.setOpen(lidAngle);label.style.visibility=discVisible&&lidAngle>=90?'':'hidden';}
+ function lidProgress(progress){const next=104*Math.max(0,Math.min(1,progress));if(next===lidAngle&&lidProgress.ready)return;lidProgress.ready=true;renderDirty=true;if(next!==lidAngle&&!transferActive)renderer.shadowMap.needsUpdate=true;lidAngle=next;built.setOpen(lidAngle);label.style.visibility=discVisible&&lidAngle>=90?'':'hidden';}
  lidProgress(reduce?1:0);
  function project(x,z,lift=recordLift){const v=new T.Vector3(x,6.01+lift,z);model.localToWorld(v);v.project(camera);return {x:(v.x*.5+.5)*w,y:(.5-v.y*.5)*h};}
  function pose(radius,lift=recordLift){const p=project(-5.1,.4,lift),a=project(-5.1+radius,.4,lift),b=project(-5.1,.4+radius,lift);return {p,a,b};}
@@ -45,13 +46,13 @@ window.mountTurntable3D=(host,art)=>{
   label.style.transform=`matrix3d(${a},${d},0,${g},${b},${e},0,${j},0,0,1,0,${tx},${ty},0,1)`;
   labelInverse.set(a,b,tx,d,e,ty,g,j,1).invert();
  }
- function layout(){const key=[w,h,composition,recordLift,fitZoom].join('/');if(layout.key===key)return;layout.key=key;model.updateMatrixWorld(true);projectLabel();const points=Array.from({length:32},(_,i)=>{const t=i*Math.PI/16;return project(-5.1+11.65*Math.cos(t),.4+11.65*Math.sin(t));});const xs=points.map(p=>p.x),ys=points.map(p=>p.y);Object.assign(source.style,{left:Math.min(...xs)+'px',top:Math.min(...ys)+'px',width:Math.max(...xs)-Math.min(...xs)+'px',height:Math.max(...ys)-Math.min(...ys)+'px',transform:'none',aspectRatio:'auto'});}
+ function layout(){const key=[w,h,composition,recordLift,fitZoom].join('/');if(layout.key===key)return;layout.key=key;renderDirty=true;maskDirty=true;model.updateMatrixWorld(true);projectLabel();const points=Array.from({length:32},(_,i)=>{const t=i*Math.PI/16;return project(-5.1+11.65*Math.cos(t),.4+11.65*Math.sin(t));});const xs=points.map(p=>p.x),ys=points.map(p=>p.y);Object.assign(source.style,{left:Math.min(...xs)+'px',top:Math.min(...ys)+'px',width:Math.max(...xs)-Math.min(...xs)+'px',height:Math.max(...ys)-Math.min(...ys)+'px',transform:'none',aspectRatio:'auto'});}
  function maskCartridge(){
    // The DOM artwork has no depth buffer. Mask the union of the tube and
    // cartridge triangles, not just the head, to reveal the real 3D arm.
    label.style.clipPath='';
    if(recordLift>.1){label.style.maskImage=label.style.webkitMaskImage='';maskCartridge.key='';return;}
-   const key=[w,h,composition,built.arm.rotation.x,built.arm.rotation.y].join('/');
+   const key=[w,h,composition,recordLift,fitZoom,built.arm.rotation.x,built.arm.rotation.y].join('/');
    if(maskCartridge.key===key)return;
    maskCartridge.key=key;
    model.updateMatrixWorld(true);
@@ -77,7 +78,7 @@ window.mountTurntable3D=(host,art)=>{
    label.style.maskImage=label.style.webkitMaskImage='url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
    label.style.maskSize=label.style.webkitMaskSize='100% 100%';
  }
- function resize(){const rect=host.getBoundingClientRect();w=Math.max(1,host.clientWidth||rect.width);h=Math.max(1,host.clientHeight||rect.height);renderer.setSize(w,h,false);camera.clearViewOffset();camera.aspect=w/h;camera.zoom=1;camera.updateProjectionMatrix();let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+ function resize(){const rect=host.getBoundingClientRect(),nw=Math.max(1,host.clientWidth||rect.width),nh=Math.max(1,host.clientHeight||rect.height);if(resize.ready&&w===nw&&h===nh)return;resize.ready=true;w=nw;h=nh;renderer.setSize(w,h,false);camera.clearViewOffset();camera.aspect=w/h;camera.zoom=1;camera.updateProjectionMatrix();let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
   // One stable camera contains the entire lid sweep and the raised 3D record.
   for(const degrees of [0,26,52,78,104]){
    built.setOpen(degrees);record.position.y=17.9;model.updateMatrixWorld(true);
@@ -90,13 +91,13 @@ window.mountTurntable3D=(host,art)=>{
   built.setOpen(lidAngle);layout();
  }
  const ro=new ResizeObserver(resize);ro.observe(host);
- function tick(t){if(disposed)return;if(!host.isConnected){api.dispose();return;}frame=requestAnimationFrame(tick);const dt=Math.min((t-last)/1000,.05);last=t;if(document.hidden)return;if(!lidControlled&&!reduce){if(lidStart===null)lidStart=t;const p=Math.min(1,(t-lidStart)/1050);lidProgress(p*p*(3-2*p));}if(playing&&!reduce&&lidAngle>=90)angle-=dt*Math.PI/12;record.rotation.y=angle;image.style.transform=`rotate(${-angle}rad)`;layout();maskCartridge();renderer.render(scene,camera);}
- const api={scene,model,setPlaying(v){playing=v;},setDiscVisible(v){record.visible=v;label.style.visibility=v?'':'hidden';},getDiscPose(lift=recordLift){const rect=host.getBoundingClientRect(),sx=rect.width/w,sy=rect.height/h,{p,a,b}=pose(11.65,lift);return{x:rect.left+p.x*sx,y:rect.top+p.y*sy,a:(a.x-p.x)*sx/100,b:(a.y-p.y)*sy/100,c:(b.x-p.x)*sx/100,d:(b.y-p.y)*sy/100};},dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);ro.disconnect();observer.disconnect();const geos=new Set(),mats=new Set(),textures=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)mats.add(o.material);});mats.forEach(m=>{Object.values(m).forEach(v=>{if(v?.isTexture)textures.add(v);});m.dispose();});geos.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());env.dispose();renderer.dispose();renderer.forceContextLoss();canvas.remove();label.remove();host.classList.remove('has-webgl');}};
+ function tick(t){if(disposed)return;if(!host.isConnected){api.dispose();return;}frame=requestAnimationFrame(tick);const dt=Math.min((t-last)/1000,.05);last=t;if(document.hidden)return;if(!lidControlled&&!reduce){if(lidStart===null)lidStart=t;const p=Math.min(1,(t-lidStart)/1050);lidProgress(p*p*(3-2*p));}if(playing&&!reduce&&lidAngle>=90){angle-=dt*Math.PI/12;record.rotation.y=angle;image.style.transform=`rotate(${-angle}rad)`;renderDirty=true;}if(maskDirty){maskCartridge();maskDirty=false;}if(renderDirty){renderer.render(scene,camera);renderDirty=false;}}
+ const api={scene,model,setPlaying(v){playing=v;},setDiscVisible(v){renderDirty=true;record.visible=v;label.style.visibility=v?'':'hidden';},getDiscPose(lift=recordLift){const rect=host.getBoundingClientRect(),sx=rect.width/w,sy=rect.height/h,{p,a,b}=pose(11.65,lift);return{x:rect.left+p.x*sx,y:rect.top+p.y*sy,a:(a.x-p.x)*sx/100,b:(a.y-p.y)*sy/100,c:(b.x-p.x)*sx/100,d:(b.y-p.y)*sy/100};},dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);ro.disconnect();observer.disconnect();const geos=new Set(),mats=new Set(),textures=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)mats.add(o.material);});mats.forEach(m=>{Object.values(m).forEach(v=>{if(v?.isTexture)textures.add(v);});m.dispose();});geos.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());env.dispose();renderer.dispose();renderer.forceContextLoss();canvas.remove();label.remove();host.classList.remove('has-webgl');}};
  api.setCompositionProgress=p=>{const next=Math.max(0,Math.min(1,p));if(next===composition)return;composition=next;compose();layout();};
  api.setLidProgress=p=>{lidControlled=true;lidProgress(reduce?1:p);};
  // Skip the expensive dynamic shadow pass during the rapid transfer. Restore
  // a fresh stationary shadow once the record and arm reach their resting pose.
- api.setTransferActive=active=>{transferActive=active;renderer.shadowMap.needsUpdate=!active;};
+ api.setTransferActive=active=>{transferActive=active;renderDirty=true;renderer.shadowMap.needsUpdate=!active;};
  api.setRecordLift=height=>{const next=Math.max(0,height);if(next===recordLift)return;recordLift=next;record.position.y=5.9+recordLift;if(!transferActive)renderer.shadowMap.needsUpdate=true;layout();};
  api.setArmProgress=p=>{
   const t=Math.max(0,Math.min(1,p)),ease=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
@@ -104,7 +105,7 @@ window.mountTurntable3D=(host,art)=>{
   // then lower it. The pivot stays anchored rather than translating the base.
   const y=.5*(1-ease((t-.2)/.6)),x=-.065*ease(t/.2)*(1-ease((t-.8)/.2));
   if(!transferActive&&(y!==built.arm.rotation.y||x!==built.arm.rotation.x))renderer.shadowMap.needsUpdate=true;
-  built.arm.rotation.y=y;built.arm.rotation.x=x;
+  if(y!==built.arm.rotation.y||x!==built.arm.rotation.x){maskDirty=true;renderDirty=true;}built.arm.rotation.y=y;built.arm.rotation.x=x;
  };
  const setDisc=api.setDiscVisible;api.setDiscVisible=v=>{discVisible=v;setDisc(v);lidProgress(lidAngle/104);};
  active=api;host.classList.add('has-webgl');resize();frame=requestAnimationFrame(tick);return api;

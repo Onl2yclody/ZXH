@@ -1,4 +1,13 @@
 /* Shared interaction, three independently sized layouts. */
+/* Touch navigation and same-model fallback, independent of the 3D renderer. */
+.studio-side-arrow{display:none}
+@media(max-width:1100px),(pointer:coarse){.studio-side-arrow{display:block;position:absolute;top:59%;z-index:25;width:44px;height:56px;border:0;background:#ffffffd9;color:#333;font:32px/1 Arial;cursor:pointer;touch-action:manipulation}.studio-side-prev{left:4px}.studio-side-next{right:4px}.studio-side-arrow:disabled{opacity:.25;cursor:default}}
+.player-loading{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;background:#171717;color:#fff;padding:12px 20px;font:14px/1.5 Arial;border-radius:3px}
+.static-suitcase{position:absolute;left:50%;top:50%;width:1000px;height:900px;transform-origin:center;pointer-events:none}
+.static-case{position:absolute;inset:0;width:100%;height:100%}
+.static-art{position:absolute;left:0;top:0;width:1024px;height:1024px;border-radius:50%;overflow:hidden;transform-origin:0 0;transform:matrix3d(0.277712,-0.0526757,0,0.0001085,0.0454994,0.0805325,0,-0.000166,0,0,1,0,334.597,549.685,0,1)}
+.static-art img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.turntable-model.is-static-suitcase .turntable-hardware{display:none}
 @media(min-width:1101px) and (pointer:fine){
  #portfolioIntro .sleeve-stage.is-composed:not(.is-spine){--size:min(54vw,78svh);left:58%;top:51%}
  #portfolioIntro .sleeve-stage.is-spine{--size:min(66.2vw,125.2svh);--depth:clamp(40px,3vw,60px);left:50%;top:62%;perspective:3400px}

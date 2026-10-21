@@ -40,6 +40,10 @@
  if(enter)enter.onclick=finishIntro;
  const scene=document.createElement('section');scene.className='disc-studio'+(reduced?'':' studio-loading');scene.setAttribute('aria-label','视觉专辑浏览');
  scene.innerHTML=`<header class="studio-header"><a class="studio-home" href="#graphic/0">ZHONG XI HAN</a><nav class="studio-navigation" aria-label="主导航"><details><summary>设计专辑</summary><div class="studio-categories"></div></details><a href="#collection">项目总览</a><a href="portfolio-profile.html#about">个人介绍</a><a href="portfolio-profile.html#experience">工作经历</a><a href="portfolio-profile.html#resume">个人简历</a></nav><span class="studio-edition">VISUAL RECORDS<br>2026</span></header><aside class="studio-meta" aria-live="polite"><h1></h1><dl><div><dt>专辑 / ALBUM</dt><dd class="meta-album"></dd></div><div><dt>作者 / AUTHOR</dt><dd>钟锡汉</dd></div><div><dt>分类 / CATEGORY</dt><dd class="meta-count"></dd></div></dl></aside><div class="studio-rail" aria-label="滚轮或拖动切换碟片"></div><div class="studio-caption"><p><small>★★★★★</small><span class="caption-title"></span></p><p><small>★★★★★</small><span class="caption-category"></span></p></div><div class="studio-controls"><span>SCROLL TO EXPLORE / 滚动浏览</span><div><button class="studio-prev" aria-label="上一张碟片">←</button><span class="studio-count"></span><button class="studio-next" aria-label="下一张碟片">→</button></div></div><div class="studio-progress" aria-hidden="true"></div><div class="studio-status" role="status"></div>`;
+ const sidePrev=document.createElement('button'),sideNext=document.createElement('button');
+ sidePrev.className='studio-side-arrow studio-side-prev';sideNext.className='studio-side-arrow studio-side-next';
+ sidePrev.textContent='←';sideNext.textContent='→';sidePrev.setAttribute('aria-label','上一张专辑');sideNext.setAttribute('aria-label','下一张专辑');
+ scene.append(sidePrev,sideNext);sidePrev.onclick=()=>go(index-1);sideNext.onclick=()=>go(index+1);
  document.querySelector('.disc-preview').replaceWith(scene);
  const returnButton=document.createElement('button');returnButton.className='studio-return';returnButton.textContent='↑ 返回碟片首页';returnButton.hidden=true;document.body.append(returnButton);
  returnButton.onclick=()=>{profileMode=true;history.replaceState(null,'','#'+category+'/0');window.scrollTo({top:0,behavior:reduced?'instant':'smooth'});};
@@ -56,7 +60,7 @@
  const write=()=>{$('.studio-meta h1').textContent=p.title;$('.meta-album').textContent=p.count+' 个项目';$('.meta-count').textContent=pad(index+1)+' / '+pad(nodes.length);meta.classList.remove('is-changing');};
  const writeCaption=()=>{$('.caption-title').textContent=p.title;$('.caption-category').textContent=p.count+' 个项目';caption.classList.remove('is-changing');};
  if(immediate){write();writeCaption();}else{infoTimer=setTimeout(write,220);captionTimer=setTimeout(writeCaption,390);}
- $('.studio-count').textContent=pad(index+1)+' / '+pad(nodes.length);$('.studio-prev').disabled=index===0;$('.studio-next').disabled=index===nodes.length-1;
+ $('.studio-count').textContent=pad(index+1)+' / '+pad(nodes.length);$('.studio-prev').disabled=sidePrev.disabled=index===0;$('.studio-next').disabled=sideNext.disabled=index===nodes.length-1;
  scene.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===category)));
  history.replaceState(null,'','#'+category+'/0');
  }
