@@ -1,0 +1,55 @@
+/* Editorial frame: strong navigation, edge modules, readable project narrative. */
+@keyframes edge-reveal-left{from{opacity:0;transform:translateX(-42px)}to{opacity:1;transform:translateX(0)}}
+@keyframes edge-reveal-right{from{opacity:0;transform:translateX(42px)}to{opacity:1;transform:translateX(0)}}
+@keyframes edge-browse-left{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
+@keyframes edge-browse-right{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+#portfolioIntro .intro-top,.disc-studio .studio-header{border-top:0!important}
+#portfolioIntro .intro-top{left:2%;right:2%;top:20px;justify-content:space-between;align-items:center;border-top:4px solid #111;border-bottom:1px solid #999;padding:16px 0;gap:24px}
+.intro-navigation{display:flex;gap:clamp(16px,2vw,40px);align-items:center}
+.intro-navigation a,.intro-navigation button{appearance:none;border:0;background:none;color:#111;text-decoration:none;font:600 clamp(14px,1.1vw,20px)/1.4 Arial,'Microsoft YaHei',sans-serif;padding:8px 0;cursor:pointer;white-space:nowrap}
+.intro-navigation a:hover,.intro-navigation button:hover{text-decoration:underline;text-underline-offset:6px}
+#portfolioIntro .intro-edition{display:block;font:11px/1.4 Consolas,monospace;max-width:none;white-space:nowrap}
+#portfolioIntro .intro-corner{animation:edge-reveal-left .8s cubic-bezier(.2,.7,.2,1) .12s both;overflow-wrap:normal;max-width:24%;color:#333}
+#portfolioIntro .intro-corner-tr,#portfolioIntro .intro-corner-br{animation-name:edge-reveal-right}
+#portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{animation-delay:.26s}
+#portfolioIntro.is-browsing-sleeve .intro-corner{animation-name:edge-browse-left;animation-delay:.3s}
+#portfolioIntro.is-browsing-sleeve .intro-corner-tr,#portfolioIntro.is-browsing-sleeve .intro-corner-br{animation-name:edge-browse-right}
+#portfolioIntro.is-browsing-sleeve .intro-corner-bl,#portfolioIntro.is-browsing-sleeve .intro-corner-br{animation-delay:.44s}
+#portfolioIntro.is-browsing-sleeve .intro-corner-tl strong{font-size:clamp(22px,1.7vw,34px);max-width:7em;text-wrap:balance}
+#portfolioIntro.is-browsing-sleeve .intro-corner-tl{z-index:8;background:none;top:12%;padding:0 0 0 16px;max-width:150px;pointer-events:none}
+#portfolioIntro.is-browsing-sleeve .intro-corner-tl strong{font-size:clamp(20px,1.5vw,28px)}
+#portfolioIntro.is-viewing-spine .intro-corner-tl,#portfolioIntro.is-viewing-spine .intro-corner-tr{visibility:hidden}
+#portfolioIntro .intro-corner-br p{font:500 clamp(12px,1vw,18px)/1.8 Arial,'Microsoft YaHei',sans-serif;margin:0}
+@media(prefers-reduced-motion:reduce){#portfolioIntro .intro-corner,#portfolioIntro.is-browsing-sleeve .intro-corner{animation:none!important;opacity:1;transform:none}}
+#portfolioIntro .intro-corner small{display:block;font:10px/1.5 Consolas,monospace;letter-spacing:.12em;color:#666;margin-bottom:14px}
+#portfolioIntro .intro-corner-tl{left:2%;top:18%;border-left:4px solid #111;padding-left:16px}
+#portfolioIntro .intro-corner-tl strong{display:block;font:850 clamp(27px,2.5vw,52px)/1.25 Arial,'Microsoft YaHei',sans-serif;letter-spacing:-.04em}
+#portfolioIntro .intro-corner-tl span{display:block;font:11px/1.6 Consolas,monospace;margin-top:16px}
+#portfolioIntro .intro-corner-tr{right:2%;top:18%;display:flex;flex-direction:column;align-items:end}
+#portfolioIntro .intro-corner-tr b{display:block;font:800 clamp(64px,7.3vw,138px)/1 Arial;letter-spacing:.015em;font-variant-numeric:tabular-nums;color:transparent;-webkit-text-stroke:1px #222;padding-right:2px}
+#portfolioIntro .intro-corner-tr span{font:12px/1.8 Consolas,'Microsoft YaHei',monospace;border-top:1px solid #555;margin-top:20px;padding-top:12px}
+#portfolioIntro .intro-corner-bl{left:2%;bottom:4%;border-top:2px solid #111;padding-top:14px;max-width:28%}
+#portfolioIntro .intro-corner-bl p{font:600 clamp(16px,1.2vw,23px)/1.6 Arial,'Microsoft YaHei',sans-serif;margin:0}
+#portfolioIntro .intro-corner-br{right:2%;bottom:4%;border-top:2px solid #111;padding-top:14px;max-width:30%}
+#portfolioIntro .intro-corner-br a{display:block;color:#333;text-decoration:none;font:clamp(13px,1vw,18px)/1.8 Consolas,monospace}
+.disc-studio .studio-header{top:18px;left:2%;right:2%;padding:14px 0;border-top:4px solid #111;border-bottom:1px solid #aaa;align-items:center;background:#ffffffeb}
+.disc-studio .studio-home{font-size:clamp(26px,2.2vw,40px);font-weight:700}
+.disc-studio .studio-navigation{font-size:clamp(14px,1.1vw,20px);gap:clamp(14px,1.6vw,32px)}
+@media(min-width:1101px){.disc-studio .studio-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}.disc-studio .studio-home{justify-self:start}.disc-studio .studio-navigation{justify-self:center}.disc-studio .studio-edition{justify-self:end;text-align:right}}
+.disc-studio .studio-edition{font-size:12px}
+.disc-studio .studio-meta{left:2%;top:125px;width:clamp(280px,24vw,430px)}
+.disc-studio .studio-meta:before{content:'COLLECTION INDEX / 专辑索引';display:block;font:11px/1.4 Consolas,monospace;letter-spacing:.1em;margin-bottom:16px}
+.disc-studio .studio-meta h1{font:800 clamp(34px,3vw,58px)/1.16 Arial,'Microsoft YaHei',sans-serif;padding-bottom:20px;border-bottom:3px solid #111}
+.disc-studio .studio-meta dl{font-size:clamp(14px,1vw,18px)}
+.disc-studio .studio-meta dl>div{padding:11px 0}
+.disc-studio .studio-caption{font-size:15px;width:360px}
+.vinyl-browser .project-copy{max-width:none;padding:clamp(28px,3vw,64px);align-self:center}
+.vinyl-browser .project-copy>small{font-size:12px;border-top:4px solid #111;padding-top:18px}
+.vinyl-browser .project-copy h1{font:850 clamp(48px,5.2vw,100px)/1.06 Arial,'Microsoft YaHei',sans-serif;margin:26px 0 36px;letter-spacing:-.05em;text-wrap:balance}
+.vinyl-browser .project-copy dl{margin-top:0}
+.vinyl-browser .project-copy dt{font-size:12px;padding-top:18px}
+.vinyl-browser .project-copy dd{font:400 clamp(18px,1.3vw,25px)/1.8 Arial,'Microsoft YaHei',sans-serif;margin:10px 0 26px;text-wrap:pretty;word-break:normal;overflow-wrap:break-word}
+.vinyl-browser .project-copy dd:first-of-type{font-size:clamp(23px,1.7vw,32px);font-weight:650;line-height:1.5}
+.project-inline-details p{font-size:clamp(17px,1.2vw,23px);max-width:65ch;text-wrap:pretty;word-break:normal}
+@media(max-width:1100px){#portfolioIntro .intro-edition{display:none}.intro-navigation{gap:14px}.disc-studio .studio-edition{display:none}.disc-studio .studio-meta{width:260px}.disc-studio .studio-meta h1{font-size:34px}}
+@media(max-width:700px){#portfolioIntro .intro-top{top:12px;flex-wrap:wrap;gap:12px;padding:12px 0}.intro-navigation{width:100%;justify-content:space-between;gap:8px}.intro-navigation a,.intro-navigation button{font-size:12px}.intro-wordmark{font-size:24px}#portfolioIntro .intro-corner-tl{top:19%;max-width:45%}#portfolioIntro .intro-corner-tl strong{font-size:22px}#portfolioIntro .intro-corner-tl span{font-size:9px;margin-top:8px}#portfolioIntro .intro-corner-tr{top:20%;max-width:42%}#portfolioIntro .intro-corner-tr b{font-size:48px}#portfolioIntro .intro-corner-tr span{font-size:9px;margin-top:10px}#portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{max-width:46%;bottom:3%}#portfolioIntro .intro-corner small{font-size:8px;margin-bottom:8px}#portfolioIntro .intro-corner-bl p{font-size:12px}#portfolioIntro .intro-corner-br a{font-size:10px}.disc-studio .studio-header{flex-wrap:wrap;gap:12px}.disc-studio .studio-navigation{font-size:12px;gap:12px;flex-wrap:wrap}.disc-studio .studio-meta{top:140px;width:210px}.disc-studio .studio-meta h1{font-size:28px}.disc-studio .studio-meta dl{font-size:12px}.vinyl-browser .project-copy{padding:28px 22px}.vinyl-browser .project-copy h1{font-size:42px}.vinyl-browser .project-copy dd{font-size:17px}}

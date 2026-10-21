@@ -1,0 +1,13 @@
+/* White portfolio theme with a black typographic wordmark. */
+:root{--paper:#fff;--ink:#151515;--muted:#555;--line:#ccc}
+html.studio-document,body.studio-document,body:has(.disc-studio),body.studio-document .disc-preview,.disc-studio,.project-overview{background:#fff;color:#151515}
+html.studio-document{scrollbar-color:#85858b #fff}
+html.studio-document::-webkit-scrollbar-track{background:#fff}
+html.studio-document::-webkit-scrollbar-thumb{border-color:#fff}
+.studio-hub:before{background:#fff}
+.studio-categories{background:#fffffff5}
+.studio-home{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1;font-weight:700;letter-spacing:-.055em;color:#111;white-space:nowrap}
+.studio-home:focus-visible{outline:2px solid #111;outline-offset:6px}
+.profile-navigation{background:#fff}
+.profile-logo{font:700 26px/1 Georgia,'Times New Roman',serif;letter-spacing:-.055em;color:#111;white-space:nowrap}
+@media(max-width:700px){.studio-home{font-size:22px}.studio-header{flex-wrap:wrap;gap:12px}.profile-logo{font-size:22px}}

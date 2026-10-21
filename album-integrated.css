@@ -1,0 +1,41 @@
+.masthead{height:58px;gap:36px}.masthead nav{font-size:14px;gap:24px}.masthead nav a:last-child{display:block}.disc-preview{height:calc(100svh - 58px)}
+.album-node{overflow:visible;background:none}.album-front{position:absolute;inset:0;border-radius:50%;z-index:3;padding:0}.album-front .disc-surface{inset:0}.album-disc-title{position:absolute;left:15%;right:15%;bottom:17%;font-size:clamp(13px,1.2vw,21px);font-weight:700;color:#fff;text-shadow:0 1px 8px #000,0 0 16px #000;text-align:center;pointer-events:none}
+.project-fans{position:absolute;inset:0;pointer-events:none;z-index:4}.fan-disc{position:absolute;left:25%;top:25%;width:50%;aspect-ratio:1;border-radius:50%;padding:0;opacity:0;transform:scale(.7);transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .2s;pointer-events:none;background:none;box-shadow:0 4px 10px #0002}
+.fan-caption{position:absolute;top:104%;left:-10%;width:120%;font-size:11px;line-height:1.4;color:#111;background:#eae9ec;padding:3px;text-align:center}
+.album-node:hover,.album-node:focus-within{z-index:30!important}.album-node:hover .fan-disc,.album-node:focus-within .fan-disc{opacity:1;pointer-events:auto}
+.album-node:hover .fan-disc:nth-child(1),.album-node:focus-within .fan-disc:nth-child(1){transform:translate(-110%,38%) rotate(-22deg)}
+.album-node:hover .fan-disc:nth-child(2),.album-node:focus-within .fan-disc:nth-child(2){transform:translate(0,-125%) rotate(5deg)}
+.album-node:hover .fan-disc:nth-child(3),.album-node:focus-within .fan-disc:nth-child(3){transform:translate(115%,32%) rotate(22deg)}
+.album-front:focus-visible,.fan-disc:focus-visible{outline:3px solid #111;outline-offset:6px}.album-node.selected .album-front:after{content:'';position:absolute;inset:-3%;border:1px solid #111;border-radius:49% 51% 48% 52%;pointer-events:none}
+.disc-information h1{font-size:clamp(20px,2vw,32px);font-weight:700}.disc-information small{font-size:11px}
+dialog{width:min(1220px,90vw);max-height:86svh;border:1px solid #b7b9ba;background:#f0f0f1}dialog[open]{animation:unfold .25s ease-out}.dialog-bar{background:#f0f0f1;font-size:12px}
+.dialog-body{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:0;padding:0}.artwork-panel{padding:28px;border-right:1px solid #b7b9ba}#artworkStage{height:56svh}.liner-notes{padding:28px;overflow:auto;max-height:calc(86svh - 50px)}.liner-notes>.overline{display:block;font-size:10px}.liner-notes h2{font-size:clamp(24px,2.6vw,38px);line-height:1.25;margin:12px 0 18px}
+#dialogProjects{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:25px}#dialogProjects button{border:1px solid #bdc1c1;padding:6px 8px;font-size:10px;text-align:left}#dialogProjects button[aria-pressed=true]{background:#111;color:#fff;border-color:#111}
+.preview-fields{margin:0}.preview-fields>div{border-top:1px solid #b7b9ba;padding:12px 0}.preview-fields dt{font:10px monospace;color:#555;letter-spacing:.04em}.preview-fields dd{margin:8px 0 0;font-size:14px;line-height:1.75}.preview-fields #dialogDescription{font-size:13px}
+#detailLink{display:inline-block;background:#111;color:#fff;padding:12px 18px;margin:16px 0 0;border:0;font-size:13px;font-weight:700}#detailLink:hover{background:#b9ff38;color:#111}
+.profile-section{margin:0 3vw;padding:48px 0;border-top:1px solid #111;scroll-margin-top:20px}.profile-heading{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px}.profile-heading h2{font-size:32px;letter-spacing:-.04em;margin:0}.profile-heading span{font:11px monospace}
+.profile-grid{display:grid;grid-template-columns:1fr 2fr;gap:50px}.profile-grid figure{margin:0}.profile-grid img{width:100%;max-height:440px;object-fit:cover;filter:grayscale(1)}.profile-copy>p{font-size:clamp(18px,2vw,28px);line-height:1.65;margin:0 0 20px}.skill-tags{display:flex;gap:8px;flex-wrap:wrap}.skill-tags span{border:1px solid #a8acad;padding:7px 10px;font-size:12px}
+.experience-row,.honour-row{display:grid;grid-template-columns:180px 1fr 1.6fr;gap:30px;border-top:1px solid #b7b9ba;padding:22px 0;font-size:14px;line-height:1.8}.experience-row time,.honour-row time{font:12px/1.8 monospace}.experience-row h3,.honour-row h3{font-size:18px;line-height:1.6;margin:0}.experience-row p,.honour-row p{margin:0}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:15px;line-height:1.9}.contact-grid h3{font-size:12px;font-weight:500}.contact-grid a:hover{text-decoration:underline}.resume-link{display:inline-block;border:1px solid #111;padding:10px 18px;margin-top:15px}
+@media(max-width:700px){.masthead{height:auto;min-height:66px;padding:12px 5vw;justify-content:space-between;gap:10px}.masthead nav{font-size:11px;gap:9px;flex-wrap:wrap;justify-content:end}.wordmark{white-space:nowrap}.disc-preview{height:calc(100svh - 66px)}.disc-information{bottom:9%}.disc-information h1{font-size:22px}.fan-caption{font-size:8px}.album-disc-title{font-size:11px}.dialog-body{grid-template-columns:1fr}.artwork-panel{padding:18px;border-right:0;border-bottom:1px solid #bbb}#artworkStage{height:40svh}.liner-notes{padding:20px;max-height:none}.liner-notes h2{font-size:26px}dialog{width:94vw;max-height:90svh}.profile-section{margin:0 5vw;padding:32px 0}.profile-grid{grid-template-columns:1fr;gap:25px}.profile-grid img{max-height:340px}.profile-copy>p{font-size:18px}.experience-row,.honour-row{grid-template-columns:95px 1fr;gap:15px}.experience-row p,.honour-row p{grid-column:2}.contact-grid{grid-template-columns:1fr;gap:20px}.profile-heading h2{font-size:28px}}
+@media(prefers-reduced-motion:reduce){.fan-disc{transition:none}}
+/* Temporary wireframe mode; source projects and media are retained. */
+.framework-preview .disc-surface{background:#f8f8f9;border-color:#a7a9ab}
+.framework-preview .disc-surface img,.framework-preview .mini-cover img,.framework-preview #artworkStage img,.framework-preview #artworkStage video,.framework-preview .artwork-thumbs img{visibility:hidden}
+.framework-preview .album-disc-title{color:#18191b;text-shadow:none;font-weight:600}
+.framework-preview .mini-cover{position:relative;background:#f8f8f9;border:1px solid #a7a9ab}
+.framework-preview .mini-cover:after{content:'ALBUM';font:10px monospace;letter-spacing:.12em;position:absolute;inset:0;display:grid;place-items:center;color:#777}
+.framework-preview #artworkStage{position:relative;border:1px solid #b9bbbe;background:#f8f8f9}
+.framework-preview #artworkStage:after{content:'作品预览占位 / PROJECT PREVIEW';position:absolute;inset:0;display:grid;place-items:center;font:12px monospace;color:#777;text-align:center;padding:20px;pointer-events:none}
+.framework-preview .artwork-thumbs button{background:#f8f8f9;border:1px solid #bbb}
+.project-fans{display:none!important}
+.album-node.selected .album-front:after{display:none}
+.hover-disc-lines{position:absolute;inset:-5%;width:110%;height:110%;pointer-events:none;opacity:0;transition:opacity .14s ease}
+.hover-disc-lines path{fill:none;stroke:#242526;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:570 65 250 42 390 160}
+.hover-disc-lines path:nth-child(2){stroke-dasharray:330 190 470 90 390 110;stroke-dashoffset:210}
+.hover-disc-lines path:nth-child(3){stroke-dasharray:430 230 230 105 290 180;stroke-dashoffset:-120}
+.album-front:hover .hover-disc-lines,.album-front:focus-visible .hover-disc-lines{opacity:1}
+@media(hover:hover){.album-front:hover{animation:disc-hover-tremble .65s ease-in-out infinite}.album-front:hover .hover-disc-lines{animation:disc-lines-tremble .85s ease-in-out infinite}}
+@keyframes disc-hover-tremble{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(.8px,-.5px) rotate(.35deg)}45%{transform:translate(-.7px,.4px) rotate(-.3deg)}70%{transform:translate(.4px,.6px) rotate(.2deg)}}
+@keyframes disc-lines-tremble{0%,100%{transform:rotate(-.4deg)}50%{transform:rotate(.6deg)}}
+@media(prefers-reduced-motion:reduce){.album-front,.hover-disc-lines{animation:none!important}}

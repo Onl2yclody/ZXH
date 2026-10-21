@@ -1,0 +1,28 @@
+/* Selected studio pose: XYZ 99/18/5, scale 2.67, pan 2/13, perspective 1700. */
+.sleeve-stage.is-spine{--size:var(--spine-size);--depth:30px;left:calc(var(--spine-left) + 5vw);top:var(--spine-top);perspective:1700px}
+/* Make the printed spine the near bottom face, matching the angle studio. */
+.sleeve-spine{left:0;top:0;width:100%;height:var(--depth);transform-origin:0 0;transform:translateZ(calc(var(--depth)/2)) rotateY(-90deg) rotateZ(90deg);background:#f3f3f1;border:1px solid #bbb;display:flex;align-items:center;justify-content:space-around;backface-visibility:hidden;transform-style:preserve-3d}
+.sleeve-edge.bottom{display:block}
+.sleeve-spine-link{position:relative;display:flex;align-items:center;justify-content:center;left:auto;top:auto;width:30%;height:100%;font:700 calc(var(--depth)*.58)/1 Arial,'Microsoft YaHei',sans-serif;white-space:nowrap;color:#111;text-decoration:none;border-radius:0;transform:translateZ(.25px)}
+.sleeve-spine-link:not(:last-child)::after{content:'';position:absolute;right:-12%;width:calc(var(--depth)*.8);height:calc(var(--depth)*.4);background:conic-gradient(#111 25%,#fff0 0 50%,#111 0 75%,#fff0 0) 0 0/calc(var(--depth)*.4) calc(var(--depth)*.4)}
+.sleeve-spine-link:hover,.sleeve-spine-link:focus-visible{background:transparent;outline:none}
+.sleeve-spine-link::before{content:'';position:absolute;bottom:12%;left:20%;width:60%;height:1px;background:currentColor;visibility:hidden}
+.sleeve-spine-link:hover::before,.sleeve-spine-link:focus-visible::before{visibility:visible}
+.sleeve-spine-link,.sleeve-spine-link:hover{filter:none!important;transition:none!important;transform:none!important}
+.sleeve-side-note{position:absolute;right:2.5%;top:52%;z-index:9;font:600 clamp(15px,1vw,20px)/1.8 Arial,'Microsoft YaHei',sans-serif;color:#333;background:none;border:0;cursor:pointer;display:none}
+.is-browsing-sleeve:not(.is-viewing-spine) .sleeve-side-note{display:block}
+.sleeve-side-note:focus-visible{outline:1px solid #555;outline-offset:6px}
+.sleeve-side-note::before{content:'⟵';display:block;font:400 42px/1 Arial,sans-serif;margin-bottom:8px;text-align:left}
+.sleeve-barcode-vector{position:absolute;left:4.3%;top:89.9%;width:16%;height:8.1%;pointer-events:none;background:#fff}
+@media(prefers-reduced-motion:reduce){.sleeve-spine-link::before{transition:none}}
+.sleeve-stage.is-spine .sleeve-hint{display:none}
+.spine-secondary{display:none;pointer-events:none;color:#555;font:13px/1.8 Arial,'Microsoft YaHei',sans-serif}
+.is-viewing-spine .spine-secondary{display:block}
+.spine-secondary>div{position:absolute;z-index:7}
+.spine-secondary small{display:block;font:10px/1.6 Consolas,monospace;letter-spacing:.12em;color:#777}
+.spine-meta{left:2%;top:12%;width:15%}.spine-meta strong{display:block;font-size:22px;color:#222;margin:10px 0}.spine-meta span{font:10px/1.6 Consolas,monospace}
+.spine-index{right:4%;top:15%;width:25%;max-width:400px;border-top:1px solid #777;padding-top:12px}.spine-index p{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid #ddd;padding:12px 0;margin:0}.spine-index b{font-weight:500;color:#333}.spine-index span{font-size:12px}
+.spine-help{left:2%;top:61%;width:18%;border-top:1px solid #888;padding-top:12px}.spine-help p{font-size:16px;color:#444}.spine-help>span{font-size:12px}
+@media(max-width:900px){.spine-index{width:29%;right:3%}.spine-index p{display:block}.spine-index span{display:block}.spine-help{top:66%}.spine-meta span{display:none}}
+@media(max-width:600px){.spine-index{display:none}.spine-meta{width:40%}.spine-help{width:50%;top:72%}}
+@media(max-width:700px){.is-spine .sleeve-spine-link{left:auto;width:30%}}

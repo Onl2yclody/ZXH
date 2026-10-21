@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>艾草可视化 · 项目详情</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+    :root{--ink:#111;--paper:#f1f0eb;--line:rgba(17,17,17,.25);--mugwort:#b9c9a7}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,"Noto Sans SC",sans-serif}a{color:inherit;text-decoration:none}
+    .nav{height:62px;padding:0 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font:14px "DM Mono",monospace}.nav a:last-child{opacity:.7}
+    .layout{min-height:calc(100svh - 62px);display:grid;grid-template-columns:1.18fr .82fr}.visual{padding:32px;border-right:1px solid var(--line);display:grid;place-items:center}.placeholder{width:min(100%,720px);aspect-ratio:4/5;background:var(--mugwort);display:grid;place-items:center;font:14px "DM Mono",monospace;letter-spacing:.04em;color:#263126}.info{padding:clamp(32px,5vw,76px);display:flex;flex-direction:column}.eyebrow{font:13px "DM Mono",monospace;margin-bottom:22px}.info h1{font-size:clamp(64px,9vw,132px);line-height:.88;letter-spacing:-.08em;margin:0 0 48px}.tag{font:14px "DM Mono",monospace;padding:10px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin-bottom:34px}.field{border-top:1px solid var(--line);padding:18px 0}.field b{display:block;font:12px "DM Mono",monospace;margin-bottom:10px}.field p{margin:0;font-size:18px;line-height:1.7}.note{margin-top:auto;font:12px "DM Mono",monospace;opacity:.65}
+    @media(max-width:700px){.nav{padding:0 14px;font-size:12px}.layout{grid-template-columns:1fr}.visual{min-height:52svh;padding:18px;border-right:0;border-bottom:1px solid var(--line)}.info{padding:28px 18px 40px}.info h1{font-size:72px;margin-bottom:34px}.field p{font-size:16px}}
+  </style>
+<link rel="stylesheet" href="detail-media.css?v=2"></head>
+<body>
+  <header class="nav"><a href="zhong-xi-han-portfolio-preview.html?album=graphic">‹ 项目目录</a><span>01 / GRAPHIC DESIGN</span><a href="zhong-xi-han-portfolio-preview.html">返回首页 ↗</a></header>
+  <main class="layout"><section class="visual"><div class="placeholder">IMAGE PLACEHOLDER / 待上传图片</div></section><section class="info"><div class="eyebrow">PROJECT DETAIL / 05</div><h1>艾草<br>可视化</h1><div class="tag">MUGWORT VISUALIZATION · 风格可视化</div><div class="field"><b>主题 / THEME</b><p>艾草信息可视化与科普视觉设计</p></div><div class="field"><b>项目说明 / DESCRIPTION</b><p>以艾草的药性、成分与适用人群为信息骨架，将中医药知识拆解为清晰的层级、图标与图解；后续将在此处补充项目图片与完整展示。</p></div><div class="note">IMAGE AREA RESERVED FOR FUTURE UPLOAD</div></section></main>
+<style>.process{padding:0 7vw 7vw;border-top:1px solid var(--line)}.process h2{font-size:clamp(42px,6vw,78px);letter-spacing:-.07em;margin:54px 0 28px}.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.process-card{border-top:1px solid var(--ink);padding-top:14px}.process-card b{display:block;font:12px "DM Mono",monospace;margin-bottom:12px}.process-card p{margin:0;font-size:16px;line-height:1.7}.process .placeholder{max-width:100%;aspect-ratio:16/6}@media(max-width:700px){.process{padding:0 18px 40px}.process-grid{grid-template-columns:1fr 1fr;gap:18px}.process-card p{font-size:15px}}</style>
+  <section class="process"><h2>项目具体参考</h2><div class="process-grid"><article class="process-card"><b>01 / 立项</b><p>以艾草的药性、成分与日常使用为切入点，确定通过信息可视化降低中医药内容的阅读门槛。</p></article><article class="process-card"><b>02 / 过程</b><p>检索论文和相关资料，整理艾草的药性、成分、适用人群与使用方式，建立内容层级和视觉素材库。</p></article><article class="process-card"><b>03 / 思路</b><p>以草本绿色、叶片形态和模块化信息卡片构成统一视觉，让知识内容更清晰，也更贴近日常阅读。</p></article><article class="process-card"><b>04 / 问题与解决</b><p>针对资料复杂、文字信息过多的问题，将长段内容拆成关键词、图解和分组信息，提升阅读效率。</p></article></div><h2>05 / 成品展示</h2><div class="placeholder">FINAL OUTPUT PLACEHOLDER / 待上传成品图</div></section>
+<style>
+  .process-card { display:flex; flex-direction:column; align-items:center; text-align:left; }
+  .process-card .process-placeholder { width:min(100%,260px); aspect-ratio:4/3; margin:0 auto 18px; background:#d4dfc7; display:grid; place-items:center; text-align:center; font:11px "DM Mono",monospace; color:#344232; }
+  .process-card b,.process-card p { width:100%; }
+  .final-placeholder { width:min(100%,760px); margin:0 auto; aspect-ratio:16/7; background:#d4dfc7; display:grid; place-items:center; text-align:center; font:12px "DM Mono",monospace; color:#344232; }
+</style>
+<script>
+const processCards = document.querySelectorAll('.process-card');
+const placeholderLabels = ['立项图片占位 / PROJECT START','过程图片占位 / PROCESS','思路图片占位 / CONCEPT','问题解决图片占位 / SOLUTION'];
+processCards.forEach((card, index) => {
+  if (!card.querySelector('.process-placeholder')) {
+    const holder = document.createElement('div'); holder.className = 'process-placeholder'; holder.textContent = placeholderLabels[index] || '图片占位 / IMAGE'; card.prepend(holder);
+  }
+});
+const finalHolder = document.querySelector('.process > .placeholder');
+if (finalHolder) { finalHolder.classList.add('final-placeholder'); finalHolder.classList.remove('placeholder'); finalHolder.textContent = '成品图片占位 / FINAL OUTPUT'; }
+</script>
+<style>
+  .process-grid { grid-template-columns:1fr; gap:56px; }
+  .process-card { display:block; text-align:left; }
+  .process-card .process-placeholder { width:100%; max-width:none; aspect-ratio:2/1; margin:0 0 26px; }
+  .process-card b { display:block; width:auto; margin:0 0 20px; padding:0; font:600 clamp(42px,6vw,78px)/.95 "Manrope","Noto Sans SC",sans-serif !important; letter-spacing:-.06em; }
+  .process-card p { display:block; width:auto; margin:0; font-size:19px; line-height:1.75; }
+  .process h2 { font-size:clamp(50px,7vw,90px); margin-bottom:38px; }
+  .final-placeholder { width:100%; max-width:none; aspect-ratio:2/1; font-size:15px; }
+  @media(max-width:700px){ .process-card { display:block; } .process-card .process-placeholder { margin:0 0 16px; aspect-ratio:1.8/1; } .process-card b { font-size:42px !important; } .process-card p { margin-top:12px; } }
+</style>
+<style>.process .mugwort-case h3{font-size:clamp(32px,4vw,60px);margin-bottom:22px}.process .mugwort-case p{font-size:18px}.process .mugwort-case section{padding:40px 0}.process .mugwort-case{border-top:0}.visual img{max-width:100%;height:auto}</style>
+<script src="mugwort-details.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+/* Shared case-study typography: headings orient, body explains, media leads. */
+.project-inline-details{padding:54px clamp(24px,5vw,96px) 96px}
+.project-inline-details .process,.project-inline-details .inline-detail-heading{max-width:1440px;margin-inline:auto}
+.project-inline-details .inline-detail-heading{margin-bottom:40px}
+.project-inline-details .inline-detail-heading h2{font-size:clamp(32px,3.3vw,52px);line-height:1.25}
+.project-inline-details .process>section,.project-inline-details .process>.process-card{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(0,2fr);column-gap:clamp(28px,5vw,80px);row-gap:20px;padding:40px 0;align-items:start}
+.project-inline-details .process>section>*,.project-inline-details .process>.process-card>*{grid-column:2;min-width:0;margin-block:0}
+.project-inline-details .process>section>h2,.project-inline-details .process>.process-card>h2{grid-column:1;grid-row:1;font-size:clamp(23px,2vw,30px);line-height:1.5;letter-spacing:-.02em}
+.project-inline-details p,.project-inline-details li{font:400 clamp(17px,1.25vw,20px)/1.85 Arial,'Microsoft YaHei',sans-serif;max-width:40em;text-wrap:pretty;word-break:normal;overflow-wrap:break-word}
+.project-inline-details p+p{margin-top:0}
+.project-inline-details h3{font-size:21px;line-height:1.5;margin:24px 0 12px}
+.project-inline-details .process>section>.gallery,.project-inline-details .process>section>.dieline-gallery,.project-inline-details .process>section>.dieline-layout{grid-column:1/-1;margin-top:12px}
+.project-inline-details .gallery{gap:clamp(20px,3vw,44px);margin:20px 0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.project-inline-details .gallery .wide{grid-column:1/-1}
+.project-inline-details .process>section>figure,.project-inline-details .process>section>img.wide{grid-column:1/-1;margin-top:12px}
+.project-inline-details .dieline-gallery{grid-template-columns:1fr}
+.project-inline-details .dieline-layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(210px,1fr);gap:28px;align-items:start}
+.project-inline-details .dieline-info{padding:22px;background:#f5f5f5}.project-inline-details .dieline-info h3{margin:0 0 12px}.project-inline-details .dieline-info p{font-size:16px}
+.project-inline-details .dieline-info dl{display:grid;grid-template-columns:1fr 1fr;font-size:15px;line-height:1.8;gap:6px;margin:20px 0}.project-inline-details .dieline-info dd{margin:0}
+.project-inline-details .dieline-key{display:flex;align-items:center;gap:12px}.project-inline-details .cut-line,.project-inline-details .fold-line{display:inline-block;width:36px;border-top:2px solid #555}.project-inline-details .fold-line{border-top-style:dashed}
+.project-inline-details .logo-guide{background:#f7f7f7;padding:24px}.project-inline-details .logo-guide img{max-height:330px}
+.project-inline-details figure img,.project-inline-details figure video{margin:0 auto 14px;max-height:90svh}
+.project-inline-details figcaption{font:14px/1.7 Arial,'Microsoft YaHei',sans-serif;color:#555;margin-top:10px}
+.project-inline-details .case-table-scroll{grid-column:1/-1!important;overflow-x:auto;margin:12px 0;max-width:100%;border:1px solid #d5d5d5;overscroll-behavior-x:contain}
+.project-inline-details table{border-collapse:collapse;width:100%;min-width:640px;table-layout:auto;font:16px/1.7 Arial,'Microsoft YaHei',sans-serif;text-align:left}
+.project-inline-details th,.project-inline-details td{padding:16px 20px;border:0;border-bottom:1px solid #ddd;vertical-align:top;text-align:left;white-space:normal;overflow-wrap:break-word}
+.project-inline-details th{background:#f3f3f3;font-size:14px;font-weight:700;color:#444}
+.project-inline-details td:first-child{width:18%;font-weight:600}.project-inline-details td:nth-child(2){width:28%}
+.project-inline-details tr:last-child td{border-bottom:0}
+.project-inline-details .note,.project-inline-details .pending{font-size:15px;line-height:1.8;padding:18px 22px;max-width:none}
+@media(max-width:800px){.project-inline-details{padding:32px 22px 64px}.project-inline-details .process>section,.project-inline-details .process>.process-card{grid-template-columns:1fr;padding:28px 0;row-gap:18px}.project-inline-details .process>section>*,.project-inline-details .process>.process-card>*{grid-column:1!important}.project-inline-details .process>section>h2{grid-row:auto}.project-inline-details .gallery{grid-template-columns:1fr}.project-inline-details p{font-size:17px;line-height:1.85}.project-inline-details th,.project-inline-details td{padding:12px 15px}}
+@media(max-width:800px){.project-inline-details .dieline-layout{grid-template-columns:1fr}}
