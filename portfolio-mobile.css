@@ -1,0 +1,72 @@
+/* Desktop remains unchanged. All touch layout rules live in this file. */
+.mobile-portfolio{display:none}
+@media(max-width:760px){
+ html.mobile-portfolio-active{overflow:auto!important;scroll-behavior:smooth}
+ .mobile-portfolio-active body{overflow-x:clip!important;min-width:0}
+ .mobile-portfolio-active #portfolioIntro,.mobile-portfolio-active .disc-studio,.mobile-portfolio-active .project-overview,.mobile-portfolio-active .studio-return{display:none!important}
+ .mobile-portfolio{display:block;background:#fff;color:#181818;padding:0 20px;font-family:Arial,'Microsoft YaHei',sans-serif}
+ .mobile-portfolio *{box-sizing:border-box}
+ .mobile-header{padding:24px 0 0;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:18px;border-bottom:1px solid #bbb}
+ .mobile-wordmark{font:bold 25px/1 Georgia,serif;letter-spacing:-1.2px;color:inherit;text-decoration:none}
+ .mobile-header>span{font:8px/1.5 monospace;color:#777}
+ .mobile-header nav{display:grid;grid-template-columns:repeat(4,1fr);width:100%;gap:8px}
+ .mobile-header nav a{padding:12px 0 16px;font-size:12px;text-decoration:none;color:#333;text-align:center}
+ .mobile-header nav a:first-child{font-weight:700;border-bottom:2px solid #111}
+ .mobile-introduction{padding:34px 0 30px}
+ .mobile-introduction small,.mobile-section-title>span,.mobile-contact small{font:9px/1.5 monospace;letter-spacing:.1em;color:#777}
+ .mobile-introduction h1{font-size:40px;line-height:1.18;letter-spacing:-2px;margin:14px 0}
+ .mobile-introduction p{font-size:12px;line-height:1.8;color:#666;margin:0}
+ .mobile-explore{display:flex;justify-content:space-between;margin-top:24px;padding:15px 16px;background:#181818;color:white;text-decoration:none;font-size:13px}
+ #mobile-collections{scroll-margin-top:18px}
+ .mobile-section-title{display:flex;align-items:center;justify-content:space-between;border-top:2px solid #222;padding:18px 0}
+ .mobile-section-title h2{font-size:19px;margin:0}
+ .mobile-albums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}
+ .mobile-album{display:block;width:100%;min-width:0;border:0;padding:0;background:none;color:inherit;text-align:left;cursor:pointer}
+ .mobile-album img{display:block;width:100%;aspect-ratio:1;object-fit:contain;background:#f3f3f1;padding:8px}
+ .mobile-album-caption{display:block;padding:12px 0 0}
+ .mobile-album small{display:block;font:10px/1.5 monospace;color:#777;margin-bottom:5px}
+ .mobile-album strong{display:block;font-size:14px;line-height:1.5}
+ .mobile-contact{border-top:1px solid #bbb;margin-top:36px;padding:24px 0 max(28px,env(safe-area-inset-bottom))}
+ .mobile-contact h2{font-size:23px;margin:12px 0 20px}
+ .mobile-contact a{display:block;font-size:13px;line-height:2;color:#444;text-decoration:none}
+ .mobile-contact p{margin:24px 0 0;font:9px monospace;color:#888}
+ .vinyl-browser .vinyl-bar{position:sticky;top:0;z-index:20;background:#fff;height:auto;min-height:56px;padding:8px 12px;gap:8px;font-size:12px}
+ .vinyl-browser .vinyl-bar>span{display:none}
+ .vinyl-browser .vinyl-bar button{min-height:44px;padding:10px 6px}
+ .vinyl-browser .vinyl-catalog,.vinyl-browser .vinyl-catalog:has(.has-webgl){display:block;min-height:0;padding:0 20px}
+ .vinyl-browser .vinyl-feature{display:none!important}
+ .vinyl-browser .vinyl-directory,.vinyl-browser .vinyl-directory[data-archive-ready]{position:static!important;width:auto!important;max-height:none!important;margin:0!important;padding:24px 0 32px!important;background:white}
+ .vinyl-browser .archive-masthead{grid-template-columns:48px minmax(0,1fr);gap:16px;border-top-width:3px;padding-top:20px}
+ .vinyl-browser .archive-issue{font-size:42px}
+ .vinyl-browser .archive-titles h1{font-size:26px!important}
+ .vinyl-browser .archive-facts{gap:12px;margin-top:20px}
+ .vinyl-browser .archive-facts>div{flex-direction:column;align-items:start;gap:5px}
+ .vinyl-browser .vinyl-tracks button{min-height:60px!important;grid-template-columns:28px minmax(0,1fr) 18px!important;font-size:15px!important;gap:10px!important}
+ .vinyl-browser .track-arrow{font-size:0!important}
+ .vinyl-browser .track-arrow:after{content:'→';font:20px Arial}
+ .vinyl-browser .archive-instruction{font-size:0}
+ .vinyl-browser .archive-instruction:after{content:'点击项目，查看完整作品';font:12px/1.6 Arial,sans-serif}
+ .vinyl-browser .project-view{display:flex;flex-direction:column;padding:0;gap:0;min-height:0}
+ .vinyl-browser .project-media{padding:20px;min-height:0;width:100%}
+ .vinyl-browser .project-main-media{height:auto;min-height:0;max-height:none}
+ .vinyl-browser .project-main-media img,.vinyl-browser .project-main-media video{display:block;width:100%;height:auto;max-height:65svh;object-fit:contain}
+ .vinyl-browser .project-thumbs{display:flex;overflow-x:auto;flex-wrap:nowrap;gap:8px;padding:12px 0}
+ .vinyl-browser .project-thumbs button{flex:0 0 56px;height:56px}
+ .vinyl-browser .project-copy{padding:12px 20px 24px;width:100%}
+ .vinyl-browser .project-copy h1{font-size:30px;margin:20px 0 24px;line-height:1.2;overflow-wrap:anywhere}
+ .vinyl-browser .project-copy dd,.vinyl-browser .project-copy dd:first-of-type{font-size:15px;line-height:1.8;margin-bottom:18px}
+ .project-inline-details{padding:24px 20px 40px!important}
+ .project-inline-details p,.project-inline-details li{font-size:15px!important;line-height:1.85}
+ .project-inline-details h2{font-size:23px!important}
+ .project-inline-details figure{margin-inline:0}
+ .profile-navigation{padding:20px!important;gap:18px!important}
+ .profile-navigation nav{display:grid!important;grid-template-columns:repeat(4,1fr);gap:12px!important;width:100%;font-size:12px!important}
+ .profile-section{padding:28px 20px!important;margin:0!important;width:100%!important;box-sizing:border-box}
+ .profile-heading h2{font-size:28px!important}
+ .profile-heading{gap:10px!important}
+ .profile-grid,.contact-grid{display:grid!important;grid-template-columns:1fr!important;gap:22px!important}
+ .profile-grid figure{max-width:240px}
+ .profile-copy p,.experience-row p,.honour-row p,.contact-grid{font-size:15px!important;line-height:1.85!important}
+ .experience-row,.honour-row{grid-template-columns:1fr!important;gap:12px!important;padding:24px 0!important}
+ .experience-row h3,.honour-row h3{font-size:19px!important}
+}
