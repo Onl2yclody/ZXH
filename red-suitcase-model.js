@@ -1,5 +1,5 @@
 /* Reference-based reconstruction. Units are nominal centimetres, not measured dimensions. */
-(function(root,factory){if(typeof module==='object')module.exports=factory;else root.createRedSuitcase=factory;})(globalThis,function(T){
+(function(root,factory){if(typeof module==='object')module.exports=factory;else root.createRedSuitcase=factory;})(globalThis,function(T,{portfolio=false}={}){
  const model=new T.Group();model.name='Monochrome suitcase turntable — reference reconstruction';
  model.userData={reference:'User supplied four-view collage',dimensions:'Estimated 35 x 26 x 11 cm closed; not measured',accuracy:'Visible details reconstructed; unseen rear and branding approximated'};
  const mat=(color,metalness=0,roughness=.5)=>new T.MeshStandardMaterial({color,metalness,roughness});
@@ -65,9 +65,13 @@
  logo(2.22,true);logo(3.04,false);
  const record=new T.Group();record.name='Spinning vinyl';record.position.set(-5.1,5.9,.4);model.add(record);
  cyl(11.5,.25,rubber,-5.1,5.57,.4,model,'Platter');cyl(11.65,.12,vinyl,0,0,0,record,'Black vinyl');
- for(let r=4.15;r<11.5;r+=.13)torus(r,.009,black,0,.065,0,record);
+ // The portfolio's projected artwork replaces the centre decoration. Skip
+ // constructing those permanently hidden meshes, retaining every visible ring.
+ for(let r=4.15;r<11.5;r+=.13)if(!portfolio||r>=9.4)torus(r,.009,black,0,.065,0,record);
+ if(!portfolio){
  cyl(3.85,.018,label,0,.077,0,record,'Red record label');torus(3.65,.023,cream,0,.09,0,record);
  for(let j=0;j<3;j++)tube(Array.from({length:36},(_,i)=>{const a=i/35*Math.PI*2;return [Math.cos(a)*(1.3+.7*Math.sin(a*3+j)),.095,Math.sin(a)*(1.3+.7*Math.sin(a*3+j))];}),.035,cream,record,'Label ornament approximation');
+ }
  cyl(.16,.6,silver,-5.1,6.18,.4,model,'Spindle');
  // Right controls and tonearm. Straight polished arm with black cartridge.
  rounded(3.2,22.5,.1,.2,rubber,14,5.45,0,model,'Control strip');

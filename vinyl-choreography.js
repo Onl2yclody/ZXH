@@ -22,10 +22,14 @@
  const railDropPoses=fromRail&&physicalDrop?Array.from({length:61},(_,i)=>player.getDiscPose(i/5)):null;
  const endVelocity={};for(const k of ['x','y','a','b','c','d'])endVelocity[k]=lowerPose?(lowerPose[k]-dockingPose[k])/.1*(24/550):0;
  const compact=1,startTime=performance.now();let revealed=false,docked=false,swapped=false;
+ // Fix the layout box once. Only compositor transforms move the flying disc.
+ Object.assign(flight.style,{left:'0px',top:'0px',width:'200px',height:'200px',willChange:'transform'});
+ function prepareLabel(inset){const label=flight.querySelector?.('.vinyl-label');if(label)Object.assign(label.style,{inset:inset+'%',width:'auto',height:'auto',transform:'none'});}
+ prepareLabel(16);
  const control={x:initial.x-start.width*.65,y:Math.max(80,Math.min(initial.y,target.y)-innerHeight*.12)};
  host.style.transform=`translate(-50%,-50%) translate(${dx}px,${innerHeight+box.height*.6}px) scale(${compact})`;
  stage?.animate([{translate:'0px 0px'},{translate:innerWidth*1.25+'px 0px'}],{duration:450,easing:'cubic-bezier(.35,0,.65,1)',fill:'forwards'});
- function pose(p,flip,spin){flight.style.left=p.x+'px';flight.style.top=p.y+'px';flight.style.width='200px';flight.style.height='200px';flight.style.transform=`translate(-50%,-50%) matrix(${p.a},${p.b},${p.c},${p.d},0,0) scaleX(${Math.max(.018,Math.abs(Math.cos(flip*Math.PI)))}) rotate(${spin}deg)`;}
+ function pose(p,flip,spin){flight.style.transform=`translate3d(${p.x}px,${p.y}px,0) translate(-50%,-50%) matrix(${p.a},${p.b},${p.c},${p.d},0,0) scaleX(${Math.max(.018,Math.abs(Math.cos(flip*Math.PI)))}) rotate(${spin}deg)`;}
  function tick(now){
  const elapsed=(now-startTime)*1.2;
  const rise=smooth((elapsed-540)/700),settle=smooth((elapsed-(physicalDrop?2050:1550))/750);
@@ -38,12 +42,10 @@
  // The endpoint is stationary, never the player's off-screen entrance pose.
  const t=clamp(elapsed/1500),u=1-t,e=smooth(t),turn=smooth((elapsed-80)/1120);
  const p={};for(const k of ['x','y','a','b','c','d']){const c1=k==='x'||k==='y'?control[k]:initial[k],c2=target[k]-endVelocity[k]*1500/3;p[k]=u*u*u*initial[k]+3*u*u*t*c1+3*u*t*t*c2+t*t*t*target[k];}
- if(turn>=.5&&!swapped){flight.innerHTML=disc.innerHTML;flight.classList.add('is-catalog-disc');swapped=true;}
+ if(turn>=.5&&!swapped){flight.innerHTML=disc.innerHTML;flight.classList.add('is-catalog-disc');swapped=true;prepareLabel((1-9.3/11.65)*50);}
  pose(p,turn,22*Math.sin(Math.PI*t)*Math.pow(1-t,2));
  // Match the 3D label's 9.3 / 11.65 radius before handing off at docking.
  // Switch proportions only while edge-on, then hold them through the handoff.
- const label=flight.querySelector?.('.vinyl-label');
- if(label){const inset=swapped?(1-9.3/11.65)*50:16;label.style.inset=inset+'%';label.style.width='auto';label.style.height='auto';label.style.transform='none';}
  if(t>=1){docked=true;if(!fromRail){flight.hidden=true;player?.setDiscVisible(true);disc.style.visibility='';}}
  }
   // Record seats at 2050 ms. Hold the parked arm for 200 ms, then perform

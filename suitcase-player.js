@@ -8,7 +8,7 @@ window.mountTurntable3D=(host,art)=>{
  let renderer;try{renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});}catch(e){console.warn('Suitcase WebGL unavailable',e);return null;}
  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setClearColor(0xffffff,0);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;
  const canvas=renderer.domElement;canvas.className='turntable-webgl';canvas.setAttribute('role','img');canvas.setAttribute('aria-label','猫头标志黑白灰手提箱唱片机');host.append(canvas);
- const scene=new T.Scene(),camera=new T.PerspectiveCamera(32,1,.1,500),built=window.createRedSuitcase(T),model=built.model,record=built.record;scene.add(model);
+ const scene=new T.Scene(),camera=new T.PerspectiveCamera(32,1,.1,500),built=window.createRedSuitcase(T,{portfolio:true}),model=built.model,record=built.record;scene.add(model);
  // Reference view: elevated front-left three-quarter perspective. Framing below
  // adjusts zoom only, preserving this angle throughout the lid/record sequence.
  camera.position.set(-19.72336,52.95312,30.15378);camera.lookAt(0,10,0);camera.updateMatrixWorld();
@@ -25,10 +25,11 @@ window.mountTurntable3D=(host,art)=>{
  let renderDirty=true,maskDirty=true;
  let w=1,h=1,frame=0,last=0,angle=0,playing=true,disposed=false;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let lidStart=null,lidControlled=false,lidAngle=reduce?104:0,discVisible=true,recordLift=0,composition=0,fitZoom=1,centerX=0,centerY=0,transferActive=false;
- function compose(){const desktop=w/h>1&&!matchMedia('(max-width:1400px), (pointer:coarse)').matches,closeup=desktop?1.85:1;camera.zoom=fitZoom*(1+(closeup-1)*composition);camera.updateProjectionMatrix();const ox=centerX*camera.zoom*w/2,oy=-centerY*camera.zoom*h/2;camera.setViewOffset(w,h,ox,oy,w,h);
+ function compose(){const phone=window.PortfolioLayout.state.layout==='phone',desktop=w/h>1&&window.PortfolioLayout.state.layout==='desktop'&&window.PortfolioLayout.state.width>760,closeup=desktop?1.85:phone?1.9:1;camera.zoom=fitZoom*(1+(closeup-1)*composition);camera.updateProjectionMatrix();const ox=centerX*camera.zoom*w/2,oy=-centerY*camera.zoom*h/2;camera.setViewOffset(w,h,ox,oy,w,h);
   // Final framing follows the seated vinyl, not the tall lid. Keep the opening
   // sequence fully framed, then move the deck up into the visual focal area.
   if(desktop&&composition){const p=new T.Vector3(-5.1,6.01,.4).applyMatrix4(model.matrixWorld).project(camera);camera.setViewOffset(w,h,ox+((p.x*.5+.5)-.51)*w*composition,oy+((.5-p.y*.5)-.64)*h*composition,w,h);}
+    if(phone&&composition){const p=new T.Vector3(-5.1,6.01,.4).applyMatrix4(model.matrixWorld).project(camera);camera.setViewOffset(w,h,ox+((p.x*.5+.5)-.5)*w*composition,oy+((.5-p.y*.5)-.55)*h*composition,w,h);}
  }
  function lidProgress(progress){const next=104*Math.max(0,Math.min(1,progress));if(next===lidAngle&&lidProgress.ready)return;lidProgress.ready=true;renderDirty=true;if(next!==lidAngle&&!transferActive)renderer.shadowMap.needsUpdate=true;lidAngle=next;built.setOpen(lidAngle);label.style.visibility=discVisible&&lidAngle>=90?'':'hidden';}
  lidProgress(reduce?1:0);
@@ -91,8 +92,10 @@ window.mountTurntable3D=(host,art)=>{
   built.setOpen(lidAngle);layout();
  }
  const ro=new ResizeObserver(resize);ro.observe(host);
+ function layoutChanged(){resize.ready=false;layout.key='';maskCartridge.key='';resize();renderDirty=true;maskDirty=true;}
+ window.addEventListener('portfolio:layoutchange',layoutChanged);
  function tick(t){if(disposed)return;if(!host.isConnected){api.dispose();return;}frame=requestAnimationFrame(tick);const dt=Math.min((t-last)/1000,.05);last=t;if(document.hidden)return;if(!lidControlled&&!reduce){if(lidStart===null)lidStart=t;const p=Math.min(1,(t-lidStart)/1050);lidProgress(p*p*(3-2*p));}if(playing&&!reduce&&lidAngle>=90){angle-=dt*Math.PI/12;record.rotation.y=angle;image.style.transform=`rotate(${-angle}rad)`;renderDirty=true;}if(maskDirty){maskCartridge();maskDirty=false;}if(renderDirty){renderer.render(scene,camera);renderDirty=false;}}
- const api={scene,model,setPlaying(v){playing=v;},setDiscVisible(v){renderDirty=true;record.visible=v;label.style.visibility=v?'':'hidden';},getDiscPose(lift=recordLift){const rect=host.getBoundingClientRect(),sx=rect.width/w,sy=rect.height/h,{p,a,b}=pose(11.65,lift);return{x:rect.left+p.x*sx,y:rect.top+p.y*sy,a:(a.x-p.x)*sx/100,b:(a.y-p.y)*sy/100,c:(b.x-p.x)*sx/100,d:(b.y-p.y)*sy/100};},dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);ro.disconnect();observer.disconnect();const geos=new Set(),mats=new Set(),textures=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)mats.add(o.material);});mats.forEach(m=>{Object.values(m).forEach(v=>{if(v?.isTexture)textures.add(v);});m.dispose();});geos.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());env.dispose();renderer.dispose();renderer.forceContextLoss();canvas.remove();label.remove();host.classList.remove('has-webgl');}};
+ const api={scene,model,setPlaying(v){playing=v;},setDiscVisible(v){renderDirty=true;record.visible=v;label.style.visibility=v?'':'hidden';},getDiscPose(lift=recordLift){const rect=host.getBoundingClientRect(),sx=rect.width/w,sy=rect.height/h,{p,a,b}=pose(11.65,lift);return{x:rect.left+p.x*sx,y:rect.top+p.y*sy,a:(a.x-p.x)*sx/100,b:(a.y-p.y)*sy/100,c:(b.x-p.x)*sx/100,d:(b.y-p.y)*sy/100};},dispose(){if(disposed)return;disposed=true;window.removeEventListener('portfolio:layoutchange',layoutChanged);cancelAnimationFrame(frame);ro.disconnect();observer.disconnect();const geos=new Set(),mats=new Set(),textures=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);if(o.material)mats.add(o.material);});mats.forEach(m=>{Object.values(m).forEach(v=>{if(v?.isTexture)textures.add(v);});m.dispose();});geos.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());env.dispose();renderer.dispose();renderer.forceContextLoss();canvas.remove();label.remove();host.classList.remove('has-webgl');}};
  api.setCompositionProgress=p=>{const next=Math.max(0,Math.min(1,p));if(next===composition)return;composition=next;compose();layout();};
  api.setLidProgress=p=>{lidControlled=true;lidProgress(reduce?1:p);};
  // Skip the expensive dynamic shadow pass during the rapid transfer. Restore

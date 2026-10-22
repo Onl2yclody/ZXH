@@ -35,13 +35,17 @@
  const limit=(v,a,b)=>Math.max(a,Math.min(b,v));
  function motion(now){motionFrame=0;if(entering)return;const dt=Math.min(40,now-(lastMotion||now-16));lastMotion=now;const blend=1-Math.exp(-dt/230);angleX+=(targetX-angleX)*blend;angleY+=(targetY-angleY)*blend;angleZ+=(targetZ-angleZ)*blend;modelScale+=(targetScale-modelScale)*blend;model.style.transform=`scale(${modelScale}) rotateZ(${angleZ}deg) rotateX(${angleX}deg) rotateY(${angleY}deg)`;if(Math.abs(targetX-angleX)+Math.abs(targetY-angleY)+Math.abs(targetZ-angleZ)+Math.abs(targetScale-modelScale)>.025)motionFrame=requestAnimationFrame(motion);}
  function wakeMotion(){if(!motionFrame){lastMotion=0;motionFrame=requestAnimationFrame(motion);}}
- intro.addEventListener('pointermove',e=>{if(entering||flipping||sideView||reduced)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;targetX=(flipped?26:-3)-limit(y*4,-2,2);targetY=(flipped?180:-8)+limit(x*(flipped?4:16),flipped?-2:-8,flipped?2:8);wakeMotion();});
+ intro.addEventListener('pointermove',e=>{if(entering||flipping||sideView||reduced||!window.PortfolioLayout.state.hover)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;targetX=(flipped?26:-3)-limit(y*4,-2,2);targetY=(flipped?180:-8)+limit(x*(flipped?4:16),flipped?-2:-8,flipped?2:8);wakeMotion();});
  intro.addEventListener('pointerleave',()=>{if(!entering&&!flipping&&!sideView){targetX=flipped?26:-3;targetY=flipped?180:-8;wakeMotion();}});
  function flip(){if(flipped||flipping||entering)return;
- if(matchMedia('(max-width:760px)').matches){
+ if(window.PortfolioLayout.state.layout==='phone'){
   entering=true;front.tabIndex=-1;stage.classList.add('is-phone-extracting');
   cancelAnimationFrame(motionFrame);motionFrame=0;
-  setTimeout(()=>{finish?.();setTimeout(()=>{stage.classList.remove('is-phone-extracting');entering=false;front.tabIndex=0;},400);},reduced?0:650);
+  // Wait for the compositor animation, not a timer that can cut it off when
+  // the main thread is busy. Keep the exit pose until the intro is hidden.
+  const animations=reduced?[]:(stage.getAnimations?.({subtree:true})||[]).filter(a=>a.effect?.getTiming().iterations!==Infinity);
+  const extracted=animations.length?Promise.allSettled(animations.map(a=>a.finished)):new Promise(resolve=>setTimeout(resolve,reduced?0:650));
+  extracted.then(()=>{finish?.();setTimeout(()=>{stage.classList.remove('is-phone-extracting');entering=false;front.tabIndex=0;},400);});
   return;
  }
  flipping=true;flipped=true;front.tabIndex=-1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');
@@ -82,7 +86,7 @@
  await preparePlayer();
  cancelAnimationFrame(motionFrame);motionFrame=0;
  window.selectVinylCategory?.(category);
- if(reduced||matchMedia("(max-width:1100px), (pointer:coarse)").matches){finish();intro.hidden=true;openAlbum(category);if(!reduced)overlay.animate([{opacity:0,transform:"translateY(24px)"},{opacity:1,transform:"none"}],{duration:450,easing:"ease-out"});return;}
+ if(reduced||window.PortfolioLayout.state.layout!=='desktop'){finish();intro.hidden=true;openAlbum(category);if(!reduced)overlay.animate([{opacity:0,transform:"translateY(24px)"},{opacity:1,transform:"none"}],{duration:450,easing:"ease-out"});return;}
  const r=record.getBoundingClientRect(),flight=document.createElement('div');
  flight.className='vinyl-transfer';flight.setAttribute('aria-hidden','true');flight.innerHTML=record.innerHTML;
  flight.style.cssText=`left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
@@ -105,7 +109,7 @@
   const b=document.createElement('button');b.className='sleeve-side-trigger sleeve-side-trigger-'+position;b.setAttribute('aria-label','收起唱片，查看专辑侧面的个人资料');b.title='查看个人介绍、简历与工作经验';b.onclick=openSpine;back.append(b);return b;
  });
  function orientSpine(x,y,z){targetX=x;targetY=y;targetZ=z;if(reduced){angleX=x;angleY=y;angleZ=z;modelScale=targetScale;model.style.transform=`scale(${modelScale}) rotateZ(${z}deg) rotateX(${x}deg) rotateY(${y}deg)`;}else wakeMotion();}
- function fitSpine(){const mobile=innerWidth<=800,w=innerWidth-(mobile?0:340),h=mobile?innerHeight*.58-56:innerHeight-72;stage.style.setProperty('--spine-size',Math.min(620,w*.72,h*.9)+'px');stage.style.setProperty('--spine-left',w*.52+'px');stage.style.setProperty('--spine-top',(mobile?56:72)+h*.60+'px');}
+ function fitSpine(){const mobile=window.PortfolioLayout.state.layout!=='desktop',w=innerWidth-(mobile?0:340),h=mobile?innerHeight*.58-56:innerHeight-72;stage.style.setProperty('--spine-size',Math.min(620,w*.72,h*.9)+'px');stage.style.setProperty('--spine-left',w*.52+'px');stage.style.setProperty('--spine-top',(mobile?56:72)+h*.60+'px');}
  window.addEventListener('resize',()=>{if(sideView)fitSpine();});
  function openSpine(){
   if(!flipped||flipping||entering||sideView)return;
@@ -141,7 +145,7 @@
  const destination=window.selectVinylCategory?.(key);window.scrollTo({top:0,behavior:'instant'});
  requestAnimationFrame(()=>{
  const done=()=>{if(destination)destination.style.visibility='';document.body.classList.remove('vinyl-returning');destination?.parentElement?.classList.remove('is-return-target');window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();overlay.hidden=true;overlay.replaceChildren();overlay.classList.remove('is-returning');overlay.style.opacity='';closing=false;(destination||returnFocus)?.focus({preventScroll:true});};
- if(reduced||matchMedia("(max-width:1100px), (pointer:coarse)").matches||!r||!destination){if(!reduced)overlay.animate([{opacity:1},{opacity:0}],{duration:220});setTimeout(done,reduced?0:220);return;}
+ if(reduced||window.PortfolioLayout.state.layout!=='desktop'||!r||!destination){if(!reduced)overlay.animate([{opacity:1},{opacity:0}],{duration:220});setTimeout(done,reduced?0:220);return;}
  const t=destination.getBoundingClientRect();
  // Move the live record outside the isolated rail stacking context.
  // A child z-index cannot put it above the fixed player overlay.
@@ -202,7 +206,7 @@
  if(!data[category]||entryTransition||closing)return;
  const start=source?.getBoundingClientRect();
  key=category;projectIndex=0;returnFocus=document.activeElement;overlay.hidden=false;catalog();
- if(start&&!reduced&&window.getTurntable3D?.()){
+ if(start&&!reduced&&window.PortfolioLayout.state.layout==='desktop'&&window.getTurntable3D?.()){
  entryTransition=true;overlay.classList.add('is-entering');
  const flight=document.createElement('div');flight.className='vinyl-transfer';flight.innerHTML=source.innerHTML;flight.setAttribute('aria-hidden','true');flight.style.cssText=`left:${start.left}px;top:${start.top}px;width:${start.width}px;height:${start.height}px;z-index:400`;document.body.append(flight);
  const sourceVisibility=source.style.visibility;source.style.visibility='hidden';
@@ -220,7 +224,7 @@
   record.style.visibility='';record.disabled=!flipped;record.tabIndex=flipped?0:-1;entering=false;coverReturn.disabled=false;
   window.scrollTo({top:0,behavior:'instant'});front.focus({preventScroll:true});return true;
  };
- overlay.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();window.portfolioGoBack();return;}if(e.key==='Tab'){const items=Array.from(overlay.querySelectorAll('button,video[controls]'));const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus({preventScroll:true});}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus({preventScroll:true});}}});
+ overlay.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();window.portfolioGoBack();return;}if(e.key==='Tab'){const items=Array.from(overlay.querySelectorAll('button,select,video[controls]'));const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus({preventScroll:true});}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus({preventScroll:true});}}});
  let loadingEntry=false;
  async function preparePlayer(){
   let notice=document.querySelector('.player-loading');
