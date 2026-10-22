@@ -750,6 +750,7 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 :where(html[data-layout="phone"]) .disc-studio .studio-meta{top:118px}
 :where(html[data-layout="phone"]) .vinyl-bar{flex-wrap:wrap}
 :where(html[data-layout="phone"]) .vinyl-bar .layout-control{display:none!important}
+:where(html[data-layout="phone"]) .honour-row p,:where(html[data-layout="phone"]) .experience-row p{grid-column:1!important}
 /* Compact mode on a large screen remains a readable column. */
 :where(html[data-display-mode="compact"]) .disc-studio,:where(html[data-display-mode="compact"]) #portfolioIntro{width:min(100%,760px);margin-inline:auto;left:0;right:0}
 :where(html[data-display-mode="compact"]) .vinyl-browser .vinyl-catalog,:where(html[data-display-mode="compact"]) .vinyl-browser .project-view{max-width:760px;margin-inline:auto}
