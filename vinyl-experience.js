@@ -4,6 +4,7 @@
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const finish=enter.onclick;intro.onclick=null;enter.onclick=null;enter.hidden=true;
  const albumNav=intro.querySelector('[data-enter-albums]');if(albumNav)albumNav.onclick=()=>finish?.();
+ if(new URLSearchParams(location.search).has('albums'))queueMicrotask(()=>{intro.dataset.directEntry='true';finish?.();});
  const oldDisc=intro.querySelector('.intro-disc-position');if(oldDisc)oldDisc.hidden=true;
  const stage=intro.querySelector('.sleeve-stage')||document.createElement('div');stage.className='sleeve-stage';
  if(!stage.querySelector('.sleeve-model'))stage.innerHTML='<div class="sleeve-model"><button class="sleeve-record" aria-label="抽出黑胶，进入作品集"><span class="vinyl-surface"><span class="vinyl-label">ZHONG XI HAN<br>PORTFOLIO<br>2026</span><span class="vinyl-enter-label">点击进入<br>专辑作品集 <b>↗</b></span></span></button><div class="sleeve-panel sleeve-back"><img class="sleeve-texture" src="sleeve-back-v2.png.webp" width="3131" height="3131" alt="作品集专辑背面" decoding="sync" fetchpriority="high" draggable="false"></div><div class="sleeve-spine"></div><div class="sleeve-edge"></div><div class="sleeve-edge bottom"></div><div class="sleeve-panel sleeve-front"><img class="sleeve-texture" src="sleeve-front-v2.png.webp" width="3131" height="3131" alt="作品集专辑正面" decoding="sync" fetchpriority="high" draggable="false"></div></div><p class="sleeve-hint">点击专辑正面 · 翻到背面选择分类</p>';
