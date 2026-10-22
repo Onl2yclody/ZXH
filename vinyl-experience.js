@@ -39,13 +39,12 @@
  intro.addEventListener('pointerleave',()=>{if(!entering&&!flipping&&!sideView){targetX=flipped?26:-3;targetY=flipped?180:-8;wakeMotion();}});
  function flip(){if(flipped||flipping||entering)return;
  if(window.PortfolioLayout.state.layout==='phone'){
-  entering=true;front.tabIndex=-1;stage.classList.add('is-phone-extracting');
+  entering=true;front.tabIndex=-1;
   cancelAnimationFrame(motionFrame);motionFrame=0;
-  // Wait for the compositor animation, not a timer that can cut it off when
-  // the main thread is busy. Keep the exit pose until the intro is hidden.
-  const animations=reduced?[]:(stage.getAnimations?.({subtree:true})||[]).filter(a=>a.effect?.getTiming().iterations!==Infinity);
-  const extracted=animations.length?Promise.allSettled(animations.map(a=>a.finished)):new Promise(resolve=>setTimeout(resolve,reduced?0:650));
-  extracted.then(()=>{finish?.();setTimeout(()=>{stage.classList.remove('is-phone-extracting');entering=false;front.tabIndex=0;},400);});
+  // Phones enter the already-built album browser directly. This removes the
+  // costly sleeve/record hand-off that could expose an occluded middle frame.
+  intro.dataset.directEntry='true';
+  finish?.();
   return;
  }
  flipping=true;flipped=true;front.tabIndex=-1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');

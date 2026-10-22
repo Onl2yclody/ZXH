@@ -16,7 +16,7 @@
  if(phase!=='loading')return;
  phase='bridging';phaseStart=performance.now();
  window.scrollTo({top:0,behavior:'instant'});
- const duration=reduced?0:350;
+ const duration=reduced||intro?.dataset.directEntry==='true'?0:350;
  if(intro&&!reduced&&intro.querySelector('.intro-disc-position')&&intro.querySelector('.intro-disc-tilt')){
  const disc=intro.querySelector('.intro-disc-position'),tilt=intro.querySelector('.intro-disc-tilt');
  const w=scene.clientWidth,h=scene.clientHeight,unit=Math.min(h*.60,w*(w<700?.60:.30));

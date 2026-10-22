@@ -727,7 +727,7 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 
 
 /* Display preference is part of the current header, not a second page/renderer. */
-.layout-control{display:inline-flex;align-items:center;gap:5px;font:12px/1.4 Arial,sans-serif;color:#555;white-space:nowrap;font-weight:400}
+.layout-control{display:none!important;align-items:center;gap:5px;font:12px/1.4 Arial,sans-serif;color:#555;white-space:nowrap;font-weight:400}
 .layout-control select{font:inherit;color:#222;background:#fff;border:1px solid #aaa;border-radius:0;padding:6px 4px;min-height:32px;max-width:110px;cursor:pointer}
 .layout-control select:focus-visible{outline:2px solid #222;outline-offset:2px}
 .vinyl-bar .layout-control{margin-left:auto}
@@ -736,13 +736,15 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 :where(html[data-layout="tablet"]) .intro-top,:where(html[data-layout="tablet"]) .disc-studio .studio-header{flex-wrap:wrap!important;gap:12px}
 :where(html[data-layout="tablet"]) .intro-navigation,:where(html[data-layout="tablet"]) .studio-navigation{width:100%!important;justify-content:space-between;gap:10px!important}
 :where(html[data-layout="tablet"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="tablet"]) #portfolioIntro .intro-corner-tr{top:132px}
-:where(html[data-layout="phone"]) .intro-navigation,:where(html[data-layout="phone"]) .studio-navigation{flex-wrap:wrap;gap:8px 12px!important;justify-content:space-between}
-:where(html[data-layout="phone"]) .layout-control{margin-left:auto;font-size:11px}
-:where(html[data-layout="phone"]) .intro-navigation .layout-control,:where(html[data-layout="phone"]) .studio-navigation .layout-control{flex-basis:100%;justify-content:flex-end}
-:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tr{top:170px}
-:where(html[data-layout="phone"]) .disc-studio .studio-meta{top:166px}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-top,:where(html[data-layout="phone"]) .disc-studio .studio-header{gap:8px;padding-top:14px;padding-bottom:10px}
+:where(html[data-layout="phone"]) .intro-navigation,:where(html[data-layout="phone"]) .studio-navigation{flex-wrap:nowrap!important;gap:6px!important;justify-content:space-between}
+:where(html[data-layout="phone"]) .intro-navigation a,:where(html[data-layout="phone"]) .intro-navigation button,:where(html[data-layout="phone"]) .studio-navigation a,:where(html[data-layout="phone"]) .studio-navigation summary{font-size:10px!important;white-space:nowrap}
+/* Automatic phone layout remains active; its manual selector is hidden to keep the small header clear. */
+:where(html[data-layout="phone"]) .layout-control{display:none!important}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tr{top:122px}
+:where(html[data-layout="phone"]) .disc-studio .studio-meta{top:118px}
 :where(html[data-layout="phone"]) .vinyl-bar{flex-wrap:wrap}
-:where(html[data-layout="phone"]) .vinyl-bar .layout-control{order:3;flex-basis:100%;justify-content:flex-end}
+:where(html[data-layout="phone"]) .vinyl-bar .layout-control{display:none!important}
 /* Compact mode on a large screen remains a readable column. */
 :where(html[data-display-mode="compact"]) .disc-studio,:where(html[data-display-mode="compact"]) #portfolioIntro{width:min(100%,760px);margin-inline:auto;left:0;right:0}
 :where(html[data-display-mode="compact"]) .vinyl-browser .vinyl-catalog,:where(html[data-display-mode="compact"]) .vinyl-browser .project-view{max-width:760px;margin-inline:auto}
@@ -763,14 +765,5 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 :where(html[data-short-landscape="true"][data-layout="phone"]) #portfolioIntro{min-height:520px;overflow-y:auto}
 /* Phone art direction: independent of tablet and desktop geometry. */
 html[data-layout="phone"] .studio-side-arrow{background:transparent!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
-html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-panel,
-html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-spine,
-html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-edge{animation:phone-sleeve-out .65s cubic-bezier(.2,.7,.2,1) both;will-change:translate}
-html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-record{will-change:transform}
-html[data-layout="phone"] #portfolioIntro:has(.is-phone-extracting) .intro-corner-tl,
-html[data-layout="phone"] #portfolioIntro:has(.is-phone-extracting) .intro-corner-tr,
-html[data-layout="phone"] .is-phone-extracting .sleeve-hint{opacity:0;transition:opacity .12s}
 html[data-layout="phone"] .vinyl-browser .vinyl-feature{width:calc(100% + 32px)!important;margin-inline:-16px;height:88vw!important;min-height:280px!important;max-height:520px;overflow:hidden;isolation:isolate}
 html[data-layout="phone"] .vinyl-browser .turntable-model.has-webgl{width:100%;height:100%;max-height:none;left:50%;top:50%;aspect-ratio:auto}
-@keyframes phone-sleeve-out{from{translate:0 0}to{translate:0 100vh}}
-@media(prefers-reduced-motion:reduce){html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-panel,html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-spine,html[data-layout="phone"] .sleeve-stage.is-phone-extracting .sleeve-edge{animation:none}}
