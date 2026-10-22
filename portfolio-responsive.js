@@ -13,7 +13,7 @@
  }
  if(stage)new MutationObserver(sync).observe(stage,{attributes:true,attributeFilter:['class']});
  window.addEventListener('resize',sync);window.addEventListener('portfolio:layoutchange',sync);sync();
- const nav=document.querySelector('.profile-navigation');if(nav&&!nav.querySelector('.profile-return')){const a=document.createElement('a');a.className='profile-return';a.href='index.html?albums=1';a.textContent='← 返回专辑项目';nav.append(a);}
+ const nav=document.querySelector('.profile-navigation');if(nav&&!nav.querySelector('.profile-return')){const a=document.createElement('a');a.className='profile-return';a.href='index.html?albums=1#graphic/0';a.textContent='← 返回专辑项目';nav.append(a);}
  const summary=document.querySelector('#resume .contact-grid>div');if(summary&&!summary.querySelector('.resume-link')){const a=document.createElement('a');a.className='resume-link';a.href='resume.html';a.textContent='查看完整简历 →';summary.append(a);}
  if(new URLSearchParams(location.search).has('albums'))document.querySelector('[data-enter-albums]')?.click();
 })();
