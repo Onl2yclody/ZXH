@@ -731,7 +731,7 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 .layout-control select{font:inherit;color:#222;background:#fff;border:1px solid #aaa;border-radius:0;padding:6px 4px;min-height:32px;max-width:110px;cursor:pointer}
 .layout-control select:focus-visible{outline:2px solid #222;outline-offset:2px}
 .vinyl-bar .layout-control{margin-left:auto}
-:where(html[data-layout="desktop"]) #portfolioIntro .intro-top,:where(html[data-layout="desktop"]) .disc-studio .studio-header{grid-template-columns:minmax(160px,1fr) auto minmax(60px,.45fr);gap:16px}
+:where(html[data-layout="desktop"]) #portfolioIntro .intro-top,:where(html[data-layout="desktop"]) .disc-studio .studio-header{grid-template-columns:minmax(160px,1fr) auto minmax(160px,1fr);gap:16px}
 :where(html[data-layout="desktop"]) .intro-navigation,:where(html[data-layout="desktop"]) .studio-navigation{gap:clamp(10px,1.4vw,28px)}
 :where(html[data-layout="tablet"]) .intro-top,:where(html[data-layout="tablet"]) .disc-studio .studio-header{flex-wrap:wrap!important;gap:12px}
 :where(html[data-layout="tablet"]) .intro-navigation,:where(html[data-layout="tablet"]) .studio-navigation{width:100%!important;justify-content:space-between;gap:10px!important}
@@ -739,6 +739,11 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 :where(html[data-layout="phone"]) #portfolioIntro .intro-top,:where(html[data-layout="phone"]) .disc-studio .studio-header{gap:8px;padding-top:14px;padding-bottom:10px}
 :where(html[data-layout="phone"]) .intro-navigation,:where(html[data-layout="phone"]) .studio-navigation{flex-wrap:nowrap!important;gap:6px!important;justify-content:space-between}
 :where(html[data-layout="phone"]) .intro-navigation a,:where(html[data-layout="phone"]) .intro-navigation button,:where(html[data-layout="phone"]) .studio-navigation a,:where(html[data-layout="phone"]) .studio-navigation summary{font-size:10px!important;white-space:nowrap}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-top,:where(html[data-layout="phone"]) .disc-studio .studio-header{display:grid!important;grid-template-columns:1fr!important;justify-items:center}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-wordmark,:where(html[data-layout="phone"]) .disc-studio .studio-home{justify-self:center;text-align:center}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-navigation{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;align-items:center}
+:where(html[data-layout="phone"]) .disc-studio .studio-navigation{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;align-items:center}
+:where(html[data-layout="phone"]) .intro-navigation a,:where(html[data-layout="phone"]) .intro-navigation button,:where(html[data-layout="phone"]) .studio-navigation a,:where(html[data-layout="phone"]) .studio-navigation details{text-align:center;min-width:0}
 /* Automatic phone layout remains active; its manual selector is hidden to keep the small header clear. */
 :where(html[data-layout="phone"]) .layout-control{display:none!important}
 :where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tr{top:122px}
