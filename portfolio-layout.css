@@ -746,8 +746,9 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 :where(html[data-layout="phone"]) .intro-navigation a,:where(html[data-layout="phone"]) .intro-navigation button,:where(html[data-layout="phone"]) .studio-navigation a,:where(html[data-layout="phone"]) .studio-navigation details{text-align:center;min-width:0}
 /* Automatic phone layout remains active; its manual selector is hidden to keep the small header clear. */
 :where(html[data-layout="phone"]) .layout-control{display:none!important}
-:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tr{top:122px}
-:where(html[data-layout="phone"]) .disc-studio .studio-meta{top:118px}
+html[data-layout="phone"] #portfolioIntro .intro-navigation a,html[data-layout="phone"] #portfolioIntro .intro-navigation button{display:flex!important;align-items:center;justify-content:center;box-sizing:border-box;height:32px;min-height:32px;margin:0!important;padding:0!important;font-family:Arial,sans-serif;line-height:1.2!important;align-self:center;transform:none!important}
+:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tl,:where(html[data-layout="phone"]) #portfolioIntro .intro-corner-tr{top:112px}
+:where(html[data-layout="phone"]) .disc-studio .studio-meta{top:104px}
 :where(html[data-layout="phone"]) .vinyl-bar{flex-wrap:wrap}
 :where(html[data-layout="phone"]) .vinyl-bar .layout-control{display:none!important}
 :where(html[data-layout="phone"]) .honour-row p,:where(html[data-layout="phone"]) .experience-row p{grid-column:1!important}
