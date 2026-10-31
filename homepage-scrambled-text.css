@@ -1,0 +1,6 @@
+/* Original glyphs reserve their exact widths, so scrambling never shifts the layout. */
+.scramble-char{display:inline-block;position:relative;vertical-align:baseline;white-space:pre}
+.scramble-sizer{opacity:0;pointer-events:none}
+.scramble-glyph{position:absolute;inset:0;text-align:center;white-space:pre;color:inherit;pointer-events:none}
+.scramble-char.is-scrambling .scramble-glyph{color:var(--portfolio-accent,#b497cf)}
+@media(prefers-reduced-motion:reduce){.scramble-char.is-scrambling .scramble-glyph{color:inherit}}

@@ -953,5 +953,5 @@ const PixelBlast = ({
   return dispose;
 };
 
-try{const dispose=PixelBlast({variant:'square',pixelSize:3,color:'#92879f',accentColor:'#8b5cc7',patternScale:5,patternDensity:.85,softness:.7,glow:.15,twinkle:.15,drift:.12,speed:.3,hoverEffect:'reveal',hoverRadius:150,enableRipples:true,rippleIntensityScale:.65,edgeFade:.3,lightMode:true,dpr:Math.min(devicePixelRatio,innerWidth<761?1:1.25)});window.addEventListener('pagehide',()=>dispose?.(),{once:true});}catch(error){background.remove();console.warn('Pixel background unavailable',error);}
+try{const dispose=PixelBlast({variant:'square',pixelSize:3,color:'#b497cf',accentColor:'#b497cf',patternScale:5,patternDensity:.85,softness:.7,glow:.15,twinkle:.15,drift:.12,speed:.3,hoverEffect:'reveal',hoverRadius:150,enableRipples:true,rippleIntensityScale:.65,edgeFade:.3,lightMode:true,dpr:Math.min(devicePixelRatio,innerWidth<761?1:1.25)});window.addEventListener('pagehide',()=>dispose?.(),{once:true});}catch(error){background.remove();console.warn('Pixel background unavailable',error);}
 })();
