@@ -165,14 +165,27 @@
  const button=(text,fn)=>{const b=document.createElement('button');b.textContent=text;b.onclick=fn;return b;};
 
  let closing=false,entryTransition=false,previewActive=false,returnArtwork='';
- function close(){
+ async function close(){
  if(closing||entryTransition||overlay.hidden)return;closing=true;
- window.selectVinylCategory?.(key);
+ const destination=window.selectVinylCategory?.(key),scene=document.querySelector('.disc-studio');
  window.scrollTo({top:0,behavior:'instant'});
  overlay.querySelectorAll('video').forEach(video=>video.pause());
- window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();
- overlay.hidden=true;overlay.replaceChildren();overlay.classList.remove('is-returning');
- closing=false;returnFocus?.focus({preventScroll:true});
+ window.getTurntable3D?.()?.setPlaying?.(false);
+ let outgoing,incoming;overlay.inert=true;
+ try{
+  if(!reduced&&scene){
+   const timing={duration:650,easing:'cubic-bezier(.22,.68,.25,1)',fill:'both'};
+   outgoing=overlay.animate([{transform:'translateY(0)'},{transform:'translateY(100svh)'}],timing);
+   incoming=scene.animate([{transform:'translateY(-100svh)'},{transform:'translateY(0)'}],timing);
+   await Promise.all([outgoing.finished,incoming.finished]);
+  }
+ }catch(error){/* A cancelled transition must still leave a usable archive. */}
+ finally{
+  window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();
+  overlay.hidden=true;overlay.replaceChildren();overlay.classList.remove('is-returning');
+  outgoing?.cancel();incoming?.cancel();overlay.inert=false;closing=false;
+  (destination||returnFocus)?.focus({preventScroll:true});
+ }
  }
  function bar(back){const el=document.createElement('header');el.className='vinyl-bar';const previous=button('',back?catalog:close);previous.innerHTML='<span class="bar-desktop-label">‹ '+(back?'项目目录':'全部专辑')+'</span><span class="bar-phone-label">'+(back?'返回项目目录':'返回全部专辑')+'</span>';el.append(previous);const title=document.createElement('span');title.textContent=data[key].number;const home=button('',close);home.innerHTML='<span class="bar-desktop-label">返回首页 ↗</span><span class="bar-phone-label">返回首页</span>';el.append(title,home);overlay.append(el);}
  function catalog(){window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();previewActive=false;overlay.replaceChildren();overlay.scrollTop=0;bar(false);const grid=document.createElement('div');grid.className='vinyl-catalog';grid.innerHTML='<div class="vinyl-feature"><div class="turntable-model"><div class="vinyl-large"><div class="vinyl-surface"><span class="vinyl-label"><img alt="项目封面"></span></div></div></div></div><div class="vinyl-directory"><small>SELECT A PROJECT / 项目目录</small><h1>'+escape(data[key].title)+'</h1><div class="vinyl-tracks"></div></div>';overlay.append(grid);const player=document.createElement('div');player.className='turntable-hardware';player.setAttribute('aria-hidden','true');player.innerHTML='<div class="turntable-plinth"></div><div class="turntable-arm"></div><span class="turntable-speed">33⅓</span>';const deck=grid.querySelector('.vinyl-feature');grid.querySelector('.turntable-model').append(player);deck.onpointermove=e=>{if(reduced)return;const box=deck.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-box.left)/box.width));deck.style.setProperty('--metal-light',(58+x*12)+'%');};deck.onpointerleave=()=>deck.style.setProperty('--metal-light','64%');const image=grid.querySelector('img');image.src=cover(data[key].series[projectIndex]||data[key].series[0]);returnArtwork=image.src;data[key].series.forEach((p,i)=>{const b=button(String(i+1).padStart(2,'0')+'  '+p.title+'  ↗',()=>preview(i));b.innerHTML='<span class="track-number">'+String(i+1).padStart(2,'0')+'</span><span class="track-name">'+escape(p.title)+'</span><span class="track-arrow" aria-hidden="true">↗</span>';b.onpointerenter=b.onfocus=()=>{projectIndex=i;image.src=cover(p);returnArtwork=image.src;image.alt=p.title;};grid.querySelector('.vinyl-tracks').append(b);});const modelHost=grid.querySelector('.turntable-model');let mounted;try{mounted=window.mountTurntable3D?.(modelHost,image);}catch(error){console.warn('3D unavailable',error);}if(!mounted)window.mountStaticSuitcase(modelHost,image);mounted?.setLidProgress?.(1);mounted?.setRecordLift?.(0);mounted?.setCompositionProgress?.(1);mounted?.setArmProgress?.(1);mounted?.setDiscVisible?.(true);mounted?.setPlaying?.(true);overlay.querySelector('button').focus({preventScroll:true});}
