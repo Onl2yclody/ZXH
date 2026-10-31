@@ -21,6 +21,7 @@
  // renderer or build the model here; the selected project's host owns that.
  let scheduled=false;
  function warmOnIntent(event){
+  if(window.PortfolioLayout?.state?.layout==='phone')return;
   if(scheduled||pending||window.mountTurntable3D||document.hidden||window.navigator?.connection?.saveData)return;
   if(!event.target.closest?.('.studio-disc button,.sleeve-hotspot,.sleeve-record,[data-overview-category]'))return;
   scheduled=true;
