@@ -306,3 +306,5 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
 .sleeve-record .vinyl-label img{display:block;object-fit:cover;transform:translateZ(.1px)}
 
 @media (min-width:1101px){.vinyl-browser .vinyl-catalog .turntable-model,.vinyl-browser .vinyl-catalog .turntable-model.has-webgl{left:44%}}
+/* Keyboard access remains visible without repainting or moving the cat artwork. */
+#portfolioIntro .sleeve-hotspot:focus-visible{outline:2px solid #b497cf;outline-offset:3px}

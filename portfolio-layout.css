@@ -801,3 +801,4 @@ html[data-layout="phone"] .vinyl-browser .turntable-model.has-webgl{width:100%;h
 
 /* Keep the author credit unobstructed. */
 .vinyl-browser .vinyl-catalog::after{display:none}
+#portfolioIntro .sleeve-hotspot:focus-visible{outline:2px solid #b497cf;outline-offset:3px}

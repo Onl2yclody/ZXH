@@ -13,7 +13,7 @@
   function retract(now){if(start===undefined)start=now;const t=Math.min(1,(now-start)/180);state.layer.style.setProperty('--hold-progress',String(from*Math.pow(1-t,3)));state.layer.style.opacity=String(1-t);if(t<1)requestAnimationFrame(retract);else state.layer.remove();}
   requestAnimationFrame(retract);
  }
- function begin(target,pointerId,x,y,key){finish();const layer=document.createElement('span');layer.className='hold-feedback';layer.setAttribute('aria-hidden','true');
+ function begin(target,pointerId,x,y,key){finish();if(target.matches('.sleeve-hotspot'))return;const layer=document.createElement('span');layer.className='hold-feedback';layer.setAttribute('aria-hidden','true');
   const art=target.matches('.sleeve-front,.sleeve-record,.sleeve-hotspot,.studio-disc button,.overview-card')||!!target.querySelector('img');
   if(art)layer.className='hold-art-feedback';
   const style=getComputedStyle(target);layer.style.borderRadius=target.matches('.studio-disc button,.sleeve-record')?'50%':style.borderRadius||'5px';

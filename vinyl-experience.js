@@ -53,30 +53,17 @@
  setTimeout(()=>{flipping=false;stage.classList.add('is-back');coverReturn.hidden=false;record.disabled=false;record.tabIndex=0;hotspots.forEach(b=>b.tabIndex=0);hotspots[0].focus({preventScroll:true});hint.firstChild && (hint.firstChild.textContent='移向小猫切换黑胶 · 点击小猫进入项目目录');},reduced?0:850);}
  front.onclick=flip;front.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
  const layouts=[['graphic',1,3,36,30,23],['identity',2,25,21,29,23],['keyvisual',3,58,15,29,25],['packaging',4,39,44,26,20],['extended',5,43,66,26,23],['uiux',6,67,57,25,21],['illustration',7,13,59,25,23]];
- // Tight logo-only bounds in the cropped sleeve coordinate system.
+ // Hit regions follow each printed cat. The sleeve bitmap is the only
+ // artwork layer: duplicated textures and moving eye patches caused ghosts.
  const logoBounds={graphic:[7.7,41.8,26.5,15.9],identity:[25.2,24.6,25.1,19.3],keyvisual:[58.5,16.3,25.7,19.2],packaging:[40,48.2,23,15.8],extended:[44.2,72.7,23.1,16],uiux:[67.8,61.4,22.4,15.3],illustration:[13.5,64,23.6,16.5]};
- // Vector silhouettes exclude nearby route strokes even when those strokes
- // are as dark as the logo. Coordinates are local to each logo crop.
- const logoSilhouettes={
- graphic:'M1 58 L6 34 L6 14 L12 9 L28 17 L69 7 L78 0 L85 2 L90 22 L98 38 L99 66 L90 83 L75 93 L22 98 L9 87 L2 75 Z',
- identity:'M1 50 Q0 40 5 29 L12 9 Q16 0 23 1 L33 10 L52 9 L72 15 Q82 5 90 14 Q94 19 94 32 L100 51 L93 82 Q91 91 76 98 L24 88 Q13 85 4 74 Z',
- extended:'M1 48 L7 30 L10 3 L16 0 L27 12 L54 9 L73 15 L85 4 L91 6 L94 30 L100 48 L95 84 L83 98 L39 97 L15 88 L3 73 Z',
- keyvisual:'M1 57 L7 36 L12 11 Q14 0 21 0 L36 12 L52 12 L72 17 L87 11 Q92 10 93 17 L94 37 L100 52 L94 77 L88 90 L72 99 L22 85 L7 72 Z',
- packaging:'M1 56 L8 31 L10 5 L15 0 L29 9 L65 8 L80 2 L90 18 L95 39 L100 55 L94 83 L84 94 L65 99 L25 94 L8 79 Z',
- uiux:'M1 55 L7 35 L9 9 L16 0 L27 13 L46 10 L66 14 L86 4 L91 10 L92 32 L99 48 L95 70 L83 90 L62 99 L34 94 L13 82 L3 69 Z',
- illustration:'M2 57 L6 47 L2 39 L11 32 L9 16 L13 3 L20 0 L29 14 L40 10 L46 16 L54 9 L60 15 L69 11 L77 15 L84 6 L90 7 L91 23 L87 30 L95 36 L92 44 L100 49 L93 56 L96 66 L91 72 L91 84 L82 84 L78 96 L67 92 L60 99 L51 94 L44 98 L37 92 L29 95 L22 86 L13 86 L12 77 L4 71 L7 63 Z'
- };
- const filterDefs=document.createElement('div');filterDefs.setAttribute('aria-hidden','true');
- filterDefs.innerHTML='<svg width="0" height="0" style="position:absolute;pointer-events:none"><defs><filter id="sleeve-logo-cutout" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -5 -5 -5 12 0"/></filter></defs></svg>';
- intro.append(filterDefs);
- const hotspots=layouts.map(([category,n,x,y,w,h])=>{const b=document.createElement('button');b.className='sleeve-hotspot';b.dataset.album=category;b.tabIndex=-1;b.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;b.setAttribute('aria-label',String(n).padStart(2,'0')+' '+window.albumProjects[category].title);const bounds=logoBounds[category];if(bounds){const [lx,ly,lw,lh]=bounds;const lift=document.createElement('span');lift.className='sleeve-logo-lift';lift.setAttribute('aria-hidden','true');const mask='url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="white" d="'+logoSilhouettes[category]+'"/></svg>')+'")';lift.style.cssText=`left:${(lx-x)/w*100}%;top:${(ly-y)/h*100}%;width:${lw/w*100}%;height:${lh/h*100}%`;lift.style.maskImage=mask;lift.style.webkitMaskImage=mask;lift.style.backgroundSize=`${13750/lw}% ${14000/lh}%`;lift.style.backgroundPosition=`${(lx+18.75)/(137.5-lw)*100}% ${(ly+20.8)/(140-lh)*100}%`;if(category==='packaging'||category==='uiux'){const cover=document.createElement('span');cover.className='sleeve-logo-base-cover';cover.setAttribute('aria-hidden','true');cover.style.cssText=lift.style.cssText;cover.style.backgroundImage='none';cover.style.maskImage=mask;cover.style.webkitMaskImage=mask;b.append(cover);}b.append(lift);}b.title=window.albumProjects[category].title;b.onpointerenter=b.onfocus=()=>{if(flipped&&!flipping&&!entering)select(category);};b.onclick=()=>{if(flipped&&!flipping)launch(category);};back.append(b);return b;});
- // Keep the bright facial details outside the dark-pixel cutout filter.
- const identityEyes='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><defs><filter id="soft-eye" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="1.7"/></filter></defs><g fill="white" filter="url(#soft-eye)"><rect x="24" y="40" width="12" height="14" rx="3"/><rect x="65" y="48" width="12" height="14" rx="3"/><rect x="46" y="61" width="6" height="5" rx="2"/></g></svg>';
- function addIdentityEyes(parent,box){const eyes=document.createElement('span');eyes.className='sleeve-identity-eyes';eyes.setAttribute('aria-hidden','true');eyes.style.cssText=`left:${box[0]}%;top:${box[1]}%;width:${box[2]}%;height:${box[3]}%`;eyes.innerHTML=identityEyes;parent.append(eyes);}
- const identityButton=hotspots.find(b=>b.dataset.album==='identity');
- const [ex,ey,ew,eh]=logoBounds.identity;
- addIdentityEyes(identityButton,[(ex-25)/29*100,(ey-21)/23*100,ew/29*100,eh/23*100]);
- addIdentityEyes(front,[ex,ey+3.2,ew,eh]);
+ const hotspots=layouts.map(([category,n])=>{
+  const b=document.createElement('button'),[x,y,w,h]=logoBounds[category];
+  b.className='sleeve-hotspot';b.dataset.album=category;b.tabIndex=-1;
+  b.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+  b.setAttribute('aria-label',String(n).padStart(2,'0')+' '+window.albumProjects[category].title);b.title=window.albumProjects[category].title;
+  b.onpointerenter=b.onfocus=()=>{if(flipped&&!flipping&&!entering)select(category);};
+  b.onclick=()=>{if(flipped&&!flipping)launch(category);};back.append(b);return b;
+ });
  // Keep a decoded label on screen while the next category loads. Do not
  // rebuild the record on hover: this also preserves the 3D image layer.
  const labelCache=new Map();let labelRequest=0;
