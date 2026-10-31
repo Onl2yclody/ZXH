@@ -8,7 +8,7 @@ body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink
 .vinyl-browser .project-copy dd:first-of-type{color:var(--portfolio-ink)}
 #portfolioIntro .intro-corner small,.vinyl-browser .project-copy>small,.vinyl-browser .project-copy dt,.archive-facts span,.archive-current>span,.archive-track-heading,.archive-instruction,.catalog-edge-note small{font-family:var(--portfolio-meta);color:var(--portfolio-muted);letter-spacing:.07em}
 #portfolioIntro .intro-corner-tl{border-left-color:var(--portfolio-accent)}
-#portfolioIntro .intro-corner-tl small:before,.archive-titles>small:before,.vinyl-browser .project-copy>small:before{content:'';display:inline-block;width:7px;height:7px;border:2px solid var(--portfolio-ink);box-shadow:0 0 0 3px var(--portfolio-accent);border-radius:50%;margin:0 10px 1px 3px;vertical-align:middle}
+#portfolioIntro .intro-corner-tl small:before,.archive-titles>small:before,.vinyl-browser .project-copy>small:before{content:none;display:inline-block;width:7px;height:7px;border:2px solid var(--portfolio-ink);box-shadow:0 0 0 3px var(--portfolio-accent);border-radius:50%;margin:0 10px 1px 3px;vertical-align:middle}
 #portfolioIntro .intro-corner-tr b{font-family:var(--portfolio-headline);font-weight:400;letter-spacing:0;-webkit-text-stroke:1px rgb(23 25 27 / .36)}
 #portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{border-top-color:var(--portfolio-rule)}
 #portfolioIntro .intro-corner-bl p{font-weight:500;color:var(--portfolio-secondary)}
@@ -22,3 +22,6 @@ body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink
 .sleeve-holo-foil{opacity:calc(var(--holo-power) * .8)}
 @media(max-width:760px){#portfolioIntro .intro-wordmark,.disc-studio .studio-home{font-size:25px}#portfolioIntro .intro-top,.disc-studio .studio-header{backdrop-filter:none}}
 
+
+/* Desktop returns through Esc/right-click, without a floating return button. */
+html[data-layout="desktop"] #portfolioIntro .sleeve-cover-return:not([hidden]){display:none!important}
