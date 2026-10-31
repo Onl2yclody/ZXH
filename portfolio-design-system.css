@@ -43,3 +43,6 @@ html[data-layout="desktop"] .disc-studio .studio-header{grid-template-columns:mi
 .project-overview .overview-filters.rubber-navigation{width:fit-content;max-width:100%;gap:6px!important;padding:4px;margin-bottom:24px;align-items:center}
 .project-overview .overview-filters.rubber-navigation button{border:1px solid var(--portfolio-rule);border-radius:7px;background:transparent;color:#17191b;position:relative;z-index:1}
 .project-overview .overview-filters.rubber-navigation button[aria-pressed="true"]{background:transparent;color:#17191b;border-color:transparent}
+/* Transparent navigation and a quieter left-aligned print accent. */
+#portfolioIntro .intro-top,.disc-studio .studio-header{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
+html[data-layout="desktop"] #portfolioIntro.is-browsing-sleeve::after{left:14%}
