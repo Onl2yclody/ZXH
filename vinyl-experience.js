@@ -36,8 +36,8 @@
  const limit=(v,a,b)=>Math.max(a,Math.min(b,v));
  function motion(now){motionFrame=0;if(entering)return;const dt=Math.min(40,now-(lastMotion||now-16));lastMotion=now;const blend=1-Math.exp(-dt/230);angleX+=(targetX-angleX)*blend;angleY+=(targetY-angleY)*blend;angleZ+=(targetZ-angleZ)*blend;modelScale+=(targetScale-modelScale)*blend;model.style.transform=`scale(${modelScale}) rotateZ(${angleZ}deg) rotateX(${angleX}deg) rotateY(${angleY}deg)`;if(Math.abs(targetX-angleX)+Math.abs(targetY-angleY)+Math.abs(targetZ-angleZ)+Math.abs(targetScale-modelScale)>.025)motionFrame=requestAnimationFrame(motion);}
  function wakeMotion(){if(!motionFrame){lastMotion=0;motionFrame=requestAnimationFrame(motion);}}
- intro.addEventListener('pointermove',e=>{if(entering||flipping||sideView||reduced||!window.PortfolioLayout.state.hover)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;targetX=(flipped?26:-3)-limit(y*4,-2,2);targetY=(flipped?180:-8)+limit(x*(flipped?4:16),flipped?-2:-8,flipped?2:8);wakeMotion();});
- intro.addEventListener('pointerleave',()=>{if(!entering&&!flipping&&!sideView){targetX=flipped?26:-3;targetY=flipped?180:-8;wakeMotion();}});
+ intro.addEventListener('pointermove',e=>{if(entering||flipping||sideView||reduced||!window.PortfolioLayout.state.hover)return;if(!flipped){const r=front.getBoundingClientRect(),over=e.target.closest?.('.sleeve-front');const x=limit((e.clientX-r.left)/r.width-.5,-.5,.5),y=limit((e.clientY-r.top)/r.height-.5,-.5,.5);targetX=over?-3-y*22:-3;targetY=over?-8+x*28:-8;targetScale=over?1.025:1;}else{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;targetX=26-limit(y*4,-2,2);targetY=180+limit(x*4,-2,2);targetScale=1;}wakeMotion();});
+ intro.addEventListener('pointerleave',()=>{if(!entering&&!flipping&&!sideView){targetX=flipped?26:-3;targetY=flipped?180:-8;targetScale=1;wakeMotion();}});
  function flip(){if(flipped||flipping||entering)return;
  if(window.PortfolioLayout.state.layout==='phone'){
   entering=true;front.tabIndex=-1;
@@ -48,7 +48,7 @@
   finish?.();
   return;
  }
- flipping=true;flipped=true;front.tabIndex=-1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');
+ flipping=true;flipped=true;front.tabIndex=-1;targetScale=1;targetX=26;targetY=180;targetZ=17;stage.classList.add('is-composed');
  if(reduced){angleX=targetX;angleY=targetY;angleZ=targetZ;model.style.transform='rotateZ(17deg) rotateX(26deg) rotateY(180deg)';}else wakeMotion();
  setTimeout(()=>{flipping=false;stage.classList.add('is-back');coverReturn.hidden=false;record.disabled=false;record.tabIndex=0;hotspots.forEach(b=>b.tabIndex=0);hotspots[0].focus({preventScroll:true});hint.firstChild && (hint.firstChild.textContent='移向小猫切换黑胶 · 点击小猫进入项目目录');},reduced?0:850);}
  front.onclick=flip;front.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});

@@ -1,0 +1,4 @@
+#portfolioIntro>.homepage-pixelblast{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.24;contain:strict;mask-image:linear-gradient(transparent 7%,#000 24%,#000 82%,transparent 100%)}
+.homepage-pixelblast canvas{display:block;position:absolute;inset:0;width:100%;height:100%}
+@media(max-width:760px){#portfolioIntro>.homepage-pixelblast{opacity:.17}}
+@media(prefers-reduced-motion:reduce){#portfolioIntro>.homepage-pixelblast{opacity:.14}}

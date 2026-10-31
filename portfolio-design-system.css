@@ -1,0 +1,24 @@
+:root{--portfolio-headline:Impact,Haettenschweiler,'Arial Narrow','Microsoft YaHei',sans-serif;--portfolio-body:'Segoe UI','Microsoft YaHei',Arial,sans-serif;--portfolio-meta:Consolas,'SFMono-Regular',monospace;--portfolio-ink:#17191b;--portfolio-secondary:rgb(23 25 27 / .7);--portfolio-muted:rgb(23 25 27 / .60);--portfolio-accent:#c4ff42;--portfolio-rule:rgb(23 25 27 / .17)}
+body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink)}
+#portfolioIntro .intro-wordmark,.disc-studio .studio-home,.profile-logo{font-family:var(--portfolio-headline);font-weight:400;letter-spacing:.015em;text-decoration:none;line-height:1}
+#portfolioIntro .intro-wordmark,.disc-studio .studio-home{font-size:clamp(26px,2.3vw,42px)}
+.vinyl-browser .project-copy h1,.disc-studio .studio-meta h1,.vinyl-directory .archive-titles h1,.project-inline-details h2,.overview-heading h1,.profile-heading h2{font-family:var(--portfolio-headline);font-weight:800;letter-spacing:-.025em;line-height:1.16}
+.vinyl-directory .archive-issue{font-family:var(--portfolio-headline);font-weight:400;letter-spacing:-.025em}
+.vinyl-browser .project-copy dd,.project-inline-details p,.profile-copy p{font-family:var(--portfolio-body);color:var(--portfolio-secondary)}
+.vinyl-browser .project-copy dd:first-of-type{color:var(--portfolio-ink)}
+#portfolioIntro .intro-corner small,.vinyl-browser .project-copy>small,.vinyl-browser .project-copy dt,.archive-facts span,.archive-current>span,.archive-track-heading,.archive-instruction,.catalog-edge-note small{font-family:var(--portfolio-meta);color:var(--portfolio-muted);letter-spacing:.07em}
+#portfolioIntro .intro-corner-tl{border-left-color:var(--portfolio-accent)}
+#portfolioIntro .intro-corner-tl small:before,.archive-titles>small:before,.vinyl-browser .project-copy>small:before{content:'';display:inline-block;width:7px;height:7px;border:2px solid var(--portfolio-ink);box-shadow:0 0 0 3px var(--portfolio-accent);border-radius:50%;margin:0 10px 1px 3px;vertical-align:middle}
+#portfolioIntro .intro-corner-tr b{font-family:var(--portfolio-headline);font-weight:400;letter-spacing:0;-webkit-text-stroke:1px rgb(23 25 27 / .36)}
+#portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{border-top-color:var(--portfolio-rule)}
+#portfolioIntro .intro-corner-bl p{font-weight:500;color:var(--portfolio-secondary)}
+#portfolioIntro .intro-corner-br a,#portfolioIntro .sleeve-hint{color:var(--portfolio-secondary)}
+#portfolioIntro .intro-top,.disc-studio .studio-header{border-bottom-color:var(--portfolio-rule);background:rgb(255 255 255 / .82);backdrop-filter:blur(10px)}
+#portfolioIntro .intro-top{isolation:isolate}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current=true]{background:var(--portfolio-ink);color:#fff;border-left:4px solid var(--portfolio-accent)}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current=true] .track-number,.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current=true] .track-arrow{color:var(--portfolio-accent)}
+.vinyl-browser .project-copy>small{border-top-width:3px;border-top-color:var(--portfolio-ink)}
+.vinyl-browser .project-copy dt{border-top-color:var(--portfolio-rule)}
+.sleeve-holo-foil{opacity:calc(var(--holo-power) * .8)}
+@media(max-width:760px){#portfolioIntro .intro-wordmark,.disc-studio .studio-home{font-size:25px}#portfolioIntro .intro-top,.disc-studio .studio-header{backdrop-filter:none}}
+
