@@ -34,7 +34,7 @@
   el.onpointerdown=e=>{if(e.button===0)trigger(registry.get(el),{x:e.clientX,y:e.clientY},true);};
   if(!reduced.matches)setTimeout(reveal,380);
  }
- function scan(){document.querySelectorAll(selector).forEach(attach);reveal();}
+ function scan(){for(const [el] of registry)if(!el.isConnected)registry.delete(el);document.querySelectorAll(selector).forEach(attach);reveal();}
  scan();new MutationObserver(records=>{if(records.some(r=>r.target instanceof Element&&r.target.matches('.intro-corner,.intro-corner-tl strong,.intro-corner-bl p,.studio-meta,.studio-meta h1,.studio-meta dd')))scan();}).observe(document.body,{childList:true,subtree:true});
  new MutationObserver(()=>{if(!visible())restore();else reveal();}).observe(intro,{attributes:true,attributeFilter:['hidden','class']});
  if(overlay)new MutationObserver(()=>{if(overlay.hidden)reveal();else restore();}).observe(overlay,{attributes:true,attributeFilter:['hidden']});

@@ -7,7 +7,6 @@
 .static-case{position:absolute;inset:0;width:100%;height:100%}
 .static-art{position:absolute;left:0;top:0;width:1024px;height:1024px;border-radius:50%;overflow:hidden;transform-origin:0 0;transform:matrix3d(0.277712,-0.0526757,0,0.0001085,0.0454994,0.0805325,0,-0.000166,0,0,1,0,334.597,549.685,0,1)}
 .static-art img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.turntable-model.is-static-suitcase .turntable-hardware{display:none}
 @media(min-width:1101px) and (pointer:fine){
  #portfolioIntro .sleeve-stage.is-composed:not(.is-spine){--size:min(54vw,78svh);left:58%;top:51%}
  #portfolioIntro .sleeve-stage.is-spine{--size:min(66.2vw,125.2svh);--depth:clamp(40px,3vw,60px);left:50%;top:62%;perspective:3400px}

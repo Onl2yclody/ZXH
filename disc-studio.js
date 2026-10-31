@@ -85,7 +85,7 @@
  window.selectVinylCategory=(key)=>{if(!keys.includes(key))return null;index=keys.indexOf(key);position=target=index;category=key;update(true);wake();return nodes[index].button;};
  function wake(){if(!raf)raf=requestAnimationFrame(frame);}
  const ease=t=>1-Math.pow(1-clamp(t,0,1),3);
- function frame(now){raf=0;const dt=Math.min(40,now-(lastFrame||now));lastFrame=now;let spread=1,flip=0,loadScale=1;
+ function frame(now){raf=0;const overlay=document.querySelector('.vinyl-browser'),returning=document.documentElement.dataset.portfolioTransition==='to-albums';if(document.hidden||(phase==='loading'&&intro&&!intro.hidden)||(overlay&&!overlay.hidden&&!returning)||(phase==='ready'&&!returning&&scene.getBoundingClientRect().bottom<=0)){lastFrame=0;return;}const dt=Math.min(40,now-(lastFrame||now));lastFrame=now;let spread=1,flip=0,loadScale=1;
  if(phase==='loading'){spread=0;loadScale=.65;flip=88;progress.hidden=true;}
  else if(phase==='bridging'){progress.hidden=true;}
  else if(phase==='closing'){const t=reduced?1:clamp((now-phaseStart)/460,0,1);spread=1-ease(t);flip=ease(t)*88;loadScale=1-.35*ease(t);if(t===1){category=pendingCategory;pendingCategory=null;index=0;position=target=0;build();phase='opening';phaseStart=now;}}
@@ -106,6 +106,10 @@
  });
  if(phase!=='ready'||position!==target||hover>=0&&!reduced&&window.PortfolioLayout.state.hover||drag)wake();
  }
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});
+ window.addEventListener('portfolio:view-transition',()=>wake());
+ new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting))wake();}).observe(scene);
+ if(intro)new MutationObserver(()=>wake()).observe(intro,{attributes:true,attributeFilter:['hidden']});
  $('.studio-prev').onclick=()=>go(index-1);$('.studio-next').onclick=()=>go(index+1);
  rail.addEventListener('wheel',e=>{if(e.ctrlKey||e.metaKey||profileMode||(window.scrollY||0)>8)return;const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(!d)return;e.preventDefault();clearTimeout(wheelTimer);if(!wheelLocked&&phase==='ready'){wheelLocked=true;go(index+Math.sign(d));}wheelTimer=setTimeout(()=>wheelLocked=false,140);},{passive:false});
  rail.addEventListener('pointerdown',e=>{if(e.button!==0||phase!=='ready')return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,start:position,index,phone:window.PortfolioLayout.state.layout==='phone',dx:0,axis:null};suppressClick=false;});

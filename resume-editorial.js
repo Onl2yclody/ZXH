@@ -25,7 +25,7 @@
   const nav=document.querySelector('.nav');nav.classList.add('cv-navigation');nav.innerHTML='<a class="cv-wordmark" href="zhong-xi-han-portfolio-preview.html">ZHONG XI HAN</a><div><a href="portfolio-profile.html#about">个人介绍</a><a href="portfolio-profile.html#resume" aria-current="page">个人简历</a><a href="portfolio-profile.html#experience">工作经验</a><a href="portfolio-profile.html#honours">获奖与认可</a></div><span>PORTFOLIO / 2026</span>';
   main.classList.add('cv-image-page');
   document.body.classList.add('cv-fit-screen');
-  main.innerHTML='<h1 class="cv-image-title">个人简历</h1><img class="cv-resume-image" src="zhong-xi-han-resume-template.png?v=3" alt="钟锡汉平面设计师简历，包含联系方式、教育背景、实践经历、获奖经历、个人优势与专业技能">';
+  main.innerHTML='<h1 class="cv-image-title">个人简历</h1><img class="cv-resume-image" src="resume-full.webp" alt="钟锡汉平面设计师简历，包含联系方式、教育背景、实践经历、获奖经历、个人优势与专业技能">';
   return;
   // A legacy enhancement appended the same award into the experience list.
   const headings=[...document.querySelectorAll('.heading')],honours=headings.find(h=>h.textContent.includes('获奖'));

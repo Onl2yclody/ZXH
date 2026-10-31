@@ -2,7 +2,7 @@
 .project-overview{padding:22px 24px 40px;scroll-margin-top:12px;background:#eae9ec}
 .overview-filters{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 28px}
 .overview-filters button{padding:9px 13px;border:1px solid #666;font-size:13px;background:transparent;color:#111;cursor:pointer}
-.overview-filters button[aria-pressed=true]{background:#d5ff41;border-color:#111}
+.overview-filters button[aria-pressed=true]{background:var(--portfolio-accent,#b497cf);border-color:#111}
 .overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
 .overview-column{display:grid;gap:18px}.overview-column:not(:has(.overview-card:not([hidden]))){display:none}
 .overview-card{display:block;position:relative;overflow:hidden;border-radius:16px;background:var(--card-color);padding:15px;color:#111;text-decoration:none;transition:filter .2s}
@@ -36,7 +36,7 @@ body:has(.disc-studio)>.masthead,body:has(.disc-studio)>.player,body:has(.disc-s
 .studio-navigation summary:after{content:' +';font-weight:400}
 .studio-categories{position:absolute;top:25px;left:50%;transform:translateX(-50%);width:220px;background:#eae9ecf5;border:1px solid #aaa;padding:7px;box-shadow:0 8px 30px #0000000a;display:grid;gap:2px}
 .studio-categories button{font:12px/1.5 Arial,'Microsoft YaHei',sans-serif;text-align:left;cursor:pointer;border:0;background:transparent;padding:10px;color:#151515}
-.studio-categories button[aria-pressed=true]{background:#151515;color:#fff}.studio-categories button:hover{background:#d5ff41;color:#111}
+.studio-categories button[aria-pressed=true]{background:#151515;color:#fff}.studio-categories button:hover{background:var(--portfolio-accent,#b497cf);color:#111}
 .studio-edition{font:10px/1.4 monospace;text-align:right}
 .studio-meta{position:absolute;left:24px;top:78px;width:clamp(260px,23vw,350px);z-index:10;pointer-events:none;transition:opacity .18s,transform .25s}
 .studio-meta h1{font:700 clamp(26px,2vw,36px)/1.2 Georgia,'Microsoft YaHei',serif;letter-spacing:-.04em;margin:0 0 12px;border-bottom:1px solid #888;padding-bottom:12px}

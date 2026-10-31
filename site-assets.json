@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "early": {
+    "file": "portfolio-layout.js",
+    "hash": "b888d932cabd"
+  },
+  "runtime": {
+    "file": "site-runtime.js",
+    "hash": "db9b0828a87d",
+    "bytes": 279320,
+    "sources": [
+      "hello-paw-projects.js",
+      "album-projects.js",
+      "disc-studio.js",
+      "portfolio-back.js",
+      "project-details-editorial.js",
+      "inline-project-details.js",
+      "turntable-loader.js",
+      "suitcase-fallback.js",
+      "cat-shape-masks.js",
+      "vinyl-experience.js",
+      "intro-edge-motion.js",
+      "archive-directory.js",
+      "portfolio-responsive.js",
+      "rubber-navigation.js",
+      "holo-cover.js",
+      "homepage-pixelblast.js",
+      "homepage-scrambled-text.js",
+      "hold-feedback.js",
+      "jelly-navigation.js",
+      "overview-cd-cases.js"
+    ]
+  },
+  "styles": {
+    "file": "site-styles.css",
+    "hash": "35cca13f8cbc",
+    "bytes": 156476,
+    "sources": [
+      "portfolio-layout.css",
+      "rubber-navigation.css",
+      "holo-cover.css",
+      "homepage-pixelblast.css",
+      "portfolio-design-system.css",
+      "homepage-scrambled-text.css",
+      "jelly-navigation.css",
+      "cat-hover-feedback.css",
+      "overview-cd-cases.css"
+    ]
+  }
+}

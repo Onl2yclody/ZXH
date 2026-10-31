@@ -7,7 +7,6 @@
 @keyframes catalog-enter-right{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
 .vinyl-browser:not(.is-entering):not(.is-returning) .catalog-edge-top{animation:catalog-enter-left .7s cubic-bezier(.22,1,.36,1) .08s both}
 .vinyl-browser:not(.is-entering):not(.is-returning) .catalog-edge-credit{animation:catalog-enter-right .7s cubic-bezier(.22,1,.36,1) .16s both}
-.vinyl-browser.is-entering .catalog-edge-top,.vinyl-browser.is-entering .catalog-edge-credit{opacity:0}
 @media(prefers-reduced-motion:reduce){.vinyl-browser .catalog-edge-note{animation:none!important;transform:none!important}}
 .vinyl-catalog:has(.has-webgl) .vinyl-directory[data-archive-ready]{background:transparent;border:0;padding:0;isolation:isolate}
 .archive-masthead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:end;border-top:5px solid #171717;padding-top:16px}
