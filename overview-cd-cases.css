@@ -1,0 +1,28 @@
+/* Clear jewel-case shells, with each project's artwork printed on a vinyl disc. */
+.project-overview .overview-grid{gap:32px}
+.project-overview .overview-column{gap:32px}
+.project-overview .overview-card.cd-case-card{padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;perspective:1000px}
+.project-overview .overview-card.cd-case-card::before,.project-overview .overview-card.cd-case-card::after{content:none}
+.project-overview .overview-card.cd-case-card:hover{transform:none;filter:none;box-shadow:none}
+.overview-cd-case{display:block;position:relative;width:100%;aspect-ratio:1.12;border:1px solid #7d879644;border-radius:3px;background:linear-gradient(140deg,#fff9,#e0e6ee33 40%,#ffffff55);box-shadow:inset 0 0 0 2px #fff9,inset 0 0 0 5px #6c798218,2px 3px 0 #87929c24,0 12px 20px #202b3812;transform-style:preserve-3d;transition:transform .32s cubic-bezier(.2,.7,.2,1),box-shadow .32s}
+.overview-cd-case::before{content:'';position:absolute;inset:2px;border:1px solid #ffffffb8;border-radius:2px;pointer-events:none}
+.cd-case-hinge{position:absolute;left:2%;top:2%;bottom:2%;width:7%;border:1px solid #87919b55;border-right:2px solid #ffffffe6;background:repeating-linear-gradient(90deg,#8e9aaa19 0 1px,#ffffff88 1px 3px,#929fae14 3px 5px);box-shadow:2px 0 2px #26374516,inset -2px 0 2px #fff9}
+.cd-case-tray{position:absolute;inset:3% 3% 3% 11%;border:1px solid #aab4bc66;border-radius:3px;box-shadow:inset 0 0 0 2px #fff8;background:radial-gradient(circle at 51% 50%,#ecf0f52b 0 46%,#c1c9d215 46% 48%,#fff2 48%)}
+.cd-case-disc{display:block;position:absolute;width:96%;aspect-ratio:1;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);background:repeating-radial-gradient(circle at center,#171717 0 1px,#292929 1.3px 1.7px,#101010 2px 3px);box-shadow:inset 0 0 0 1px #515151,0 3px 6px #20253035;overflow:hidden;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.cd-disc-eyebrow,.cd-disc-title,.cd-disc-count{position:absolute;left:8%;width:84%;text-align:center;color:#fff;z-index:2}
+.cd-disc-eyebrow{top:7%;font:italic clamp(5px,.52vw,10px)/1.2 Georgia,serif;opacity:.8}
+.cd-disc-title{top:12%;font:750 clamp(10px,1.1vw,19px)/1.2 var(--portfolio-body,'Microsoft YaHei',sans-serif)}
+.cd-disc-count{bottom:7%;font:italic clamp(8px,.8vw,13px)/1.2 Georgia,serif;letter-spacing:.03em}
+.cd-disc-art{position:absolute;inset:19%;border-radius:50%;overflow:hidden;background:#f1f1f1}
+.project-overview .overview-card.cd-case-card .cd-disc-art img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;object-fit:cover;border-radius:50%}
+.cd-disc-hub{position:absolute;left:47%;top:47%;width:6%;height:6%;border-radius:50%;background:linear-gradient(125deg,#8e969f,#fff 45%,#a7afb7 65%,#e5e9ed);border:1px solid #ffffff99;box-shadow:0 0 0 2px #18181826;z-index:3}
+.cd-case-gloss{position:absolute;inset:1%;pointer-events:none;background:linear-gradient(126deg,#fff0 14%,#ffffff22 22%,#fff0 32% 63%,#ffffff18 68%,#fff0 75%);border-top:2px solid #ffffffe0;border-bottom:2px solid #b1bcc33b;box-shadow:inset 0 0 0 1px #fff9}
+.cd-case-clip{position:absolute;right:2.5%;width:1.5%;height:12%;background:linear-gradient(90deg,#94a4b033,#ffffffcc,#7b87992b);border:1px solid #a6b0b83b;border-radius:2px;z-index:4}
+.cd-case-clip-top{top:16%}.cd-case-clip-bottom{bottom:16%}
+.cd-case-caption{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:baseline;gap:10px;margin-top:16px}
+.cd-case-caption>span{font:11px var(--portfolio-meta,monospace);color:var(--portfolio-accent,#b497cf)}
+.project-overview .overview-card.cd-case-card h2{border:0;padding:0;margin:0;font:700 clamp(17px,1.4vw,25px)/1.3 var(--portfolio-body,'Microsoft YaHei',sans-serif);color:#17191b;letter-spacing:-.02em}
+.cd-case-caption>small{font:9px var(--portfolio-meta,monospace);color:#666;white-space:nowrap}
+@media(hover:hover){.cd-case-card:hover .overview-cd-case{transform:translateY(-5px) rotateX(2deg) rotateY(-3deg);box-shadow:inset 0 0 0 2px #fff9,inset 0 0 0 5px #6c798218,2px 5px 0 #87929c24,0 18px 24px #202b381d}.cd-case-card:hover .cd-case-disc{transform:translate(-50%,-50%) rotate(-5deg)}}
+@media(max-width:760px){.cd-case-caption{grid-template-columns:20px 1fr;gap:8px}.cd-case-caption>small{grid-column:2}.cd-disc-title{font-size:clamp(13px,3.5vw,20px)}.cd-disc-eyebrow{font-size:8px}.cd-disc-count{font-size:11px}.project-overview .overview-grid,.project-overview .overview-column{gap:30px}}
+@media(prefers-reduced-motion:reduce){.overview-cd-case,.cd-case-disc{transition:none}.cd-case-card:hover .overview-cd-case,.cd-case-card:hover .cd-case-disc{transform:none}.cd-case-card:hover .cd-case-disc{transform:translate(-50%,-50%)}}

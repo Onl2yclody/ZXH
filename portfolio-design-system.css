@@ -59,3 +59,11 @@ html[data-layout="desktop"] #portfolioIntro.is-browsing-sleeve::after{left:14%}
 .vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible){background:#17191b;color:#fff;border-left-color:var(--portfolio-accent,#b497cf)}
 .vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible) .track-number,.vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible) .track-arrow{color:var(--portfolio-accent,#b497cf)}
 .vinyl-directory[data-archive-ready] .vinyl-tracks button:before{display:none}
+/* One page motion at a time; secondary copy waits until the page settles. */
+html[data-portfolio-transition] .catalog-edge-note{animation:none!important}
+.vinyl-browser .catalog-edge-top,.vinyl-browser .catalog-edge-credit{animation:none!important}
+.spine-secondary .spine-help{display:none!important}
+/* Archive title hierarchy and a larger pause before the project index. */
+.vinyl-directory[data-archive-ready] .archive-issue{color:var(--portfolio-accent,#b497cf)}
+.vinyl-directory[data-archive-ready] .archive-titles h1{color:#17191b}
+.vinyl-directory[data-archive-ready] .archive-track-heading{margin-top:clamp(44px,5svh,64px);margin-bottom:14px}

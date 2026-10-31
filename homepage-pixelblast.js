@@ -3,9 +3,10 @@
 const intro=document.querySelector('#portfolioIntro');if(!intro)return;
 const background=document.createElement('div');background.className='homepage-pixelblast';background.setAttribute('aria-hidden','true');const canvas=document.createElement('canvas');background.append(canvas);intro.prepend(background);
 const scene=document.querySelector('.disc-studio'),overlay=document.querySelector('.vinyl-browser');
-function syncBackground(){const host=intro.hidden&&scene?scene:intro;if(background.parentElement!==host)host.prepend(background);background.hidden=!!(intro.hidden&&overlay&&!overlay.hidden);}
+function syncBackground(){const host=intro.hidden&&scene?scene:intro;if(background.parentElement!==host)host.prepend(background);background.hidden=!!(intro.hidden&&overlay&&!overlay.hidden&&document.documentElement.dataset.portfolioTransition!=='to-albums');}
 new MutationObserver(syncBackground).observe(intro,{attributes:true,attributeFilter:['hidden']});
 if(overlay)new MutationObserver(syncBackground).observe(overlay,{attributes:true,attributeFilter:['hidden']});
+window.addEventListener('portfolio:view-transition',syncBackground);
 syncBackground();
 const MAX_CLICKS = 10;
 const INTRO_SECONDS = 1.8;

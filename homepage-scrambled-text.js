@@ -6,7 +6,7 @@
  const selector='#portfolioIntro .intro-wordmark,#portfolioIntro .intro-corner-tl strong,#portfolioIntro .intro-corner-bl p,.disc-studio .studio-meta h1,.disc-studio .studio-meta dd';
  const glyphs='.:/01';const registry=new Map();let frame=0;
  function restore(){for(const entry of registry.values())for(const c of entry.chars){c.glyph.textContent=c.original;c.node.classList.remove('is-scrambling');c.until=0;}}
- function active(el){return !document.hidden&&(intro.contains(el)?!intro.hidden&&!intro.classList.contains('is-exiting'):!!scene&&intro.hidden&&(!overlay||overlay.hidden)&&!scene.classList.contains('studio-loading'));}
+ function active(el){return !document.documentElement.dataset.portfolioTransition&&!document.hidden&&(intro.contains(el)?!intro.hidden&&!intro.classList.contains('is-exiting'):!!scene&&intro.hidden&&(!overlay||overlay.hidden)&&!scene.classList.contains('studio-loading'));}
  function visible(){return !document.hidden&&(!intro.hidden||!!scene&&(!overlay||overlay.hidden));}
  function reveal(){for(const [el,entry] of registry)if(!entry.revealed&&active(el)){entry.revealed=true;trigger(entry);}}
  function wake(){if(!frame&&visible()&&!reduced.matches)frame=requestAnimationFrame(tick);}
@@ -38,5 +38,6 @@
  scan();new MutationObserver(records=>{if(records.some(r=>r.target instanceof Element&&r.target.matches('.intro-corner,.intro-corner-tl strong,.intro-corner-bl p,.studio-meta,.studio-meta h1,.studio-meta dd')))scan();}).observe(document.body,{childList:true,subtree:true});
  new MutationObserver(()=>{if(!visible())restore();else reveal();}).observe(intro,{attributes:true,attributeFilter:['hidden','class']});
  if(overlay)new MutationObserver(()=>{if(overlay.hidden)reveal();else restore();}).observe(overlay,{attributes:true,attributeFilter:['hidden']});
+ window.addEventListener('portfolio:view-transition',e=>{restore();if(e.detail.phase==='end')for(const entry of registry.values())entry.revealed=true;});
  reduced.addEventListener('change',restore);document.addEventListener('visibilitychange',()=>{if(document.hidden)restore();});
 })();

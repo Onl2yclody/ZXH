@@ -68,7 +68,7 @@
   const image=document.createElement('img');image.className='sleeve-cat-art-image';image.alt='';image.draggable=false;image.src=back.querySelector('.sleeve-texture').getAttribute('src');
   image.style.cssText=`width:${137.5/w*100}%;height:${140/h*100}%;left:${-(x+18.75)/w*100}%;top:${-(y+20.8)/h*100}%`;
   tile.append(image);b.append(tile);catImageReady.push(image.decode());
-  b.onpointerenter=b.onfocus=()=>{if(flipped&&!flipping&&!entering)select(category);};
+  b.onpointerenter=b.onfocus=()=>{if(flipped&&!flipping&&!entering){select(category);warmCatalogCover(category);}};
   b.onclick=()=>{if(flipped&&!flipping)launch(category);};back.append(b);return b;
  });
  // Split the existing print into non-overlapping tiles. Each visible source
@@ -79,7 +79,10 @@
  Promise.all(catImageReady).then(()=>{if(!window.portfolioCatMasks||Object.keys(logoBounds).some(key=>!window.portfolioCatMasks[key]))return;sheet.style.maskImage=mask;sheet.style.webkitMaskImage=mask;sheet.style.maskSize=sheet.style.webkitMaskSize='100% 100%';sheet.style.maskMode='luminance';sheet.style.maskRepeat='no-repeat';back.classList.add('has-cat-layers');}).catch(()=>{back.classList.remove('has-cat-layers');});
  // Keep a decoded label on screen while the next category loads. Do not
  // rebuild the record on hover: this also preserves the 3D image layer.
- const labelCache=new Map();let labelRequest=0;
+ const catalogCoverCache=new Map();
+ function warmCatalogCover(category){const p=window.albumProjects[category]?.series[0],src=p?.cover||p?.images?.[0];if(!src)return Promise.resolve();if(!catalogCoverCache.has(src)){const image=new Image();image.src=src;catalogCoverCache.set(src,image.decode().catch(()=>null));}return catalogCoverCache.get(src);}
+ function prepareCover(category){return Promise.race([warmCatalogCover(category),new Promise(resolve=>setTimeout(resolve,500))]);}
+ const labelCache=new Map(),highLabelCache=new Map();let labelRequest=0;
  record.innerHTML='<span class="vinyl-surface"><span class="vinyl-label"></span><span class="sleeve-record-title"><small></small><strong></strong></span><em class="sleeve-record-count"></em></span>';
  const recordLabel=record.querySelector('.vinyl-label');
  function labelSource(category){const p=window.albumProjects[category];return ({graphic:'lin-chang-fa-hui-exhibition-poster.png.webp',packaging:'half-a-whisper/brand-packaging-merchandise-final.png.webp',keyvisual:'imprint-static-01.png.webp'})[category]||p.series[0].cover||p.series[0].images[0];}
@@ -101,7 +104,9 @@
   record.querySelector('.sleeve-record-title strong').textContent=p.title;
   record.querySelector('.sleeve-record-count').textContent=p.series.length+' PROJECTS';
   record.setAttribute('aria-label','进入'+p.title+'项目目录');hotspots.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.album===category)));
-  loadLabel(category).then(img=>{if(request===labelRequest){recordLabel.replaceChildren(img);recordLabel.dataset.category=category;}}).catch(()=>{/* Retain the last successfully decoded artwork. A later hover retries. */});
+  loadLabel(category).then(img=>{if(request===labelRequest){recordLabel.replaceChildren(img);recordLabel.dataset.category=category;
+   if(!highLabelCache.has(category)){const high=new Image();high.src=labelSource(category);high.alt=img.alt;high.decoding='async';highLabelCache.set(category,high.decode().then(()=>high).catch(()=>null));}
+   highLabelCache.get(category).then(high=>{if(high&&request===labelRequest&&recordLabel.dataset.category===category)recordLabel.replaceChildren(high);});}}).catch(()=>{/* Retain the last successfully decoded artwork. A later hover retries. */});
  }
  // Warm only the small preview assets, leaving full project images on demand.
  const warmLabels=()=>layouts.forEach(([category])=>loadLabel(category).catch(()=>{}));
@@ -109,22 +114,33 @@
  async function launch(category){
  if(entering||!flipped||flipping)return;
  select(category);entering=true;coverReturn.disabled=true;record.disabled=true;
- await preparePlayer();
+ await Promise.all([preparePlayer(),prepareCover(category)]);
  cancelAnimationFrame(motionFrame);motionFrame=0;
  window.selectVinylCategory?.(category);
  openAlbum(category);
- await slideToCatalog(intro);
+ await slideToCatalog(intro);startNeedleIntro();
  intro.dataset.directEntry='true';finish();intro.hidden=true;
  coverReturn.disabled=false;record.disabled=false;entering=false;
  }
- // A single vertical page slide replaces the flying record and docking scene.
+ // A shared rhythm for entering/leaving all three portfolio scenes.
+ const pageMotion={duration:740,easing:'cubic-bezier(.65,0,.35,1)',fill:'both'};
+ const readyToPaint=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ function pageMotionState(direction,phase){if(phase==='start')document.documentElement.dataset.portfolioTransition=direction;else delete document.documentElement.dataset.portfolioTransition;window.dispatchEvent(new CustomEvent('portfolio:view-transition',{detail:{direction,phase}}));}
  async function slideToCatalog(previous){
   if(reduced)return;
-  entryTransition=true;
-  const timing={duration:650,easing:'cubic-bezier(.22,.68,.25,1)',fill:'both'};
-  const incoming=overlay.animate([{transform:'translateY(100svh)'},{transform:'translateY(0)'}],timing);
-  const outgoing=previous?.animate([{transform:'translateY(0)'},{transform:'translateY(-100svh)'}],timing);
-  try{await incoming.finished;}catch(error){}finally{previous&&(previous.hidden=true);outgoing?.cancel();incoming.cancel();entryTransition=false;}
+  entryTransition=true;pageMotionState('to-catalog','start');
+  const oldNext=overlay.style.willChange,oldPrevious=previous?.style.willChange;
+  const oldInert=overlay.inert;overlay.inert=true;overlay.style.willChange='transform';overlay.style.transform='translate3d(0,100svh,0)';if(previous)previous.style.willChange='transform';
+  let incoming,outgoing;
+  try{
+   await readyToPaint();
+   incoming=overlay.animate([{transform:'translate3d(0,100svh,0)'},{transform:'translate3d(0,0,0)'}],pageMotion);
+   outgoing=previous?.animate([{transform:'translate3d(0,0,0)'},{transform:'translate3d(0,-100svh,0)'}],pageMotion);
+   await incoming.finished;
+  }catch(error){}finally{
+   if(previous){if(previous===intro)previous.hidden=true;previous.style.willChange=oldPrevious||'';}
+   overlay.style.transform='';outgoing?.cancel();incoming?.cancel();overlay.style.willChange=oldNext;overlay.inert=oldInert;entryTransition=false;pageMotionState('to-catalog','end');
+  }
  }
  record.onclick=()=>launch(selected);
  const spine=model.querySelector('.sleeve-spine'),spineLinks=[];
@@ -164,31 +180,38 @@
  const cover=p=>p.cover||p.images?.[0]||'';
  const button=(text,fn)=>{const b=document.createElement('button');b.textContent=text;b.onclick=fn;return b;};
 
- let closing=false,entryTransition=false,previewActive=false,returnArtwork='';
+ let closing=false,entryTransition=false,previewActive=false,returnArtwork='',needleIntroPlayed=false,needleFrame=0;
  async function close(){
- if(closing||entryTransition||overlay.hidden)return;closing=true;
+ if(closing||entryTransition||overlay.hidden)return;closing=true;cancelAnimationFrame(needleFrame);needleFrame=0;
  const destination=window.selectVinylCategory?.(key),scene=document.querySelector('.disc-studio');
  window.scrollTo({top:0,behavior:'instant'});
  overlay.querySelectorAll('video').forEach(video=>video.pause());
  window.getTurntable3D?.()?.setPlaying?.(false);
- let outgoing,incoming;overlay.inert=true;
+ let outgoing,incoming;overlay.inert=true;const oldSceneWillChange=scene?.style.willChange,oldOverlayWillChange=overlay.style.willChange;
  try{
   if(!reduced&&scene){
-   const timing={duration:650,easing:'cubic-bezier(.22,.68,.25,1)',fill:'both'};
-   outgoing=overlay.animate([{transform:'translateY(0)'},{transform:'translateY(100svh)'}],timing);
-   incoming=scene.animate([{transform:'translateY(-100svh)'},{transform:'translateY(0)'}],timing);
+   pageMotionState('to-albums','start');overlay.style.willChange='transform';scene.style.willChange='transform';scene.style.transform='translate3d(0,-100svh,0)';
+   await readyToPaint();
+   outgoing=overlay.animate([{transform:'translate3d(0,0,0)'},{transform:'translate3d(0,100svh,0)'}],pageMotion);
+   incoming=scene.animate([{transform:'translate3d(0,-100svh,0)'},{transform:'translate3d(0,0,0)'}],pageMotion);
    await Promise.all([outgoing.finished,incoming.finished]);
   }
  }catch(error){/* A cancelled transition must still leave a usable archive. */}
  finally{
   window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();
   overlay.hidden=true;overlay.replaceChildren();overlay.classList.remove('is-returning');
-  outgoing?.cancel();incoming?.cancel();overlay.inert=false;closing=false;
+  if(scene){scene.style.transform='';scene.style.willChange=oldSceneWillChange||'';}outgoing?.cancel();incoming?.cancel();overlay.style.willChange=oldOverlayWillChange;overlay.inert=false;closing=false;pageMotionState('to-albums','end');
   (destination||returnFocus)?.focus({preventScroll:true});
  }
  }
+ function startNeedleIntro(){
+  const player=window.getTurntable3D?.();if(reduced||needleIntroPlayed||!player?.setArmProgress||overlay.hidden||previewActive)return;
+  needleIntroPlayed=true;player.setTransferActive?.(true);let started;
+  function move(now){needleFrame=0;if(closing||overlay.hidden||previewActive||window.getTurntable3D?.()!==player)return;if(started===undefined)started=now;const p=Math.max(0,Math.min(1,(now-started-120)/1100));player.setArmProgress(p);if(p<1)needleFrame=requestAnimationFrame(move);else{player.setTransferActive?.(false);player.setPlaying(true);}}
+  needleFrame=requestAnimationFrame(move);
+ }
  function bar(back){const el=document.createElement('header');el.className='vinyl-bar';const previous=button('',back?catalog:close);previous.innerHTML='<span class="bar-desktop-label">‹ '+(back?'项目目录':'全部专辑')+'</span><span class="bar-phone-label">'+(back?'返回项目目录':'返回全部专辑')+'</span>';el.append(previous);const title=document.createElement('span');title.textContent=data[key].number;const home=button('',close);home.innerHTML='<span class="bar-desktop-label">返回首页 ↗</span><span class="bar-phone-label">返回首页</span>';el.append(title,home);overlay.append(el);}
- function catalog(){window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();previewActive=false;overlay.replaceChildren();overlay.scrollTop=0;bar(false);const grid=document.createElement('div');grid.className='vinyl-catalog';grid.innerHTML='<div class="vinyl-feature"><div class="turntable-model"><div class="vinyl-large"><div class="vinyl-surface"><span class="vinyl-label"><img alt="项目封面"></span></div></div></div></div><div class="vinyl-directory"><small>SELECT A PROJECT / 项目目录</small><h1>'+escape(data[key].title)+'</h1><div class="vinyl-tracks"></div></div>';overlay.append(grid);const player=document.createElement('div');player.className='turntable-hardware';player.setAttribute('aria-hidden','true');player.innerHTML='<div class="turntable-plinth"></div><div class="turntable-arm"></div><span class="turntable-speed">33⅓</span>';const deck=grid.querySelector('.vinyl-feature');grid.querySelector('.turntable-model').append(player);deck.onpointermove=e=>{if(reduced)return;const box=deck.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-box.left)/box.width));deck.style.setProperty('--metal-light',(58+x*12)+'%');};deck.onpointerleave=()=>deck.style.setProperty('--metal-light','64%');const image=grid.querySelector('img');image.src=cover(data[key].series[projectIndex]||data[key].series[0]);returnArtwork=image.src;data[key].series.forEach((p,i)=>{const b=button(String(i+1).padStart(2,'0')+'  '+p.title+'  ↗',()=>preview(i));b.innerHTML='<span class="track-number">'+String(i+1).padStart(2,'0')+'</span><span class="track-name">'+escape(p.title)+'</span><span class="track-arrow" aria-hidden="true">↗</span>';b.onpointerenter=b.onfocus=()=>{projectIndex=i;image.src=cover(p);returnArtwork=image.src;image.alt=p.title;};grid.querySelector('.vinyl-tracks').append(b);});const modelHost=grid.querySelector('.turntable-model');let mounted;try{mounted=window.mountTurntable3D?.(modelHost,image);}catch(error){console.warn('3D unavailable',error);}if(!mounted)window.mountStaticSuitcase(modelHost,image);mounted?.setLidProgress?.(1);mounted?.setRecordLift?.(0);mounted?.setCompositionProgress?.(1);mounted?.setArmProgress?.(1);mounted?.setDiscVisible?.(true);mounted?.setPlaying?.(true);overlay.querySelector('button').focus({preventScroll:true});}
+ function catalog(){window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();previewActive=false;overlay.replaceChildren();overlay.scrollTop=0;bar(false);const grid=document.createElement('div');grid.className='vinyl-catalog';grid.innerHTML='<div class="vinyl-feature"><div class="turntable-model"><div class="vinyl-large"><div class="vinyl-surface"><span class="vinyl-label"><img alt="项目封面"></span></div></div></div></div><div class="vinyl-directory"><small>SELECT A PROJECT / 项目目录</small><h1>'+escape(data[key].title)+'</h1><div class="vinyl-tracks"></div></div>';overlay.append(grid);const player=document.createElement('div');player.className='turntable-hardware';player.setAttribute('aria-hidden','true');player.innerHTML='<div class="turntable-plinth"></div><div class="turntable-arm"></div><span class="turntable-speed">33⅓</span>';const deck=grid.querySelector('.vinyl-feature');grid.querySelector('.turntable-model').append(player);deck.onpointermove=e=>{if(reduced)return;const box=deck.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-box.left)/box.width));deck.style.setProperty('--metal-light',(58+x*12)+'%');};deck.onpointerleave=()=>deck.style.setProperty('--metal-light','64%');const image=grid.querySelector('img');image.src=cover(data[key].series[projectIndex]||data[key].series[0]);returnArtwork=image.src;data[key].series.forEach((p,i)=>{const b=button(String(i+1).padStart(2,'0')+'  '+p.title+'  ↗',()=>preview(i));b.innerHTML='<span class="track-number">'+String(i+1).padStart(2,'0')+'</span><span class="track-name">'+escape(p.title)+'</span><span class="track-arrow" aria-hidden="true">↗</span>';b.onpointerenter=b.onfocus=()=>{projectIndex=i;image.src=cover(p);returnArtwork=image.src;image.alt=p.title;};grid.querySelector('.vinyl-tracks').append(b);});const modelHost=grid.querySelector('.turntable-model');let mounted;try{mounted=window.mountTurntable3D?.(modelHost,image);}catch(error){console.warn('3D unavailable',error);}if(!mounted)window.mountStaticSuitcase(modelHost,image);mounted?.setLidProgress?.(1);mounted?.setRecordLift?.(0);mounted?.setCompositionProgress?.(1);const firstPlay=!needleIntroPlayed&&!reduced&&!!mounted?.setArmProgress;mounted?.setArmProgress?.(firstPlay?0:1);mounted?.setDiscVisible?.(true);mounted?.setPlaying?.(!firstPlay);overlay.querySelector('button').focus({preventScroll:true});}
  function preview(i){window.disposeTurntable3D?.();window.disposeStaticSuitcase?.();previewActive=true;projectIndex=i;const p=data[key].series[i];overlay.replaceChildren();overlay.scrollTop=0;bar(true);const grid=document.createElement('div');grid.className='project-view';grid.innerHTML='<div class="project-media"><div class="project-main-media"></div><div class="project-thumbs"></div></div><div class="project-copy"><small>'+escape(data[key].number)+'</small><h1>'+escape(p.title)+'</h1><dl><dt>主题 / THEME</dt><dd>'+escape(p.theme||p.title)+'</dd><dt>作者 / AUTHOR</dt><dd>'+escape(p.author||'钟锡汉 ZHONGXIHAN')+'</dd><dt>项目描述 / DESCRIPTION</dt><dd>'+escape(p.description)+'</dd></dl></div>';overlay.append(grid);const details={'山野来信':'shan-ye-details.html','半句花语':'half-a-whisper-details.html','灶楼 · 煲仔饭':'zaolou-details.html','HELLO PAW':'hello-paw.html','艾草信息可视化':'mugwort.html','大广赛赤尾避孕套':'redtail-details.html','THE GIANT SHOW':'giant-show.html','臨場發揮主题展':'lin-chang-fa-hui.html','昆虫世界展':'insect-world.html','印迹':'keyvisual.html','GREEN BOOK':'uiux.html','奇艺之旅':'extended.html','聊斋志异·聂小倩':'illustration.html','北京理工大学珠海学院艺悦楼导视设计':'identity.html'};const detailSection=document.createElement('section');detailSection.className='project-inline-details';detailSection.setAttribute('aria-label',p.title+'项目细节');detailSection.innerHTML='<header class="inline-detail-heading"><small>PROJECT ARCHIVE / 项目档案</small><h2>'+escape(p.title)+'</h2></header>'+(window.inlineProjectDetails?.[details[p.title]]||'<div class="process"><section><h2>作品完整展示</h2><p>'+escape(p.description)+'</p><div class="gallery">'+(p.images||[]).map((src,j)=>'<figure><img src="'+escape(src)+'" alt="'+escape(p.title)+' '+(j+1)+'" loading="lazy"><figcaption>'+String(j+1).padStart(2,'0')+' / '+escape(p.title)+'</figcaption></figure>').join('')+(p.videos||[]).map(src=>'<video controls playsinline preload="none" src="'+escape(src)+'"></video>').join('')+'</div></section></div>');overlay.append(detailSection);const media=[...(p.images||[]).map(src=>({src,type:'img'})),...(p.videos||[]).map(src=>({src,type:'video'}))];if(!media.length&&p.cover)media.push({src:p.cover,type:'img'});const thumbs=grid.querySelector('.project-thumbs');const show=(m,j)=>{returnArtwork=m.type==='img'?m.src:cover(p);const area=grid.querySelector('.project-main-media');area.replaceChildren();const el=document.createElement(m.type);el.src=m.src;if(m.type==='video'){el.controls=true;el.playsInline=true;}else el.alt=p.title;area.append(el);Array.from(thumbs.children).forEach((b,k)=>b.setAttribute('aria-pressed',String(j===k)));};media.forEach((m,j)=>{const b=button('',()=>show(m,j));b.setAttribute('aria-label','查看第 '+(j+1)+' 张作品');if(m.type==='img'){const im=document.createElement('img');im.src=m.src;im.alt='';b.append(im);}else b.textContent='▶';thumbs.append(b);});if(media.length)show(media[0],0);overlay.querySelector('button').focus({preventScroll:true});}
  function openAlbum(category,source){
  if(!data[category]||entryTransition||closing)return;
@@ -216,7 +239,7 @@
  window.openVinylAlbum=async(category,source)=>{
   if(loadingEntry||entryTransition||closing||!data[category])return;
   loadingEntry=true;
-  try{await preparePlayer();if(source&&!source.isConnected)return;openAlbum(category,source);await slideToCatalog(null);}finally{loadingEntry=false;}
+  try{await Promise.all([preparePlayer(),prepareCover(category)]);if(source&&!source.isConnected)return;openAlbum(category,source);await slideToCatalog(window.scrollY>innerHeight*.6?document.querySelector('#collection'):document.querySelector('.disc-studio'));startNeedleIntro();}finally{loadingEntry=false;}
  };
  document.querySelectorAll('[data-overview-category]').forEach(a=>{const category=data[a.dataset.overviewCategory];const index=document.createElement('span');index.className='archive-index';index.textContent='ARCHIVE '+category.number.slice(0,2)+' / '+String(category.series.length).padStart(2,'0')+' PROJECTS / 2026';a.append(index);a.addEventListener('click',e=>{e.preventDefault();window.openVinylAlbum(a.dataset.overviewCategory);});});
  const returnAlbum=(location.search||'').match(/[?&]album=([a-z]+)/)?.[1];
