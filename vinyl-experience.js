@@ -77,9 +77,35 @@
  const [ex,ey,ew,eh]=logoBounds.identity;
  addIdentityEyes(identityButton,[(ex-25)/29*100,(ey-21)/23*100,ew/29*100,eh/23*100]);
  addIdentityEyes(front,[ex,ey+3.2,ew,eh]);
- function select(category){selected=category;const p=window.albumProjects[category],n=layouts.find(row=>row[0]===category)[1];const src=({graphic:'lin-chang-fa-hui-exhibition-poster.png.webp',packaging:'half-a-whisper/brand-packaging-merchandise-final.png.webp',keyvisual:'imprint-static-01.png.webp'})[category]||p.series[0].cover||p.series[0].images[0];
- record.innerHTML='<span class="vinyl-surface"><span class="vinyl-label"><img src="'+src+'" alt=""></span><span class="sleeve-record-title"><small>'+String(n).padStart(2,'0')+' / DESIGN COLLECTION</small><strong>'+p.title+'</strong></span><em class="sleeve-record-count">'+p.series.length+' PROJECTS</em></span>';
- record.setAttribute('aria-label','进入'+p.title+'项目目录');hotspots.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.album===category)));}
+ // Keep a decoded label on screen while the next category loads. Do not
+ // rebuild the record on hover: this also preserves the 3D image layer.
+ const labelCache=new Map();let labelRequest=0;
+ record.innerHTML='<span class="vinyl-surface"><span class="vinyl-label"></span><span class="sleeve-record-title"><small></small><strong></strong></span><em class="sleeve-record-count"></em></span>';
+ const recordLabel=record.querySelector('.vinyl-label');
+ function labelSource(category){const p=window.albumProjects[category];return ({graphic:'lin-chang-fa-hui-exhibition-poster.png.webp',packaging:'half-a-whisper/brand-packaging-merchandise-final.png.webp',keyvisual:'imprint-static-01.png.webp'})[category]||p.series[0].cover||p.series[0].images[0];}
+ function loadLabel(category){
+  if(labelCache.has(category))return labelCache.get(category);
+  const promise=(async()=>{
+   for(const src of ['assets/record-labels/'+category+'.webp',labelSource(category)]){
+    try{const img=new Image();img.alt=window.albumProjects[category].title+'作品预览';img.decoding='async';img.loading='eager';
+     await new Promise((resolve,reject)=>{const timer=setTimeout(()=>{img.onload=img.onerror=null;reject(new Error('Artwork loading timed out'));},8000);img.onload=()=>{clearTimeout(timer);resolve();};img.onerror=()=>{clearTimeout(timer);reject(new Error('Artwork loading failed'));};img.src=src;});
+     await img.decode();return img;
+    }catch(error){/* Fall back to the original artwork if a thumbnail fails. */}
+   }
+   throw new Error('Record artwork unavailable: '+category);
+  })();labelCache.set(category,promise);promise.catch(()=>labelCache.delete(category));return promise;
+ }
+ function select(category){
+  selected=category;const p=window.albumProjects[category],n=layouts.find(row=>row[0]===category)[1],request=++labelRequest;
+  record.querySelector('.sleeve-record-title small').textContent=String(n).padStart(2,'0')+' / DESIGN COLLECTION';
+  record.querySelector('.sleeve-record-title strong').textContent=p.title;
+  record.querySelector('.sleeve-record-count').textContent=p.series.length+' PROJECTS';
+  record.setAttribute('aria-label','进入'+p.title+'项目目录');hotspots.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.album===category)));
+  loadLabel(category).then(img=>{if(request===labelRequest){recordLabel.replaceChildren(img);recordLabel.dataset.category=category;}}).catch(()=>{/* Retain the last successfully decoded artwork. A later hover retries. */});
+ }
+ // Warm only the small preview assets, leaving full project images on demand.
+ const warmLabels=()=>layouts.forEach(([category])=>loadLabel(category).catch(()=>{}));
+ if('requestIdleCallback' in window)requestIdleCallback(warmLabels,{timeout:1800});else setTimeout(warmLabels,600);
  async function launch(category){
  if(entering||!flipped||flipping)return;
  select(category);entering=true;coverReturn.disabled=true;record.disabled=true;

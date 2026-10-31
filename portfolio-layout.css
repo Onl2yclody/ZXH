@@ -780,3 +780,12 @@ html:not([data-layout="phone"]) .vinyl-bar .bar-phone-label{display:none}
 html[data-layout="phone"] .studio-side-arrow{background:transparent!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
 html[data-layout="phone"] .vinyl-browser .vinyl-feature{width:calc(100% + 32px)!important;margin-inline:-16px;height:88vw!important;min-height:280px!important;max-height:520px;overflow:hidden;isolation:isolate}
 html[data-layout="phone"] .vinyl-browser .turntable-model.has-webgl{width:100%;height:100%;max-height:none;left:50%;top:50%;aspect-ratio:auto}
+
+/* Project introduction: align with the artwork rather than the viewport centre. */
+@media (min-width:0px){
+ :where(html[data-layout="desktop"]) .vinyl-browser .project-copy{align-self:start;max-width:none;padding:clamp(40px,6svh,72px) clamp(28px,2.5vw,56px) 32px}
+ :where(html[data-layout="desktop"]) .vinyl-browser .project-copy h1{font-size:clamp(30px,3.2vw,64px);line-height:1.16;margin:22px 0 24px}
+ :where(html[data-layout="desktop"]) .vinyl-browser .project-copy dl{margin-top:24px}
+ :where(html[data-layout="desktop"]) .vinyl-browser .project-copy dd{margin:10px 0 24px;line-height:1.8}
+}
+.sleeve-record .vinyl-label img{display:block;object-fit:cover;transform:translateZ(.1px)}

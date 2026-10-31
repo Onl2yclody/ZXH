@@ -295,3 +295,12 @@ body:has(.vinyl-browser:not([hidden])){overflow:hidden}
  .catalog-edge-credit{right:3%;bottom:5%;text-align:right}
  .vinyl-browser.is-returning .catalog-edge-note{opacity:0}
 }
+
+/* Project introduction: align with the artwork rather than the viewport centre. */
+@media (min-width:1101px){
+ .vinyl-browser .project-copy{align-self:start;max-width:none;padding:clamp(40px,6svh,72px) clamp(28px,2.5vw,56px) 32px}
+ .vinyl-browser .project-copy h1{font-size:clamp(30px,3.2vw,64px);line-height:1.16;margin:22px 0 24px}
+ .vinyl-browser .project-copy dl{margin-top:24px}
+ .vinyl-browser .project-copy dd{margin:10px 0 24px;line-height:1.8}
+}
+.sleeve-record .vinyl-label img{display:block;object-fit:cover;transform:translateZ(.1px)}
