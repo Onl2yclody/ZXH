@@ -18,7 +18,7 @@ window.mountTurntable3D=(host,art)=>{
  const room=new T.Scene();room.add(new T.Mesh(new T.BoxGeometry(250,250,250),new T.MeshBasicMaterial({color:0x888888,side:T.BackSide})));
  for(const [x,y,z,w,h] of [[-65,60,40,45,90],[65,40,-20,35,75],[0,95,-45,90,50]]){const p=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshBasicMaterial({color:0xffffff}));p.position.set(x,y,z);p.lookAt(0,0,0);room.add(p);}
  const pmrem=new T.PMREMGenerator(renderer),env=pmrem.fromScene(room,.1);scene.environment=env.texture;pmrem.dispose();room.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});
- scene.add(new T.HemisphereLight(0xffffff,0x666666,1.5));const key=new T.DirectionalLight(0xffffff,3.1);key.position.set(-25,60,35);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-40,right:40,top:50,bottom:-40,near:1,far:150});key.shadow.normalBias=.07;scene.add(key);const fill=new T.DirectionalLight(0xffffff,1.1);fill.position.set(35,20,-35);scene.add(fill);
+ scene.add(new T.HemisphereLight(0xffffff,0x666666,1.5));const key=new T.DirectionalLight(0xffffff,3.1);key.position.set(-25,60,35);key.castShadow=true;const shadowSize=window.PortfolioLayout?.state?.layout==='phone'?1024:2048;key.shadow.mapSize.set(shadowSize,shadowSize);Object.assign(key.shadow.camera,{left:-40,right:40,top:50,bottom:-40,near:1,far:150});key.shadow.normalBias=.07;scene.add(key);const fill=new T.DirectionalLight(0xffffff,1.1);fill.position.set(35,20,-35);scene.add(fill);
  const floor=new T.Mesh(new T.PlaneGeometry(200,200),new T.ShadowMaterial({opacity:.13}));floor.rotation.x=-Math.PI/2;floor.position.y=-.1;floor.receiveShadow=true;scene.add(floor);
  // Replace decorative label by portfolio artwork, still taking 70% of disc diameter.
  for(const o of record.children){if(o.name==='Red record label'||o.name==='Label ornament approximation'||o.geometry.type==='TorusGeometry'&&o.geometry.parameters.radius<9.4)o.visible=false;}
@@ -110,7 +110,7 @@ window.mountTurntable3D=(host,art)=>{
   // Stay on the right rest, lift the needle, swing over the seated record,
   // then lower it. The pivot stays anchored rather than translating the base.
   const y=.5*(1-ease((t-.2)/.6)),x=-.065*ease(t/.2)*(1-ease((t-.8)/.2));
-  if(!transferActive&&(y!==built.arm.rotation.y||x!==built.arm.rotation.x))renderer.shadowMap.needsUpdate=true;
+  // The arm does not cast shadows; its motion only needs a colour and mask update.
   if(y!==built.arm.rotation.y||x!==built.arm.rotation.x){maskDirty=true;renderDirty=true;}built.arm.rotation.y=y;built.arm.rotation.x=x;
  };
  const setDisc=api.setDiscVisible;api.setDiscVisible=v=>{discVisible=v;setDisc(v);lidProgress(lidAngle/104);};
