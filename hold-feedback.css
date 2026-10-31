@@ -1,0 +1,9 @@
+/* HoldButton-inspired feedback, shared by native buttons and links. */
+.hold-feedback{position:fixed;pointer-events:none;z-index:10000;isolation:isolate;overflow:hidden;box-sizing:border-box;border:1px solid #b497cf66;--hold-progress:0;--hold-color:var(--portfolio-accent,#b497cf);box-shadow:0 0 calc(2px + var(--hold-progress)*13px) #b497cf55}
+.hold-feedback__fill{position:absolute;inset:0;background:var(--hold-color);opacity:.36;clip-path:inset(0 calc((1 - var(--hold-progress))*100%) 0 0)}
+.hold-feedback__wave{position:absolute;left:calc(var(--hold-progress)*100% - 5px);top:-50%;bottom:-50%;width:9px;background:var(--hold-color);opacity:.4;border-radius:40%;animation:hold-wave-drift .7s linear infinite}
+.hold-feedback--art{border-color:#b497cf55;box-shadow:0 0 calc(var(--hold-progress)*12px) #b497cf55}
+.hold-feedback--art .hold-feedback__fill,.hold-feedback--art .hold-feedback__wave{opacity:.2}
+.hold-feedback.is-complete{box-shadow:0 0 17px #b497cf88}
+@keyframes hold-wave-drift{from{transform:translateY(-5%) rotate(-2deg)}to{transform:translateY(5%) rotate(2deg)}}
+@media(prefers-reduced-motion:reduce){.hold-feedback__wave{animation:none;display:none}.hold-feedback__fill{clip-path:none;opacity:.17}}
