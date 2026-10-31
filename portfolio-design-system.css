@@ -1,4 +1,4 @@
-:root{--portfolio-headline:Impact,Haettenschweiler,'Arial Narrow','Microsoft YaHei',sans-serif;--portfolio-body:'Segoe UI','Microsoft YaHei',Arial,sans-serif;--portfolio-meta:Consolas,'SFMono-Regular',monospace;--portfolio-ink:#17191b;--portfolio-secondary:rgb(23 25 27 / .7);--portfolio-muted:rgb(23 25 27 / .60);--portfolio-accent:#c4ff42;--portfolio-rule:rgb(23 25 27 / .17)}
+:root{--portfolio-headline:Impact,Haettenschweiler,'Arial Narrow','Microsoft YaHei',sans-serif;--portfolio-body:'Segoe UI','Microsoft YaHei',Arial,sans-serif;--portfolio-meta:Consolas,'SFMono-Regular',monospace;--portfolio-ink:#17191b;--portfolio-secondary:rgb(23 25 27 / .7);--portfolio-muted:rgb(23 25 27 / .60);--portfolio-accent:#b79aef;--portfolio-rule:rgb(23 25 27 / .17)}
 body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink)}
 #portfolioIntro .intro-wordmark,.disc-studio .studio-home,.profile-logo{font-family:var(--portfolio-headline);font-weight:400;letter-spacing:.015em;text-decoration:none;line-height:1}
 #portfolioIntro .intro-wordmark,.disc-studio .studio-home{font-size:clamp(26px,2.3vw,42px)}

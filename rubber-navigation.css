@@ -1,5 +1,5 @@
 /* RubberSegment-inspired elastic navigation, adapted to native links and menus. */
-.rubber-navigation{position:relative;isolation:isolate;padding:4px;gap:4px!important;--nav-accent:#c4ff42}
+.rubber-navigation{position:relative;isolation:isolate;padding:4px;gap:4px!important;--nav-accent:var(--portfolio-accent,#b79aef)}
 .rubber-navigation .rubber-thumb{position:absolute;top:4px;bottom:4px;left:0;pointer-events:none;border-radius:7px;background:var(--nav-accent);z-index:-1;will-change:left,width}
 .rubber-navigation>a,.rubber-navigation>button,.rubber-navigation>details>summary{position:relative;box-sizing:border-box;padding:9px 12px!important;white-space:nowrap;line-height:1.25;text-decoration:none!important;border-radius:7px;background:transparent}
 .rubber-navigation>details{z-index:2}
