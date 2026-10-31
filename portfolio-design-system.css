@@ -27,3 +27,7 @@ body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink
 html[data-layout="desktop"] #portfolioIntro .sleeve-cover-return:not([hidden]){display:none!important}
 /* Remove the sleeve-back preview instruction block and its rule. */
 #portfolioIntro.is-browsing-sleeve .intro-corner-bl{display:none!important}
+/* Fine-tune desktop archive spacing. */
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl-directory{right:5.5%}
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top{bottom:46px}
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl-feature{bottom:162px;height:calc(100% - 162px)}
