@@ -25,3 +25,5 @@ body.studio-document{font-family:var(--portfolio-body);color:var(--portfolio-ink
 
 /* Desktop returns through Esc/right-click, without a floating return button. */
 html[data-layout="desktop"] #portfolioIntro .sleeve-cover-return:not([hidden]){display:none!important}
+/* Remove the sleeve-back preview instruction block and its rule. */
+#portfolioIntro.is-browsing-sleeve .intro-corner-bl{display:none!important}
