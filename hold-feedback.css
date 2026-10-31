@@ -1,2 +1,1 @@
-/* Feedback uses each native control's own background and press transform.
-   No fixed overlays, progress strips or detached frames are created. */
+/* Controls retain their existing colours. Only a short press/release transform is used. */

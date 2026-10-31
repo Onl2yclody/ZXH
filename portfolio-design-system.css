@@ -53,3 +53,9 @@ html[data-layout="desktop"] #portfolioIntro.is-browsing-sleeve::after{left:14%}
 .profile-heading h2,.profile-section>h2,.project-inline-details .inline-detail-heading h2,.overview-heading h1,.section-heading h2{color:var(--portfolio-accent,#b497cf)}
 .vinyl-browser .archive-current,.vinyl-browser .archive-instruction{display:none!important}
 .profile-section h2,.profile-section h3,.project-inline-details h2,.project-inline-details h3,.vinyl-browser .project-copy h1,.disc-studio .studio-meta h1,.vinyl-directory .archive-titles h1{color:var(--portfolio-accent,#b497cf)}
+/* Rows stay neutral until hovered or reached by keyboard. */
+.vinyl-directory[data-archive-ready] .vinyl-tracks button,.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current="true"]{background:transparent;color:#17191b;border-left:3px solid transparent}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button .track-number,.vinyl-directory[data-archive-ready] .vinyl-tracks button .track-arrow,.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current="true"] .track-number,.vinyl-directory[data-archive-ready] .vinyl-tracks button[data-current="true"] .track-arrow{color:var(--portfolio-muted,#666)}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible){background:#17191b;color:#fff;border-left-color:var(--portfolio-accent,#b497cf)}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible) .track-number,.vinyl-directory[data-archive-ready] .vinyl-tracks button:is(:hover,:focus-visible) .track-arrow{color:var(--portfolio-accent,#b497cf)}
+.vinyl-directory[data-archive-ready] .vinyl-tracks button:before{display:none}
