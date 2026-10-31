@@ -46,3 +46,6 @@ html[data-layout="desktop"] .disc-studio .studio-header{grid-template-columns:mi
 /* Transparent navigation and a quieter left-aligned print accent. */
 #portfolioIntro .intro-top,.disc-studio .studio-header{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
 html[data-layout="desktop"] #portfolioIntro.is-browsing-sleeve::after{left:14%}
+/* Solid theme-colour counts and no sleeve-back helper caption. */
+#portfolioIntro .intro-corner-tr b{color:var(--portfolio-accent,#b497cf);-webkit-text-stroke:0;text-shadow:none}
+#portfolioIntro .sleeve-stage.is-composed .sleeve-hint{display:none!important}

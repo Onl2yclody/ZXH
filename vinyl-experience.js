@@ -53,17 +53,28 @@
  setTimeout(()=>{flipping=false;stage.classList.add('is-back');coverReturn.hidden=false;record.disabled=false;record.tabIndex=0;hotspots.forEach(b=>b.tabIndex=0);hotspots[0].focus({preventScroll:true});hint.firstChild && (hint.firstChild.textContent='移向小猫切换黑胶 · 点击小猫进入项目目录');},reduced?0:850);}
  front.onclick=flip;front.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
  const layouts=[['graphic',1,3,36,30,23],['identity',2,25,21,29,23],['keyvisual',3,58,15,29,25],['packaging',4,39,44,26,20],['extended',5,43,66,26,23],['uiux',6,67,57,25,21],['illustration',7,13,59,25,23]];
- // Hit regions follow each printed cat. The sleeve bitmap is the only
- // artwork layer: duplicated textures and moving eye patches caused ghosts.
+ // Hit regions follow each printed cat. Non-overlapping source regions
+ // preserve the artwork while allowing individual icons to lift.
  const logoBounds={graphic:[7.7,41.8,26.5,15.9],identity:[25.2,24.6,25.1,19.3],keyvisual:[58.5,16.3,25.7,19.2],packaging:[40,48.2,23,15.8],extended:[44.2,72.7,23.1,16],uiux:[67.8,61.4,22.4,15.3],illustration:[13.5,64,23.6,16.5]};
+ const catImageReady=[];
  const hotspots=layouts.map(([category,n])=>{
   const b=document.createElement('button'),[x,y,w,h]=logoBounds[category];
   b.className='sleeve-hotspot';b.dataset.album=category;b.tabIndex=-1;
   b.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
   b.setAttribute('aria-label',String(n).padStart(2,'0')+' '+window.albumProjects[category].title);b.title=window.albumProjects[category].title;
+  const tile=document.createElement('span');tile.className='sleeve-cat-art';tile.setAttribute('aria-hidden','true');
+  const image=document.createElement('img');image.className='sleeve-cat-art-image';image.alt='';image.draggable=false;image.src=back.querySelector('.sleeve-texture').getAttribute('src');
+  image.style.cssText=`width:${137.5/w*100}%;height:${140/h*100}%;left:${-(x+18.75)/w*100}%;top:${-(y+20.8)/h*100}%`;
+  tile.append(image);b.append(tile);catImageReady.push(image.decode());
   b.onpointerenter=b.onfocus=()=>{if(flipped&&!flipping&&!entering)select(category);};
   b.onclick=()=>{if(flipped&&!flipping)launch(category);};back.append(b);return b;
  });
+ // Split the existing print into non-overlapping tiles. Each visible source
+ // pixel has one owner, avoiding the double image that plagued the old lift.
+ const sheet=back.querySelector('.sleeve-texture');
+ const holes=Object.values(logoBounds).map(([x,y,w,h])=>'<rect x="'+((x+18.75)/137.5*100)+'" y="'+((y+20.8)/140*100)+'" width="'+(w/137.5*100)+'" height="'+(h/140*100)+'" fill="black"/>').join('');
+ const mask='url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="white"/>'+holes+'</svg>')+'")';
+ Promise.all(catImageReady).then(()=>{sheet.style.maskImage=mask;sheet.style.webkitMaskImage=mask;sheet.style.maskSize=sheet.style.webkitMaskSize='100% 100%';sheet.style.maskMode='luminance';sheet.style.maskRepeat='no-repeat';back.classList.add('has-cat-layers');}).catch(()=>{back.classList.remove('has-cat-layers');});
  // Keep a decoded label on screen while the next category loads. Do not
  // rebuild the record on hover: this also preserves the 3D image layer.
  const labelCache=new Map();let labelRequest=0;

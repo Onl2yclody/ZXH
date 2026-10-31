@@ -1,0 +1,10 @@
+/* Lift a single aligned part of the original print, with its base region removed. */
+#portfolioIntro .sleeve-hotspot{border-radius:0}
+#portfolioIntro .sleeve-cat-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:0;transform:translateY(0) scale(1);transform-origin:center;transition:transform .26s cubic-bezier(.2,.7,.2,1),filter .26s ease}
+#portfolioIntro .has-cat-layers .sleeve-cat-art{opacity:1}
+#portfolioIntro .sleeve-cat-art-image{position:absolute;max-width:none;object-fit:fill;pointer-events:none;user-select:none}
+#portfolioIntro .sleeve-stage.is-back:not(.is-retracting) .sleeve-hotspot:is(:hover,:focus-visible) .sleeve-cat-art{transform:translateY(-8px) scale(1.025);filter:drop-shadow(0 5px 3px #0003)}
+#portfolioIntro .sleeve-hotspot:focus-visible{outline:none}
+#portfolioIntro .sleeve-stage.is-retracting .sleeve-cat-art{transform:none;filter:none}
+@media(prefers-reduced-motion:reduce){#portfolioIntro .sleeve-cat-art{transition:none}#portfolioIntro .sleeve-hotspot:is(:hover,:focus-visible) .sleeve-cat-art{transform:translateY(-2px)!important;filter:none!important}}
+@media(forced-colors:active){#portfolioIntro .sleeve-hotspot:focus-visible{outline:2px solid Highlight}}
