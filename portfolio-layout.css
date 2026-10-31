@@ -789,3 +789,6 @@ html[data-layout="phone"] .vinyl-browser .turntable-model.has-webgl{width:100%;h
  :where(html[data-layout="desktop"]) .vinyl-browser .project-copy dd{margin:10px 0 24px;line-height:1.8}
 }
 .sleeve-record .vinyl-label img{display:block;object-fit:cover;transform:translateZ(.1px)}
+
+/* Give the archive directory more room beside the player. */
+:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog .turntable-model,:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog .turntable-model.has-webgl{left:44%}
