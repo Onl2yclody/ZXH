@@ -31,3 +31,8 @@ html[data-layout="desktop"] #portfolioIntro .sleeve-cover-return:not([hidden]){d
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl-directory{right:5.5%}
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top{bottom:46px}
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl-feature{bottom:162px;height:calc(100% - 162px)}
+/* Keep the edition inside a stable, uniformly painted header. */
+.disc-studio .studio-header{box-sizing:border-box;background:#fff;backdrop-filter:none;isolation:isolate}
+.disc-studio .studio-edition{position:static;margin:0;padding:0 14px 0 0;min-width:112px;font:10px/1.55 var(--portfolio-meta);letter-spacing:.04em;white-space:nowrap;text-align:right;color:var(--portfolio-secondary);align-self:center;box-sizing:border-box}
+.disc-studio .studio-meta{pointer-events:auto}
+html[data-layout="desktop"] .disc-studio .studio-header{grid-template-columns:minmax(180px,1fr) auto minmax(126px,1fr);gap:18px}

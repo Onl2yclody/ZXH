@@ -9,3 +9,7 @@
 #portfolioIntro .scramble-text .scramble-sizer{display:inline;font:inherit;letter-spacing:inherit;margin:0;padding:0;opacity:0}
 #portfolioIntro .scramble-text .scramble-glyph{display:block;position:absolute;inset:0;font:inherit;letter-spacing:inherit;margin:0;padding:0;text-align:center;white-space:pre;color:inherit}
 #portfolioIntro .scramble-text .is-scrambling .scramble-glyph{color:var(--portfolio-accent,#b497cf)}
+.disc-studio .scramble-text .scramble-char{display:inline-block;position:relative;vertical-align:baseline;font:inherit;letter-spacing:inherit;margin:0;padding:0;white-space:pre}
+.disc-studio .scramble-text .scramble-sizer{display:inline;font:inherit;margin:0;padding:0;opacity:0}
+.disc-studio .scramble-text .scramble-glyph{display:block;position:absolute;inset:0;font:inherit;letter-spacing:inherit;margin:0;padding:0;color:inherit;text-align:center}
+.disc-studio .scramble-text .is-scrambling .scramble-glyph{color:var(--portfolio-accent,#b497cf)}
