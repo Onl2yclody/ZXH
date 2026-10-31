@@ -10,7 +10,7 @@
   const disc=document.createElement('span');disc.className='cd-case-disc';
   const eyebrow=document.createElement('small');eyebrow.className='cd-disc-eyebrow';eyebrow.textContent=String(index+1).padStart(2,'0')+' / DESIGN COLLECTION';
   const title=document.createElement('strong');title.className='cd-disc-title';title.textContent=p.title;
-  const art=document.createElement('span');art.className='cd-disc-art';const image=document.createElement('img');image.src=covers[key]||p.series[0].cover||p.series[0].images[0];image.alt='';image.loading='lazy';image.decoding='async';art.append(image);
+  const art=document.createElement('span');art.className='cd-disc-art';const image=document.createElement('img');image.src='assets/display-art/'+key+'.webp';image.width=900;image.height=900;image.alt='';image.loading='eager';image.fetchPriority='low';image.decoding='async';art.append(image);
   const hub=document.createElement('span');hub.className='cd-disc-hub';const count=document.createElement('em');count.className='cd-disc-count';count.textContent=p.series.length+' PROJECTS';
   disc.append(eyebrow,title,art,hub,count);tray.append(disc);
   const gloss=document.createElement('span');gloss.className='cd-case-gloss';for(const edge of ['top','bottom']){const clip=document.createElement('span');clip.className='cd-case-clip cd-case-clip-'+edge;shell.append(clip);}
