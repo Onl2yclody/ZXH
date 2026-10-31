@@ -67,3 +67,5 @@ html[data-portfolio-transition] .catalog-edge-note{animation:none!important}
 .vinyl-directory[data-archive-ready] .archive-issue{color:var(--portfolio-accent,#b497cf)}
 .vinyl-directory[data-archive-ready] .archive-titles h1{color:#17191b}
 .vinyl-directory[data-archive-ready] .archive-track-heading{margin-top:clamp(44px,5svh,64px);margin-bottom:14px}
+/* Crop the poster's built-in paper border inside circular record labels. */
+.turntable-3d-label img[src*="insect-world-poster-final"],.vinyl-label img[src*="insect-world-poster-final"],.cd-disc-art img[src*="insect-world-poster-final"]{object-fit:cover;object-position:center;scale:1.12;transform-origin:center}
