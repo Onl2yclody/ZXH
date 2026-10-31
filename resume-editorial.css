@@ -47,3 +47,11 @@ body main,.page{max-width:1720px!important;margin:0 auto!important;padding:42px 
 .cv-resume-image{display:block;width:100%;height:100%;object-fit:contain;object-position:center;margin:0;background:#fff}
 @media(max-width:760px){.profile-navigation{position:relative}.profile-navigation nav{flex-wrap:wrap;gap:14px;font-size:14px}.cv-identity h1 span,.page h1 span{display:block;margin:12px 0 0}.contact-grid,.page .intro,.profile-grid{grid-template-columns:1fr;gap:24px}.contact-grid>div:last-child{border-left:0;border-top:1px solid #ccc;padding:24px 0 0}.experience-row,.honour-row,.page .award{grid-template-columns:1fr;gap:10px}.profile-heading{flex-wrap:wrap}.page .heading{gap:12px;flex-wrap:wrap}.nav{flex-wrap:wrap;font-size:13px!important}.profile-section{scroll-margin-top:20px}}
 @media print{.profile-navigation,.nav,.resume-link{display:none}body main,.page{padding:0!important}.page .award{break-inside:avoid}.cv-identity h1,.page h1{font-size:40px}.page .award p{font-size:12px}.page .award b{font-size:16px}}
+/* Mobile profile rows: reset every desktop/legacy grid placement. */
+@media(max-width:760px){
+ .profile-section .experience-row,.profile-section .honour-row,.page .role,.page .award{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important;padding:24px 0!important}
+ .profile-section .experience-row>*,.profile-section .honour-row>*,.page .role>*,.page .award>*{grid-column:1 / -1!important;grid-row:auto!important;min-width:0;max-width:100%;margin-left:0!important}
+ .experience-row time,.honour-row time,.role time{white-space:nowrap;font-size:12px!important;line-height:1.6!important}
+ .experience-row h3,.honour-row h3,.role>b{font-size:19px!important;line-height:1.5!important;margin:0!important}
+ .experience-row p,.honour-row p,.role p,.page .award p{font-size:16px!important;line-height:1.85!important;margin:2px 0 0!important;text-align:left;word-break:normal;overflow-wrap:break-word;text-wrap:pretty}
+}
