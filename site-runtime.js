@@ -252,7 +252,7 @@ window.inlineProjectDetails={"shan-ye-details.html":"<div class=\"process\"><sec
   if(!pending)pending=(async()=>{
    if(!window.THREE)await load('vendor/three.min.js');
    if(!window.createRedSuitcase)await load('red-suitcase-model.js?v=4');
-   if(!window.mountTurntable3D)await load('suitcase-player.js?v=25');
+   if(!window.mountTurntable3D)await load('suitcase-player.js?v=26');
   })().catch(error=>{pending=null;throw error;});
   return pending;
  };

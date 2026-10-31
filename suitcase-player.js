@@ -6,9 +6,12 @@ window.disposeTurntable3D=()=>{active?.dispose();active=null;};
 window.mountTurntable3D=(host,art)=>{
  window.disposeTurntable3D();const T=window.THREE;if(!T||!window.createRedSuitcase)return null;
  let renderer;try{renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});}catch(e){console.warn('Suitcase WebGL unavailable',e);return null;}
- renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.setClearColor(0xffffff,0);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;
+ renderer.setPixelRatio(Math.min(devicePixelRatio||1,window.PortfolioLayout?.state?.layout==='phone'?2:1.5));renderer.setClearColor(0xffffff,0);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;
  const canvas=renderer.domElement;canvas.className='turntable-webgl';canvas.setAttribute('role','img');canvas.setAttribute('aria-label','猫头标志黑白灰手提箱唱片机');host.append(canvas);
  const scene=new T.Scene(),camera=new T.PerspectiveCamera(32,1,.1,500),built=window.createRedSuitcase(T,{portfolio:true}),model=built.model,record=built.record;scene.add(model);
+ // Thin moving hardware casts an oversized soft shadow on the deck at phone scale.
+ // Keep the physical arm crisp and prevent that shadow from resembling a second arm.
+ built.arm.traverse(part=>{if(part.isMesh){part.castShadow=false;part.receiveShadow=false;}});
  // Reference view: elevated front-left three-quarter perspective. Framing below
  // adjusts zoom only, preserving this angle throughout the lid/record sequence.
  camera.position.set(-19.72336,52.95312,30.15378);camera.lookAt(0,10,0);camera.updateMatrixWorld();
