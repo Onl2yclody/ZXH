@@ -63,6 +63,8 @@
   b.style.cssText=`left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
   b.setAttribute('aria-label',String(n).padStart(2,'0')+' '+window.albumProjects[category].title);b.title=window.albumProjects[category].title;
   const tile=document.createElement('span');tile.className='sleeve-cat-art';tile.setAttribute('aria-hidden','true');
+  const shape=window.portfolioCatMasks?.[category];
+  if(shape){const shapeMask='url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+shape.width+' '+shape.height+'" preserveAspectRatio="none"><path fill="white" d="'+shape.path+'"/></svg>')+'")';tile.style.maskImage=tile.style.webkitMaskImage=shapeMask;tile.style.maskSize=tile.style.webkitMaskSize='100% 100%';tile.style.maskRepeat='no-repeat';}
   const image=document.createElement('img');image.className='sleeve-cat-art-image';image.alt='';image.draggable=false;image.src=back.querySelector('.sleeve-texture').getAttribute('src');
   image.style.cssText=`width:${137.5/w*100}%;height:${140/h*100}%;left:${-(x+18.75)/w*100}%;top:${-(y+20.8)/h*100}%`;
   tile.append(image);b.append(tile);catImageReady.push(image.decode());
@@ -72,9 +74,9 @@
  // Split the existing print into non-overlapping tiles. Each visible source
  // pixel has one owner, avoiding the double image that plagued the old lift.
  const sheet=back.querySelector('.sleeve-texture');
- const holes=Object.values(logoBounds).map(([x,y,w,h])=>'<rect x="'+((x+18.75)/137.5*100)+'" y="'+((y+20.8)/140*100)+'" width="'+(w/137.5*100)+'" height="'+(h/140*100)+'" fill="black"/>').join('');
+ const holes=Object.entries(logoBounds).map(([category,[x,y,w,h]])=>{const shape=window.portfolioCatMasks?.[category];if(!shape)return '';return '<g transform="translate('+((x+18.75)/137.5*100)+' '+((y+20.8)/140*100)+') scale('+(w/137.5*100/shape.width)+' '+(h/140*100/shape.height)+')"><path d="'+shape.path+'" fill="black"/></g>';}).join('');
  const mask='url("data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="white"/>'+holes+'</svg>')+'")';
- Promise.all(catImageReady).then(()=>{sheet.style.maskImage=mask;sheet.style.webkitMaskImage=mask;sheet.style.maskSize=sheet.style.webkitMaskSize='100% 100%';sheet.style.maskMode='luminance';sheet.style.maskRepeat='no-repeat';back.classList.add('has-cat-layers');}).catch(()=>{back.classList.remove('has-cat-layers');});
+ Promise.all(catImageReady).then(()=>{if(!window.portfolioCatMasks||Object.keys(logoBounds).some(key=>!window.portfolioCatMasks[key]))return;sheet.style.maskImage=mask;sheet.style.webkitMaskImage=mask;sheet.style.maskSize=sheet.style.webkitMaskSize='100% 100%';sheet.style.maskMode='luminance';sheet.style.maskRepeat='no-repeat';back.classList.add('has-cat-layers');}).catch(()=>{back.classList.remove('has-cat-layers');});
  // Keep a decoded label on screen while the next category loads. Do not
  // rebuild the record on hover: this also preserves the 3D image layer.
  const labelCache=new Map();let labelRequest=0;

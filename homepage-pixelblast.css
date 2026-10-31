@@ -7,3 +7,7 @@
 .homepage-pixelblast[hidden]{display:none!important}
 @media(max-width:760px){.disc-studio>.homepage-pixelblast{opacity:.17}}
 @media(prefers-reduced-motion:reduce){.disc-studio>.homepage-pixelblast{opacity:.14}}
+/* Make the purple pattern visible while keeping foreground artwork dominant. */
+#portfolioIntro>.homepage-pixelblast,.disc-studio>.homepage-pixelblast{opacity:.46}
+@media(max-width:760px){#portfolioIntro>.homepage-pixelblast,.disc-studio>.homepage-pixelblast{opacity:.34}}
+@media(prefers-reduced-motion:reduce){#portfolioIntro>.homepage-pixelblast,.disc-studio>.homepage-pixelblast{opacity:.3}}

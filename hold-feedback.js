@@ -1,33 +1,22 @@
-/* Native HoldButton visual adapter. Existing click and keyboard actions retain ownership. */
+/* HoldButton-inspired feedback painted inside the actual control, never in a detached overlay. */
 (()=>{
  if(window.portfolioHoldFeedback)return;window.portfolioHoldFeedback=true;
  const selector='button,a[href],summary,[role="button"],input[type="button"],input[type="submit"]';
+ const art='.sleeve-front,.sleeve-record,.sleeve-hotspot,.sleeve-side-trigger,.sleeve-spine-link,.studio-disc button,.overview-card';
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');let current=null;
- function targetOf(event){const el=event.target instanceof Element?event.target.closest(selector):null;return el&&!el.matches(':disabled,[aria-disabled="true"]')&&!el.closest('[inert]')?el:null;}
- function place(state){if(!state.target.isConnected)return false;if(state.art)return state.layer.isConnected;const visual=state.target.querySelector('.sleeve-logo-lift')||state.target,r=visual.getBoundingClientRect();if(!r.width||!r.height)return false;
-  Object.assign(state.layer.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});return true;
+ function finish(){const s=current;if(!s)return;current=null;cancelAnimationFrame(s.frame);s.motion?.cancel();s.target.style.backgroundImage=s.originalImage;if(!reduced.matches&&s.target.isConnected)s.target.animate([{scale:.97},{scale:1}],{duration:160,easing:'cubic-bezier(.23,1,.32,1)'});}
+ function begin(target,pointerId,x,y,key){finish();if(target.matches(art)||target.closest('.sleeve-model')||target.querySelector('img'))return;
+  const old=target.style.backgroundImage,computed=getComputedStyle(target).backgroundImage;
+  const s={target,pointerId,x,y,key,start:performance.now(),originalImage:old,base:computed==='none'?'':','+computed,frame:0,motion:null};current=s;
+  if(!reduced.matches)s.motion=target.animate([{scale:1},{scale:.97}],{duration:100,fill:'forwards',easing:'ease-out'});
+  function tick(now){if(current!==s)return;if(!target.isConnected){finish();return;}const p=Math.min(100,6+(now-s.start)/13);target.style.backgroundImage='linear-gradient(90deg,rgba(180,151,207,.28) '+p+'%,transparent '+p+'%)'+s.base;if(p<100)s.frame=requestAnimationFrame(tick);}
+  s.frame=requestAnimationFrame(tick);
  }
- function finish(){const state=current;if(!state)return;current=null;cancelAnimationFrame(state.frame);
-  state.scale?.cancel();if(state.art){state.layer.remove();return;}if(!reduced.matches&&state.target.isConnected)state.target.animate([{scale:.97},{scale:1}],{duration:180,easing:'cubic-bezier(.23,1,.32,1)'});
-  const from=state.progress;let start;
-  function retract(now){if(start===undefined)start=now;const t=Math.min(1,(now-start)/180);state.layer.style.setProperty('--hold-progress',String(from*Math.pow(1-t,3)));state.layer.style.opacity=String(1-t);if(t<1)requestAnimationFrame(retract);else state.layer.remove();}
-  requestAnimationFrame(retract);
- }
- function begin(target,pointerId,x,y,key){finish();if(target.matches('.sleeve-hotspot'))return;const layer=document.createElement('span');layer.className='hold-feedback';layer.setAttribute('aria-hidden','true');
-  const art=target.matches('.sleeve-front,.sleeve-record,.sleeve-hotspot,.studio-disc button,.overview-card')||!!target.querySelector('img');
-  if(art)layer.className='hold-art-feedback';
-  const style=getComputedStyle(target);layer.style.borderRadius=target.matches('.studio-disc button,.sleeve-record')?'50%':style.borderRadius||'5px';
-  const lift=target.querySelector('.sleeve-logo-lift');
-  if(!art)layer.innerHTML='<span class="hold-feedback__fill"></span><span class="hold-feedback__wave"></span>';if(art)(lift||target).append(layer);else document.body.append(layer);
-  const state={target,layer,pointerId,key,x,y,start:performance.now(),progress:.06,frame:0,scale:null,art};current=state;
-  if(!art&&!reduced.matches)state.scale=target.animate([{scale:1},{scale:.97}],{duration:110,fill:'forwards',easing:'ease-out'});
-  function tick(now){if(current!==state||!place(state)){if(current===state)finish();return;}state.progress=Math.min(1,.06+(now-state.start)/1300);layer.style.setProperty('--hold-progress',state.progress.toFixed(4));if(state.progress>=1){layer.classList.add('is-complete');return;}state.frame=requestAnimationFrame(tick);}
-  if(!place(state)){finish();return;}state.frame=requestAnimationFrame(tick);
- }
- document.addEventListener('pointerdown',e=>{if(e.button!==0)return;const target=targetOf(e);if(target)begin(target,e.pointerId,e.clientX,e.clientY);},{capture:true,passive:true});
- document.addEventListener('pointermove',e=>{if(current&&current.pointerId===e.pointerId&&Math.hypot(e.clientX-current.x,e.clientY-current.y)>12)finish();},{passive:true});
- for(const name of ['pointerup','pointercancel'])document.addEventListener(name,e=>{if(current?.pointerId===e.pointerId)finish();},true);
- document.addEventListener('keydown',e=>{if(e.repeat||!['Enter',' '].includes(e.key))return;const target=targetOf(e);if(target)begin(target,null,0,0,e.key);},true);
+ function getTarget(e){const target=e.target instanceof Element?e.target.closest(selector):null;return target&&!target.matches(':disabled,[aria-disabled="true"]')&&!target.closest('[inert]')?target:null;}
+ document.addEventListener('pointerdown',e=>{if(e.button!==0)return;const target=getTarget(e);if(target)begin(target,e.pointerId,e.clientX,e.clientY);},{capture:true,passive:true});
+ document.addEventListener('pointermove',e=>{if(current?.pointerId===e.pointerId&&Math.hypot(e.clientX-current.x,e.clientY-current.y)>12)finish();},{passive:true});
+ for(const event of ['pointerup','pointercancel'])document.addEventListener(event,e=>{if(current?.pointerId===e.pointerId)finish();},true);
+ document.addEventListener('keydown',e=>{if(e.repeat||!['Enter',' '].includes(e.key))return;const target=getTarget(e);if(target)begin(target,null,0,0,e.key);},true);
  document.addEventListener('keyup',e=>{if(current?.key===e.key)finish();},true);
- window.addEventListener('blur',finish);window.addEventListener('scroll',finish,{capture:true,passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();});reduced.addEventListener('change',finish);
+ for(const event of ['blur','pagehide'])window.addEventListener(event,finish);window.addEventListener('scroll',finish,{capture:true,passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();});reduced.addEventListener('change',finish);
 })();

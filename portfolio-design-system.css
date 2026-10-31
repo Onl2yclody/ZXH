@@ -49,3 +49,7 @@ html[data-layout="desktop"] #portfolioIntro.is-browsing-sleeve::after{left:14%}
 /* Solid theme-colour counts and no sleeve-back helper caption. */
 #portfolioIntro .intro-corner-tr b{color:var(--portfolio-accent,#b497cf);-webkit-text-stroke:0;text-shadow:none}
 #portfolioIntro .sleeve-stage.is-composed .sleeve-hint{display:none!important}
+/* Section accents and a cleaner archive directory. */
+.profile-heading h2,.profile-section>h2,.project-inline-details .inline-detail-heading h2,.overview-heading h1,.section-heading h2{color:var(--portfolio-accent,#b497cf)}
+.vinyl-browser .archive-current,.vinyl-browser .archive-instruction{display:none!important}
+.profile-section h2,.profile-section h3,.project-inline-details h2,.project-inline-details h3,.vinyl-browser .project-copy h1,.disc-studio .studio-meta h1,.vinyl-directory .archive-titles h1{color:var(--portfolio-accent,#b497cf)}
