@@ -36,3 +36,10 @@ html[data-layout="desktop"] .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl
 .disc-studio .studio-edition{position:static;margin:0;padding:0 14px 0 0;min-width:112px;font:10px/1.55 var(--portfolio-meta);letter-spacing:.04em;white-space:nowrap;text-align:right;color:var(--portfolio-secondary);align-self:center;box-sizing:border-box}
 .disc-studio .studio-meta{pointer-events:auto}
 html[data-layout="desktop"] .disc-studio .studio-header{grid-template-columns:minmax(180px,1fr) auto minmax(126px,1fr);gap:18px}
+/* Unified theme and clean header: no rule beneath the navigation. */
+#portfolioIntro .intro-top,.disc-studio .studio-header{border-bottom:0!important}
+.studio-categories button:hover,.studio-categories button:focus-visible{background:var(--portfolio-accent,#b497cf);color:#17191b}
+.studio-categories button[aria-pressed="true"]{background:var(--portfolio-accent,#b497cf);color:#17191b}
+.project-overview .overview-filters.rubber-navigation{width:fit-content;max-width:100%;gap:6px!important;padding:4px;margin-bottom:24px;align-items:center}
+.project-overview .overview-filters.rubber-navigation button{border:1px solid var(--portfolio-rule);border-radius:7px;background:transparent;color:#17191b;position:relative;z-index:1}
+.project-overview .overview-filters.rubber-navigation button[aria-pressed="true"]{background:transparent;color:#17191b;border-color:transparent}

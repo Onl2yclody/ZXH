@@ -1,17 +1,17 @@
 /* Motion reference: user-supplied React Bits RubberSegment. Native DOM adapter. */
 (()=>{
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- document.querySelectorAll('.studio-navigation,.intro-navigation').forEach(nav=>{
+ document.querySelectorAll('.overview-filters').forEach(nav=>{
   const items=[...nav.children].map(e=>e.matches('details')?e.querySelector('summary'):e).filter(e=>e?.matches('a,button,summary'));
   if(!items.length)return;
   nav.classList.add('rubber-navigation');
   const thumb=document.createElement('span');thumb.className='rubber-thumb';thumb.setAttribute('aria-hidden','true');nav.prepend(thumb);
-  let selected=items[0],active=selected,animation=null;
-  function slot(item){const n=nav.getBoundingClientRect(),r=item.getBoundingClientRect();return {left:r.left-n.left,width:r.width};}
+  let selected=items.find(e=>e.getAttribute('aria-pressed')==='true')||items[0],active=selected,animation=null;
+  function slot(item){return {left:item.offsetLeft,width:item.offsetWidth,top:item.offsetTop,height:item.offsetHeight};}
   function move(item,instant=false){
    active=item;const target=slot(item);if(!target.width){thumb.hidden=true;return;}thumb.hidden=false;
    const current={left:parseFloat(getComputedStyle(thumb).left)||target.left,width:thumb.getBoundingClientRect().width||target.width};
-   animation?.cancel();thumb.style.left=target.left+'px';thumb.style.width=target.width+'px';
+   animation?.cancel();thumb.style.left=target.left+'px';thumb.style.width=target.width+'px';thumb.style.top=target.top+'px';thumb.style.height=target.height+'px';thumb.style.bottom='auto';
    if(instant||reduced.matches)return;
    const left=Math.min(current.left,target.left),right=Math.max(current.left+current.width,target.left+target.width);
    const direction=target.left>=current.left?1:-1;

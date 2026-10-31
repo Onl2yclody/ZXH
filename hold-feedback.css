@@ -7,3 +7,8 @@
 .hold-feedback.is-complete{box-shadow:0 0 17px #b497cf88}
 @keyframes hold-wave-drift{from{transform:translateY(-5%) rotate(-2deg)}to{transform:translateY(5%) rotate(2deg)}}
 @media(prefers-reduced-motion:reduce){.hold-feedback__wave{animation:none;display:none}.hold-feedback__fill{clip-path:none;opacity:.17}}
+/* Large artwork uses an outline response so liquid never covers the project image. */
+.hold-feedback--art .hold-feedback__fill,.hold-feedback--art .hold-feedback__wave{display:none}
+.hold-feedback--art{border-color:#b497cf77;background:transparent}
+/* Artwork feedback belongs to its 3D surface, never to a screen-space rectangle. */
+.hold-art-feedback{position:absolute;inset:1px;pointer-events:none;z-index:9;border:1px solid #b497cf88;box-shadow:inset 0 0 10px #b497cf55;box-sizing:border-box;background:transparent;border-radius:inherit}
