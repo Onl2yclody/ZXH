@@ -792,3 +792,13 @@ html[data-layout="phone"] .vinyl-browser .turntable-model.has-webgl{width:100%;h
 
 /* Give the archive directory more room beside the player. */
 :where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog .turntable-model,:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog .turntable-model.has-webgl{left:44%}
+
+/* Reserve a text row below the player instead of overlaying its silhouette. */
+:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog:has(.has-webgl) .vinyl-feature{bottom:134px;height:calc(100% - 134px);overflow:hidden}
+:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog .catalog-edge-top{left:2%;bottom:18px;width:68%;max-width:68%;min-height:100px;gap:6px;animation:none;justify-content:center}
+:where(html[data-layout="desktop"]) .vinyl-browser .catalog-edge-top strong{font-size:clamp(26px,2.5vw,44px);line-height:1.18;letter-spacing:-.035em;text-wrap:pretty;overflow-wrap:anywhere}
+:where(html[data-layout="desktop"]) .vinyl-browser .catalog-edge-top span{font-size:11px}
+:where(html[data-layout="desktop"]) .vinyl-browser .vinyl-catalog:after{bottom:10%;width:64px;height:24px}
+
+/* Keep the author credit unobstructed. */
+.vinyl-browser .vinyl-catalog::after{display:none}
