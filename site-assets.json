@@ -6,8 +6,8 @@
   },
   "runtime": {
     "file": "site-runtime.js",
-    "hash": "5af61255a045",
-    "bytes": 280058,
+    "hash": "da6af80d412b",
+    "bytes": 291834,
     "sources": [
       "hello-paw-projects.js",
       "album-projects.js",
@@ -18,6 +18,8 @@
       "turntable-loader.js",
       "suitcase-fallback.js",
       "cat-shape-masks.js",
+      "project-image-map.js",
+      "project-image-loading.js",
       "vinyl-experience.js",
       "intro-edge-motion.js",
       "archive-directory.js",
