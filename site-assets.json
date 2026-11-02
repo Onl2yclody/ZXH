@@ -6,8 +6,8 @@
   },
   "runtime": {
     "file": "site-runtime.js",
-    "hash": "a329bc3a7dc8",
-    "bytes": 294511,
+    "hash": "e7017f5ddd16",
+    "bytes": 294538,
     "sources": [
       "hello-paw-projects.js",
       "album-projects.js",
