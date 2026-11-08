@@ -183,7 +183,7 @@ window.albumProjects=projects;
  if(phone){phoneCenter=phoneCenterCache;scene.style.setProperty('--phone-disc-center',phoneCenter+'px');}
  const unit=phone?phoneUnit:Math.min(h*(mobile?.43:.60),w*(mobile?.50:.30)),spacing=mobile?w*.86:w*.315;
  nodes.forEach(({node,button,lines},i)=>{if(node.dataset.returnFlight==='true')return;const d=i-position,visible=d>-2.1&&d<2.1;node.style.visibility=visible?'visible':'hidden';node.style.pointerEvents=visible&&phase==='ready'?'auto':'none';if(!visible)return;
- const diameter=unit*clamp(1+.18*d,.45,1.40)*loadScale;
+ const diameter=unit*(phone?1:clamp(1+.18*d,.45,1.40))*(phone?1:loadScale);
  const x=w*.515+spacing*d*spread,y=phone?phoneCenter:h*(mobile?.60:.51)-(mobile?0:h*.225*d*spread);
  node.style.width=diameter+'px';node.style.left=x+'px';node.style.top=y+'px';node.style.opacity=String(i===index?1:spread);node.style.zIndex=String(10+Math.round(d*2));
  const active=hover===i&&phase==='ready'&&!reduced&&window.PortfolioLayout.state.hover,osc=active?Math.sin(now*.012)*.65:0;
@@ -202,7 +202,11 @@ window.albumProjects=projects;
  rail.addEventListener('wheel',e=>{if(e.ctrlKey||e.metaKey||profileMode||(window.scrollY||0)>8)return;const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(!d)return;e.preventDefault();clearTimeout(wheelTimer);if(!wheelLocked&&phase==='ready'){wheelLocked=true;go(index+Math.sign(d));}wheelTimer=setTimeout(()=>wheelLocked=false,140);},{passive:false});
  rail.addEventListener('pointerdown',e=>{if(e.button!==0||phase!=='ready')return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,start:position,index,phone:window.PortfolioLayout.state.layout==='phone',dx:0,axis:null};suppressClick=false;});
  window.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
- if(!drag.axis){if(Math.max(Math.abs(dx),Math.abs(dy))<7)return;if(drag.phone&&Math.abs(dy)>Math.abs(dx)){drag=null;wake();return;}drag.axis='x';rail.setPointerCapture?.(e.pointerId);}
+ if(!drag.axis){
+  if(Math.max(Math.abs(dx),Math.abs(dy))<(drag.phone?12:7))return;
+  if(drag.phone&&Math.abs(dx)<Math.abs(dy)*1.5){position=target=index;drag=null;suppressClick=true;wake();return;}
+  drag.axis='x';rail.setPointerCapture?.(e.pointerId);
+ }
  drag.dx=dx;suppressClick=true;rail.classList.add('is-dragging');position=clamp(drag.start-dx/(scene.clientWidth*(drag.phone?.65:window.PortfolioLayout.state.layout==='desktop'?.315:.86)),0,nodes.length-1);wake();});
  function end(e){if(!drag||e.pointerId!==drag.id)return;const gesture=drag;drag=null;rail.classList.remove('is-dragging');if(rail.hasPointerCapture?.(gesture.id))rail.releasePointerCapture(gesture.id);if(suppressClick){const threshold=clamp(scene.clientWidth*.08,24,40);index=gesture.phone?(e.type==='pointercancel'?gesture.index:clamp(gesture.index+(Math.abs(gesture.dx)>=threshold?-Math.sign(gesture.dx):0),0,nodes.length-1)):Math.round(position);target=index;update();wake();setTimeout(()=>suppressClick=false,0);}}
  window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
