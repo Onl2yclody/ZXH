@@ -40,6 +40,8 @@ html[data-layout="phone"] #portfolioIntro .sleeve-front{transform:none!important
 html[data-layout="phone"] body:has(#portfolioIntro:not([hidden])) .disc-preview{visibility:hidden!important}
 html[data-layout="phone"] .disc-studio{height:100svh!important}
 /* Bring the phone project list closer to its album heading. */
+html[data-layout="phone"] .project-overview .overview-card.cd-case-card .overview-cd-case{width:82%;margin-inline:auto;display:block}
+html[data-layout="phone"] .project-overview .overview-card.cd-case-card .cd-case-caption{width:82%;margin-inline:auto;box-sizing:border-box}
 html[data-layout="phone"] .vinyl-browser .vinyl-directory[data-archive-ready]{padding-top:0!important}
 html[data-layout="phone"] .vinyl-browser .archive-masthead{padding-top:12px!important;padding-bottom:6px!important}
 html[data-layout="phone"] .vinyl-browser .archive-facts{margin-top:0!important;margin-bottom:0!important;padding:0 0 6px!important}
