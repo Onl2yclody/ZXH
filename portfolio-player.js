@@ -4,6 +4,15 @@
  const svg=k=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+icon[k]+'</svg>';
  bar.innerHTML='<div class="player-identity"><span class="player-record" aria-hidden="true"></span><span class="player-title">ZXH_2026_PORTFOLIO</span></div><nav class="player-controls" aria-label="层级导航"><button type="button" data-player="back" aria-label="返回上一级" title="返回上一级">'+svg('back')+'</button><button type="button" class="player-toggle" data-player="play" aria-label="播放" aria-pressed="false" title="播放视频或黑胶动画">'+svg('play')+'</button><button type="button" data-player="next" aria-label="前往下一级" title="前往下一级">'+svg('next')+'</button></nav><span class="player-note">PORTFOLIO / 2026</span>';
  document.body.append(bar);let playing=false;const toggle=bar.querySelector('[data-player="play"]');
+ const restorePhoneHeading=()=>{
+  if(window.PortfolioLayout?.state.layout!=='phone')return;
+  const heading=document.querySelector('#portfolioIntro:not(.is-browsing-sleeve) .intro-corner-tl strong');
+  if(!heading)return;
+  if(heading.querySelector('.scramble-char')||heading.textContent.replace(/\s/g,'')!=='视觉有声。设计有形。')heading.innerHTML='视觉有声。<br>设计有形。';
+  heading.style.setProperty('font','800 28px/1.35 Arial, "Microsoft YaHei", sans-serif','important');
+  heading.style.setProperty('letter-spacing','-.03em','important');
+ };
+ restorePhoneHeading();window.addEventListener('portfolio:layoutchange',restorePhoneHeading);
  const visible=el=>el&&!el.hidden&&el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden';
  const forward=bar.querySelector('[data-player="next"]');
  const canAdvance=()=>{
@@ -13,7 +22,7 @@
   if(visible(overlay))return !!overlay.querySelector('.vinyl-tracks button');
   return !!document.querySelector('.studio-disc button');
  };
- const syncForward=()=>{const enabled=canAdvance();forward.disabled=!enabled;forward.setAttribute('aria-disabled',String(!enabled));forward.title=enabled?'前往下一级':'已到最后一级';};
+ const syncForward=()=>{restorePhoneHeading();const enabled=canAdvance();forward.disabled=!enabled;forward.setAttribute('aria-disabled',String(!enabled));forward.title=enabled?'前往下一级':'已到最后一级';};
  const navigationObserver=new MutationObserver(syncForward);
  navigationObserver.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden']});
  syncForward();
