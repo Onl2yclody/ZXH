@@ -6,7 +6,9 @@
  document.body.append(bar);let playing=false;const toggle=bar.querySelector('[data-player="play"]');
  const visible=el=>el&&!el.hidden&&el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden';
  bar.querySelector('[data-player="back"]').onclick=()=>window.portfolioGoBack?.();
- bar.querySelector('[data-player="next"]').onclick=()=>{
+ bar.querySelector('[data-player="next"]').onclick=event=>{
+  event.preventDefault();event.stopPropagation();
+  if(window.portfolioAdvanceSleeve?.())return;
   const overlay=document.querySelector('.vinyl-browser');
   if(visible(overlay)){const track=overlay.querySelector('.vinyl-tracks button');if(track){track.click();return;}const thumbs=[...overlay.querySelectorAll('.project-thumbs button')];const i=thumbs.findIndex(b=>b.getAttribute('aria-pressed')==='true');if(thumbs.length)thumbs[(i+1)%thumbs.length].click();return;}
   const intro=document.querySelector('#portfolioIntro');if(visible(intro)){const stage=intro.querySelector('.sleeve-stage');if(stage?.classList.contains('is-spine'))return;if(!stage?.classList.contains('is-back'))intro.querySelector('.sleeve-front')?.click();else intro.querySelector('.sleeve-side-note')?.click();return;}
