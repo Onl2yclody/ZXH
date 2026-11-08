@@ -157,6 +157,10 @@
  // Bottom navigation shares the actual sleeve animation state, not DOM guesses.
  window.portfolioAdvanceSleeve=()=>{
   if(intro.hidden)return false;
+  if(window.PortfolioLayout?.state.layout==='phone'){
+   if(entering)return true;
+   entering=true;intro.dataset.directEntry='true';finish?.();return true;
+  }
   if(flipping||entering||sideView)return true;
   if(!flipped)flip();else openSpine();
   return true;

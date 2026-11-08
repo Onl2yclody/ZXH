@@ -476,6 +476,15 @@ window.projectImagePreviews={"find-my-way-acid-butterfly-v2.png.webp": "assets/p
  function orientSpine(x,y,z){targetX=x;targetY=y;targetZ=z;if(reduced){angleX=x;angleY=y;angleZ=z;modelScale=targetScale;model.style.transform=`scale(${modelScale}) rotateZ(${z}deg) rotateX(${x}deg) rotateY(${y}deg)`;}else wakeMotion();}
  function fitSpine(){const mobile=window.PortfolioLayout.state.layout!=='desktop',w=innerWidth-(mobile?0:340),h=mobile?innerHeight*.58-56:innerHeight-72;stage.style.setProperty('--spine-size',Math.min(620,w*.72,h*.9)+'px');stage.style.setProperty('--spine-left',w*.52+'px');stage.style.setProperty('--spine-top',(mobile?56:72)+h*.60+'px');}
  window.addEventListener('resize',()=>{if(sideView)fitSpine();});
+ window.portfolioAdvanceSleeve=()=>{
+  if(intro.hidden)return false;
+  if(window.PortfolioLayout?.state.layout==='phone'){
+   if(entering)return true;
+   entering=true;intro.dataset.directEntry='true';finish?.();return true;
+  }
+  if(flipping||entering||sideView)return true;
+  if(!flipped)flip();else openSpine();return true;
+ };
  function openSpine(){
   if(!flipped||flipping||entering||sideView)return;
   sideView=true;flipping=true;record.disabled=true;record.tabIndex=-1;hotspots.forEach(b=>b.tabIndex=-1);
