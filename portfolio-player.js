@@ -9,7 +9,7 @@
  bar.querySelector('[data-player="next"]').onclick=()=>{
   const overlay=document.querySelector('.vinyl-browser');
   if(visible(overlay)){const track=overlay.querySelector('.vinyl-tracks button');if(track){track.click();return;}const thumbs=[...overlay.querySelectorAll('.project-thumbs button')];const i=thumbs.findIndex(b=>b.getAttribute('aria-pressed')==='true');if(thumbs.length)thumbs[(i+1)%thumbs.length].click();return;}
-  const intro=document.querySelector('#portfolioIntro');if(visible(intro)){const stage=intro.querySelector('.sleeve-stage');if(!stage?.classList.contains('is-back'))intro.querySelector('.sleeve-front')?.click();else intro.querySelector('.sleeve-record:not(:disabled)')?.click();return;}
+  const intro=document.querySelector('#portfolioIntro');if(visible(intro)){const stage=intro.querySelector('.sleeve-stage');if(stage?.classList.contains('is-spine'))return;if(!stage?.classList.contains('is-back'))intro.querySelector('.sleeve-front')?.click();else intro.querySelector('.sleeve-side-note')?.click();return;}
   document.querySelector('.studio-disc.is-active button, .studio-disc.active button, .studio-disc button')?.click();
  };
  toggle.onclick=async()=>{const video=[...document.querySelectorAll('video')].find(visible);const next=!playing;if(video){if(next){try{await video.play();}catch{return;}}else video.pause();}window.getTurntable3D?.()?.setPlaying?.(next);playing=next;bar.classList.toggle('player-playing',playing);toggle.innerHTML=svg(playing?'pause':'play');toggle.setAttribute('aria-label',playing?'暂停':'播放');toggle.setAttribute('aria-pressed',String(playing));};
