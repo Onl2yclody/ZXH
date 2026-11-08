@@ -176,8 +176,8 @@ window.albumProjects=projects;
   const bandTop=Math.max(informationBottom+48,h*.39);
   const bandBottom=h-68-48;
   const bandHeight=Math.max(160,bandBottom-bandTop);
-  phoneCenter=(bandTop+bandBottom)/2;
-  phoneUnit=Math.min(w*.84,bandHeight*.96);phoneUnitWidth=w;
+  phoneUnit=Math.min(w*.76,bandHeight*.88);phoneUnitWidth=w;
+  phoneCenter=Math.min(bandTop+phoneUnit/2,bandBottom-phoneUnit/2);
   phoneCenterCache=phoneCenter;
  }
  if(phone){phoneCenter=phoneCenterCache;scene.style.setProperty('--phone-disc-center',phoneCenter+'px');}
