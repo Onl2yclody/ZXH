@@ -84,7 +84,7 @@ window.albumProjects=projects;
  const albums=keys.map(key=>({key,title:data[key].title,number:data[key].number,count:data[key].series.length}));
  let index=keys.indexOf(category),position=index,target=index;
  let nodes=[],hover=-1,px=0,py=0,drag=null,suppressClick=false,lastFrame=0,raf=0,infoTimer,captionTimer,wheelTimer,wheelLocked=false;
- let phoneUnit=0,phoneUnitWidth=0;
+ let phoneUnit=0,phoneUnitWidth=0,phoneCenterCache=0;
  let phase='loading',phaseStart=performance.now(),pendingCategory=null;
  const intro=document.querySelector('#portfolioIntro'),enter=document.querySelector('#introEnter');
  function finishIntro(){
@@ -170,7 +170,7 @@ window.albumProjects=projects;
  if(!drag){position+=(target-position)*(reduced?1:1-Math.exp(-dt/105));if(Math.abs(target-position)<.001)position=target;}
  const w=scene.clientWidth,h=scene.clientHeight,layout=window.PortfolioLayout.state.layout,mobile=layout!=='desktop',phone=layout==='phone';
  let phoneCenter=h*.60;
- if(phone){
+ if(phone&&(!phoneUnit||Math.abs(w-phoneUnitWidth)>48)){
   const sceneTop=scene.getBoundingClientRect().top;
   const informationBottom=meta.getBoundingClientRect().bottom-sceneTop;
   const bandTop=Math.max(informationBottom+48,h*.39);
@@ -178,8 +178,9 @@ window.albumProjects=projects;
   const bandHeight=Math.max(160,bandBottom-bandTop);
   phoneCenter=(bandTop+bandBottom)/2;
   phoneUnit=Math.min(w*.84,bandHeight*.96);phoneUnitWidth=w;
-  scene.style.setProperty('--phone-disc-center',phoneCenter+'px');
+  phoneCenterCache=phoneCenter;
  }
+ if(phone){phoneCenter=phoneCenterCache;scene.style.setProperty('--phone-disc-center',phoneCenter+'px');}
  const unit=phone?phoneUnit:Math.min(h*(mobile?.43:.60),w*(mobile?.50:.30)),spacing=mobile?w*.86:w*.315;
  nodes.forEach(({node,button,lines},i)=>{if(node.dataset.returnFlight==='true')return;const d=i-position,visible=d>-2.1&&d<2.1;node.style.visibility=visible?'visible':'hidden';node.style.pointerEvents=visible&&phase==='ready'?'auto':'none';if(!visible)return;
  const diameter=unit*clamp(1+.18*d,.45,1.40)*loadScale;

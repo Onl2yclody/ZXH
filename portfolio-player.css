@@ -30,6 +30,15 @@ html[data-layout="phone"] .vinyl-browser:has(.project-view)>.vinyl-bar{display:n
 html[data-layout="phone"] .vinyl-browser>.vinyl-bar{display:none!important}
 @media(max-width:760px){.vinyl-browser>.vinyl-bar{display:none!important}}
 html[data-layout="phone"] #portfolioIntro .sleeve-front:focus:not(:focus-visible){outline:none!important}
+/* The phone cover is a single flat face: never expose desktop record layers. */
+html[data-layout="phone"] #portfolioIntro .sleeve-record,
+html[data-layout="phone"] #portfolioIntro .sleeve-back,
+html[data-layout="phone"] #portfolioIntro .sleeve-spine,
+html[data-layout="phone"] #portfolioIntro .sleeve-edge{display:none!important}
+html[data-layout="phone"] #portfolioIntro .sleeve-model{transform:none!important;transform-style:flat!important}
+html[data-layout="phone"] #portfolioIntro .sleeve-front{transform:none!important;backface-visibility:hidden!important}
+html[data-layout="phone"] body:has(#portfolioIntro:not([hidden])) .disc-preview{visibility:hidden!important}
+html[data-layout="phone"] .disc-studio{height:100svh!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner,
 html[data-layout="phone"] #portfolioIntro .sleeve-stage,
 html[data-layout="phone"] .studio-arriving .studio-header,
