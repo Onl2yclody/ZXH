@@ -13,7 +13,7 @@
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top{width:min(44vw,720px)!important;max-width:44vw!important;min-width:0;z-index:10}
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top strong{font-size:clamp(24px,2.3vw,40px)!important;line-height:1.25;white-space:normal!important;overflow-wrap:anywhere;text-wrap:balance;max-width:100%}
 html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top,
-html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-credit{bottom:112px!important;top:auto!important}
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-credit{bottom:82px!important;top:auto!important}
 html[data-layout="desktop"] .vinyl-browser .project-view{height:calc(100svh - 155px)!important;min-height:0}
 html[data-layout="desktop"] .vinyl-browser .project-media{min-height:0;padding-bottom:16px!important}
 html[data-layout="desktop"] .vinyl-browser .project-thumbs{flex:0 0 76px;min-height:76px;padding-top:12px!important}
