@@ -9,6 +9,12 @@
 @media(max-width:700px){#portfolioIntro::after{display:none}}
 @media(max-width:640px){#portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{bottom:88px!important}}
 /* Phone: keep copy in separate rows above the dock; desktop is unchanged. */
+/* Desktop artwork and credits stop above the fixed 76px player. */
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-top,
+html[data-layout="desktop"] .vinyl-browser .vinyl-catalog .catalog-edge-credit{bottom:112px!important;top:auto!important}
+html[data-layout="desktop"] .vinyl-browser .project-view{height:calc(100svh - 155px)!important;min-height:0}
+html[data-layout="desktop"] .vinyl-browser .project-media{min-height:0;padding-bottom:16px!important}
+html[data-layout="desktop"] .vinyl-browser .project-thumbs{flex:0 0 76px;min-height:76px;padding-top:12px!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-tl strong{font-size:19px!important;line-height:1.35!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-tl small{font-size:7px!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-tl span{font-size:8px!important;margin-top:6px!important}
