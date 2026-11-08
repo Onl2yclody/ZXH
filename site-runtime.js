@@ -89,6 +89,12 @@ window.albumProjects=projects;
  const intro=document.querySelector('#portfolioIntro'),enter=document.querySelector('#introEnter');
  function finishIntro(){
  if(phase!=='loading')return;
+ if(window.PortfolioLayout?.state.layout==='phone'){
+  phase='ready';phaseStart=performance.now();
+  intro.hidden=true;intro.classList.remove('is-exiting','is-bridging');
+  scene.classList.remove('studio-loading','studio-arriving');
+  window.scrollTo({top:0,behavior:'instant'});wake();return;
+ }
  phase='bridging';phaseStart=performance.now();
  window.scrollTo({top:0,behavior:'instant'});
  const duration=reduced||intro?.dataset.directEntry==='true'?0:350;
