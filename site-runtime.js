@@ -88,13 +88,13 @@ window.albumProjects=projects;
  let phase='loading',phaseStart=performance.now(),pendingCategory=null;
  const intro=document.querySelector('#portfolioIntro'),enter=document.querySelector('#introEnter');
  function finishIntro(){
- if(phase!=='loading')return;
  if(window.PortfolioLayout?.state.layout==='phone'){
   phase='ready';phaseStart=performance.now();
   intro.hidden=true;intro.classList.remove('is-exiting','is-bridging');
   scene.classList.remove('studio-loading','studio-arriving');
   window.scrollTo({top:0,behavior:'instant'});wake();return;
  }
+ if(phase!=='loading')return;
  phase='bridging';phaseStart=performance.now();
  window.scrollTo({top:0,behavior:'instant'});
  const duration=reduced||intro?.dataset.directEntry==='true'?0:350;
@@ -564,7 +564,12 @@ window.projectImagePreviews={"find-my-way-acid-butterfly-v2.png.webp": "assets/p
   intro.scrollTop=0;intro.scrollLeft=0;
   stage.getAnimations?.().forEach(a=>a.cancel());stage.style.translate='';
   record.style.visibility='';record.disabled=!flipped;record.tabIndex=flipped?0:-1;entering=false;coverReturn.disabled=false;
-  window.scrollTo({top:0,behavior:'instant'});front.focus({preventScroll:true});return true;
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.PortfolioLayout?.state.layout==='phone'){
+   flipped=false;flipping=false;sideView=false;entering=false;
+   stage.classList.remove('is-back','is-composed','is-spine','is-spine-ready','is-retracting','is-phone-extracting');
+   front.blur();document.activeElement?.blur?.();
+  }else front.focus({preventScroll:true});return true;
  };
  overlay.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();window.portfolioGoBack();return;}if(e.key==='Tab'){const items=Array.from(overlay.querySelectorAll('button,select,video[controls]'));const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus({preventScroll:true});}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus({preventScroll:true});}}});
  let loadingEntry=false;
