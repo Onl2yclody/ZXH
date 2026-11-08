@@ -19,7 +19,8 @@ html[data-layout="desktop"] .vinyl-browser .project-media{min-height:0;padding-b
 html[data-layout="desktop"] .vinyl-browser .project-thumbs{flex:0 0 76px;min-height:76px;padding-top:12px!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner.intro-corner-tl strong{display:block!important;font:800 26px/1.35 Arial,"Microsoft YaHei",sans-serif!important;letter-spacing:-.03em!important;margin:0!important;padding:0!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-tl small{font-size:7px!important}
-html[data-layout="phone"] #portfolioIntro .intro-corner-tl span{font-size:8px!important;margin-top:6px!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-tl>span{font-size:8px!important;margin-top:6px!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-tl strong span{font:inherit!important;letter-spacing:inherit!important;margin:0!important;padding:0!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-bl p{font-size:10px!important;line-height:1.55!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-bl small{font-size:7px!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-br a{font-size:8px!important}
@@ -27,6 +28,7 @@ html[data-layout="phone"] .disc-studio .studio-rail{translate:0 -52px!important}
 html[data-layout="phone"] .disc-studio .studio-side-arrow{margin-top:-52px!important}
 html[data-layout="phone"] .vinyl-browser:has(.project-view)>.vinyl-bar{display:none!important}
 html[data-layout="phone"] .vinyl-browser>.vinyl-bar{display:none!important}
+@media(max-width:760px){.vinyl-browser>.vinyl-bar{display:none!important}}
 html[data-layout="phone"] #portfolioIntro .intro-corner,
 html[data-layout="phone"] #portfolioIntro .sleeve-stage,
 html[data-layout="phone"] .studio-arriving .studio-header,

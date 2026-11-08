@@ -1754,6 +1754,7 @@ try{const dispose=PixelBlast({variant:'square',pixelSize:3,color:'#b497cf',accen
 /* source: homepage-scrambled-text.js */
 /* ScrambledText reference: React Bits / Tom Miller. Native DOM adaptation. */
 (()=>{
+ if(window.PortfolioLayout?.state.layout==='phone')return;
  const intro=document.querySelector('#portfolioIntro');if(!intro)return;
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
  const scene=document.querySelector('.disc-studio'),overlay=document.querySelector('.vinyl-browser');
