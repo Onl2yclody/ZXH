@@ -9,13 +9,22 @@
 @media(max-width:700px){#portfolioIntro::after{display:none}}
 @media(max-width:640px){#portfolioIntro .intro-corner-bl,#portfolioIntro .intro-corner-br{bottom:88px!important}}
 /* Phone: keep copy in separate rows above the dock; desktop is unchanged. */
+html[data-layout="phone"] #portfolioIntro .intro-corner-tl strong{font-size:19px!important;line-height:1.35!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-tl small{font-size:7px!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-tl span{font-size:8px!important;margin-top:6px!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-bl p{font-size:10px!important;line-height:1.55!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-bl small{font-size:7px!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-br a{font-size:8px!important}
+html[data-layout="phone"] .disc-studio .studio-rail{translate:0 -52px}
+html[data-layout="phone"] .disc-studio .studio-side-arrow{margin-top:-52px}
+html[data-layout="phone"] .vinyl-browser:has(.project-view)>.vinyl-bar{display:none!important}
 .disc-studio .studio-caption{bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
 .portfolio-player button[data-player="next"]:disabled{color:#b497cf;cursor:not-allowed;opacity:1;transform:none;pointer-events:none}
 html[data-layout="phone"] #portfolioIntro .sleeve-hint{display:none!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-bl{left:20px!important;right:20px!important;bottom:132px!important;width:auto!important;max-width:none!important;padding-top:8px}
 html[data-layout="phone"] #portfolioIntro .intro-corner-bl small{font-size:8px;margin-bottom:6px}
-html[data-layout="phone"] #portfolioIntro .intro-corner-bl p{font-size:12px!important;line-height:1.6!important}
+html[data-layout="phone"] #portfolioIntro .intro-corner-bl p{font-size:10px!important;line-height:1.55!important}
 html[data-layout="phone"] #portfolioIntro .intro-corner-br{left:20px!important;right:20px!important;bottom:84px!important;width:auto!important;max-width:none!important;text-align:left!important;padding-top:8px;display:flex!important;flex-wrap:wrap;gap:4px 14px}
 html[data-layout="phone"] #portfolioIntro .intro-corner-br small{display:none}
-html[data-layout="phone"] #portfolioIntro .intro-corner-br a{font-size:10px!important;line-height:1.5!important;overflow-wrap:anywhere}
+html[data-layout="phone"] #portfolioIntro .intro-corner-br a{font-size:8px!important;line-height:1.5!important;overflow-wrap:anywhere}
 html[data-layout="phone"] .portfolio-player{padding-bottom:env(safe-area-inset-bottom,0px);height:calc(68px + env(safe-area-inset-bottom,0px))}
